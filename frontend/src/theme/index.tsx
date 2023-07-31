@@ -20,6 +20,7 @@ declare module '@mui/material/styles' {
       hoverColor: string
       buttonHover: string
       white: string
+      backdrop: string
     }
   }
 
@@ -34,6 +35,7 @@ declare module '@mui/material/styles' {
       hoverColor: string
       buttonHover: string
       white: string
+      backdrop: string
     }
   }
 
@@ -78,6 +80,7 @@ const theme = createTheme({
       white: '#FFFFFF',
       hoverColor: '#F3F2F5',
       buttonHover: '#F4EFFF',
+      backdrop: '#00000080',
     },
     Greys: {
       stroke: '#E4E4E5',

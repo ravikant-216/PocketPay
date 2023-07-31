@@ -1,0 +1,6 @@
+export const USER_NAME = 'Ross Gener'
+export const USER_ID = 'P44561754'
+export const DETAILS_LABEL = 'Your details'
+export const SETTINGS_LABEL = 'Settings'
+export const HELP_CENTER_LABEL = 'Help center'
+export const LOGOUT_LABEL = 'Logout'

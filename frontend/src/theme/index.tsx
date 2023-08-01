@@ -100,7 +100,7 @@ const theme = createTheme({
     },
     body1: {
       fontFamily: 'Gerbera',
-      fontSize: '21px',
+      fontSize: '20px',
       fontWeight: '400',
       fontStyle: 'normal',
       lineHeight: '32px',

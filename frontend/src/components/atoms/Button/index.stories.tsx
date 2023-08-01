@@ -1,6 +1,6 @@
 import { Meta, Story } from '@storybook/react'
-import CustomButton, { CustomButtonProps } from '.'
-import theme from '../../../theme'
+import CustomButton from '.'
+import { ButtonProps } from '@mui/material'
 
 export default {
   title: 'atoms/Button',
@@ -23,35 +23,18 @@ export default {
   decorators: [(Story) => <Story />],
 } as Meta
 
-const template: Story<CustomButtonProps> = (args) => <CustomButton {...args} />
+const template: Story<ButtonProps> = (args) => <CustomButton {...args} />
 
 export const Primary = template.bind({})
 Primary.args = {
-  label: 'confirm',
+  children: 'confirm',
   variant: 'contained',
-  style: {
-    borderRadius: theme.spacing(14),
-    display: 'inline-flex',
-    alignItems: 'flex-start',
-    gap: theme.spacing(2),
-    padding: `${theme.spacing(4)} ${theme.spacing(7)}`,
-    textTransform: 'none',
-  },
 }
 
 export const DisabledButton = template.bind({})
 
 DisabledButton.args = {
-  label: 'continue',
+  children: 'continue',
   variant: 'contained',
-  style: {
-    color: theme.palette.structuralColors.white,
-    backgroundColor: theme.palette.primary[500],
-    borderRadius: theme.spacing(14),
-    display: 'inline-flex',
-    alignItems: 'flex-start',
-    gap: theme.spacing(2),
-    padding: `${theme.spacing(4)} ${theme.spacing(7)}`,
-  },
   disabled: true,
 }

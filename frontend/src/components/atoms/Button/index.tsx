@@ -1,24 +1,51 @@
-import styled from '@emotion/styled'
-import { Button, ButtonProps as MuiButtonProps } from '@mui/material'
+import { Button, ButtonProps, styled } from '@mui/material'
 
-export interface CustomButtonProps extends MuiButtonProps {
-  style?: React.CSSProperties
-  label?: string
-  onClick?: () => void
+const CustomButtonStyled = styled(Button)(({ theme }) => ({
+  display: 'flex',
+  padding: `${theme.spacing(4)} ${theme.spacing(7.5)}`,
+  justifyContent: 'center',
+  alignItems: 'center',
+  minWidth: theme.spacing(33.75),
+  borderRadius: theme.spacing(13),
+  textTransform: 'none',
+  '&.MuiButton-outlined': {
+    color: theme.palette.primary[500],
+    border: 'none',
+    backgroundColor: theme.palette.structuralColors.white,
+    boxShadow: `0px 0px ${theme.spacing(
+      0.25
+    )} 0px rgba(20, 20, 20, 0.12), 0px 0px ${theme.spacing(
+      2
+    )} 0px rgba(20, 20, 20, 0.04), 0px ${theme.spacing(2)} ${theme.spacing(
+      2
+    )} 0px rgba(20, 20, 20, 0.04)`,
+    '&:hover': {
+      backgroundColor: theme.palette.structuralColors.buttonHover,
+    },
+    '&.Mui-disabled': {
+      opacity: 0.5,
+      boxShadow: 'none',
+    },
+  },
 
-  disabled?: boolean
-}
+  '&.MuiButton-contained': {
+    color: theme.palette.structuralColors.white,
+    backgroundColor: theme.palette.primary[500],
+    boxShadow: `0px ${theme.spacing(2)} ${theme.spacing(
+      6
+    )} 0px rgba(85, 51, 255, 0.24)`,
+    '&:hover': {
+      backgroundColor: theme.palette.primary[300],
+    },
+    '&.Mui-disabled': {
+      backgroundColor: theme.palette.primary[100],
+      boxShadow: 'none',
+    },
+  },
+}))
 
-const CustomButtonStyled = styled(Button)(
-  ({ style, disabled }: CustomButtonProps) => ({
-    textTransform: 'none',
-    opacity: disabled ? 0.5 : 1,
-    ...style,
-  })
-)
-
-const CustomButton = ({ ...props }: CustomButtonProps) => {
-  return <CustomButtonStyled {...props}>{props.label}</CustomButtonStyled>
+const CustomButton = ({ ...props }: ButtonProps) => {
+  return <CustomButtonStyled {...props} />
 }
 
 export default CustomButton

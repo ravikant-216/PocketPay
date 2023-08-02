@@ -6,6 +6,7 @@ import Image from '../Image'
 interface TextFieldProps extends Partial<OutlinedTextFieldProps> {
   startAdornment?: React.ReactNode
   endAdornment?: React.ReactNode
+  style?: React.CSSProperties
 }
 
 const CustomDropdowmIcon = () => (

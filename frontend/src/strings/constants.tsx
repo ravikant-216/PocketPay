@@ -29,6 +29,19 @@ export const TERM = 'Terms of use '
 export const WELCOME_BACK = 'Welcome Back'
 export const SIGN_IN = 'Sign In'
 export const TROUBLE_LOGIN = 'Trouble logging in?'
+export const AMOUNT = '100.00 GBP'
+export const CODE = '24-14-70'
+export const ACCOUNT_NUMBER = '729019188810'
+export const ADDRESS =
+  'TransferWise 56 ShoreDitch High Street London E16JJ United Kingdom'
+export const LLOYDS_ONLINE_BANK =
+  'Next, go to your Lloyds’s online banking and make a payment'
+export const BANK_INTRO_MESSAGE = 'Our bank details for payments in GBP'
+export const PAYEE_NAME = 'Mario Gabriel'
+export const REFERENCE = '#356778810'
+export const BANK_INTRO_CAPTION =
+  'Below are the bank details for this payment. Please only send the money from an account in your name'
+export const ONLINE_BANK = 'online banking'
 export const NEXT = 'Next'
 export const OR_LOGIN = ' or log in with'
 export const CANCEL_TRANSFER_TITLE =

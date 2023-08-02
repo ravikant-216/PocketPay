@@ -4,8 +4,8 @@ import Text from '../../atoms/Typography'
 export interface LabelValueProps extends StackProps {
   info: string
   description: string
-  infoColor: string
-  descColor: string
+  infoColor?: string
+  descColor?: string
   infoVar: 'body2' | 'caption'
   descVar: 'body2' | 'caption'
 }

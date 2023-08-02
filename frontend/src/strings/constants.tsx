@@ -22,3 +22,11 @@ export const WELCOME_BACK = 'Welcome Back'
 export const SIGN_IN = 'Sign In'
 export const Email_REGEX = '^[\\w.-]+@[a-zA-Z\\d.-]+\\.[a-zA-Z]{2,}$'
 export const TROUBLE_LOGIN = 'Trouble logging in?'
+export const CANCEL_TRANSFER_TITLE =
+  'Where would you like us to refund the money?'
+export const EXISITING_ACCOUNT_LABEL = 'An existing account'
+export const NEW_ACCOUNT_LABEL = 'New account'
+export const ACCOUNT_NUMBER_1 = 4656
+export const DEBIT_CARD_1_LABEL = 'Ending in ' + ACCOUNT_NUMBER_1
+export const ACCOUNT_NUMBER_2 = 4252
+export const DEBIT_CARD_2_LABEL = 'Ending in ' + ACCOUNT_NUMBER_2

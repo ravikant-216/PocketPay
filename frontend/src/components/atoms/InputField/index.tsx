@@ -1,10 +1,16 @@
 import { OutlinedTextFieldProps, TextField, styled } from '@mui/material'
 import CalendarIcon from '../../../../public/assets/icons/calendar.svg'
+import DownIcon from '../../../../public/assets/icons/down.svg'
+import Image from '../Image'
 
-interface TextFieldProps extends OutlinedTextFieldProps {
+interface TextFieldProps extends Partial<OutlinedTextFieldProps> {
   startAdornment?: React.ReactNode
   endAdornment?: React.ReactNode
 }
+
+const CustomDropdowmIcon = () => (
+  <Image style={{ marginRight: 16 }} src={DownIcon} alt="down icon" />
+)
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
   width: theme.spacing(129),
@@ -51,11 +57,16 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
 const InputField: React.FC<TextFieldProps> = ({
   startAdornment,
   endAdornment,
+  SelectProps,
   ...props
 }) => {
   return (
     <StyledTextField
       data-testid="InputField"
+      SelectProps={{
+        IconComponent: CustomDropdowmIcon,
+        ...SelectProps,
+      }}
       {...props}
       InputProps={{
         startAdornment: startAdornment,

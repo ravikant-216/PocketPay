@@ -22,7 +22,7 @@ const ModalOverlay = styled(Paper)({
   right: 0,
   bottom: 0,
   left: 0,
-  zIndex: 9999,
+  zIndex: 10,
 })
 const Modal = styled(Box)(
   ({ width, height }: { width?: string; height?: string }) => ({

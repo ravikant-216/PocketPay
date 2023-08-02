@@ -114,4 +114,5 @@ const TrackingShareCard = (props: TrackingShareCardProps) => {
     </ModalBox>
   )
 }
+
 export default TrackingShareCard

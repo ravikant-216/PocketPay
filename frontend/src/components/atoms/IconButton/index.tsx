@@ -10,13 +10,17 @@ export interface IconProps {
   alt?: string
   borderRadius?: string
   borderColor?: string
+  backgroundColor?: string
 }
 
 const StyledIconButton = styled(IconButton)<{
   borderRadius?: string
   borderColor?: string
+  backgroundColor?: string
 }>`
-  background-color: 'transparent';
+  background-color: ${({ backgroundColor }) =>
+    backgroundColor ?? 'transparent'};
+
   padding: ${theme.spacing(3.5)};
   border: 1px solid
     ${({ borderColor }) => borderColor || theme.palette.Greys.stroke};

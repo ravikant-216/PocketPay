@@ -52,3 +52,16 @@ export const ACCOUNT_NUMBER_1 = 4656
 export const DEBIT_CARD_1_LABEL = 'Ending in ' + ACCOUNT_NUMBER_1
 export const ACCOUNT_NUMBER_2 = 4252
 export const DEBIT_CARD_2_LABEL = 'Ending in ' + ACCOUNT_NUMBER_2
+export const TRUST_LIST = [
+  { list: 'We’ll use an encrypted end to end connection.' },
+  {
+    list: 'Your bank will not share your login details with PocketPay or anyone else.',
+  },
+]
+export const SAFE_SECURE = 'Safe and Secure'
+export const PAY_FROM = 'Pay from your Lloyds account'
+export const REDIRECTED =
+  'You’ll be redirected to Lloyds, where you can securely log in to your own'
+export const CONTINUE = 'Continue to pay'
+export const PAY_MANUALLY = 'Pay manually'
+export const APPROVE_PAYMENT = 'account and approve the payment for your'

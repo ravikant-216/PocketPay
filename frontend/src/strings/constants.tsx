@@ -1,3 +1,10 @@
+import IconLabel from '../components/atoms/IconLabel'
+import india from '../../public/assets/icons/india.svg'
+import US from '../../public/assets/icons/US.svg'
+import GBP from '../../public/assets/icons/GBP.svg'
+import austria from '../../public/assets/icons/austria.svg'
+import andorra from '../../public/assets/icons/andorra.svg'
+
 export const USER_NAME = 'Ross Gener'
 export const USER_ID = 'P44561754'
 export const DETAILS_LABEL = 'Your details'
@@ -52,6 +59,35 @@ export const ACCOUNT_NUMBER_1 = 4656
 export const DEBIT_CARD_1_LABEL = 'Ending in ' + ACCOUNT_NUMBER_1
 export const ACCOUNT_NUMBER_2 = 4252
 export const DEBIT_CARD_2_LABEL = 'Ending in ' + ACCOUNT_NUMBER_2
+export const COUNTRY_ARRAY = [
+  <IconLabel
+    key="United States"
+    iconTitle="United States"
+    src={US}
+    alt="US Flag"
+  />,
+  <IconLabel
+    key="United Kingdom"
+    iconTitle="United Kingdom"
+    src={GBP}
+    alt="UK Flag"
+  />,
+  <IconLabel key="India" iconTitle="India" src={india} alt="India Flag" />,
+  <IconLabel
+    key="Andorra"
+    iconTitle="Andorra"
+    src={andorra}
+    alt="Andorra Flag"
+  />,
+  <IconLabel
+    key="Austria"
+    iconTitle="Austria"
+    src={austria}
+    alt="Austria Flag"
+  />,
+]
+export const SELECT_COUNTRY = 'Select  Your  Country'
+export const COUNTRY_REG = 'Country of registration'
 export const TRUST_LIST = [
   { list: 'We’ll use an encrypted end to end connection.' },
   {

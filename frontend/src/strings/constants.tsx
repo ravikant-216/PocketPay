@@ -87,6 +87,10 @@ export const COUNTRY_ARRAY = [
   />,
 ]
 export const SELECT_COUNTRY = 'Select  Your  Country'
+export const CREATE_PASSWORD = 'Create your password'
+export const ENTER_PASSWORD = 'Enter your password'
+export const INVALID_PASSWORD =
+  'Invalid Password use min 8 letters with numbers and special character'
 export const COUNTRY_REG = 'Country of registration'
 export const TRUST_LIST = [
   { list: 'We’ll use an encrypted end to end connection.' },
@@ -101,3 +105,5 @@ export const REDIRECTED =
 export const CONTINUE = 'Continue to pay'
 export const PAY_MANUALLY = 'Pay manually'
 export const APPROVE_PAYMENT = 'account and approve the payment for your'
+export const PASSWORD_REGEX =
+  '^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*])[A-Za-z\\d!@#$%^&*]{8,}$'

@@ -4,7 +4,6 @@ import US from '../../public/assets/icons/US.svg'
 import GBP from '../../public/assets/icons/GBP.svg'
 import austria from '../../public/assets/icons/austria.svg'
 import andorra from '../../public/assets/icons/andorra.svg'
-
 export const USER_NAME = 'Ross Gener'
 export const USER_ID = 'P44561754'
 export const DETAILS_LABEL = 'Your details'
@@ -105,6 +104,8 @@ export const REDIRECTED =
 export const CONTINUE = 'Continue to pay'
 export const PAY_MANUALLY = 'Pay manually'
 export const APPROVE_PAYMENT = 'account and approve the payment for your'
+export const CHOOSE_BANK = 'Choose your bank'
+export const CANCEL_TRANSFER = 'Cancel the transfer'
 export const PASSWORD_REGEX =
   '^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*])[A-Za-z\\d!@#$%^&*]{8,}$'
 export const FOUR_DIGIT_LABEL = 'Last four digit '

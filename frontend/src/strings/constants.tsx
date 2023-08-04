@@ -107,3 +107,5 @@ export const PAY_MANUALLY = 'Pay manually'
 export const APPROVE_PAYMENT = 'account and approve the payment for your'
 export const PASSWORD_REGEX =
   '^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*])[A-Za-z\\d!@#$%^&*]{8,}$'
+export const FOUR_DIGIT_LABEL = 'Last four digit '
+export const EXPIRATION_LABEL = ' Expiry date '

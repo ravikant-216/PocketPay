@@ -5,7 +5,8 @@ import {
   styled,
 } from '@mui/material'
 
-interface RadioButtonProps extends Partial<FormControlLabelProps> {
+export interface RadioButtonProps extends Partial<FormControlLabelProps> {
+  value: unknown
   label: React.ReactNode
 }
 

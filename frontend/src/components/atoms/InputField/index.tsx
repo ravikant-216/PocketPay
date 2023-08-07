@@ -17,6 +17,11 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
   width: theme.spacing(129),
   height: theme.spacing(15),
   flexShrink: 0,
+  borderRadius: theme.spacing(2),
+  "input[type='date']:in-range::-webkit-datetime-edit-year-field,input[type='date']:in-range::-webkit-datetime-edit-month-field,input[type='date']:in-range::-webkit-datetime-edit-day-field,input[type='date']:in-range::-webkit-datetime-edit-text":
+    {
+      color: 'transparent',
+    },
 
   // removed arrows for input type = number
   '& input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button':
@@ -43,10 +48,6 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
   },
   '& .MuiOutlinedInput-root': {
     color: theme.palette.text.highEmphasis,
-    borderRadius: theme.spacing(2),
-    '& .MuiOutlinedInput-input': {
-      paddingRight: `${theme.spacing(5)} !important`,
-    },
     ...theme.typography.body2,
     '& fieldset': {
       border: `${theme.spacing(0.25)} solid ${theme.palette.Greys.stroke}`,

@@ -11,6 +11,8 @@ import { SELECT_COUNTRY, COUNTRY_REG } from '../../../strings/constants'
 export interface Props extends Omit<FormControlProps, 'onChange'> {
   names: React.ReactElement<IconLabelPropType>[]
   width?: string
+  placeHolder?: string
+  label?: string
   onChange?: (selectedValue: string) => void
   menuMaxHeight?: string
   menuWidth?: string
@@ -19,6 +21,8 @@ export interface Props extends Omit<FormControlProps, 'onChange'> {
 export default function CountryDropdown({
   names,
   onChange,
+  placeHolder = SELECT_COUNTRY,
+  label = COUNTRY_REG,
   menuMaxHeight,
   menuWidth,
   ...props
@@ -47,7 +51,7 @@ export default function CountryDropdown({
       {...props}
     >
       <InputLabel sx={{ fontSize: theme.spacing(4.25) }}>
-        {CountryName == '' ? SELECT_COUNTRY : COUNTRY_REG}
+        {CountryName == '' ? placeHolder : label}
       </InputLabel>
       <Select
         value={CountryName}

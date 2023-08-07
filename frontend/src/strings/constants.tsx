@@ -88,9 +88,11 @@ export const COUNTRY_ARRAY = [
 export const SELECT_COUNTRY = 'Select  Your  Country'
 export const CREATE_PASSWORD = 'Create your password'
 export const ENTER_PASSWORD = 'Enter your password'
+export const DOB = 'Date of birth'
 export const INVALID_PASSWORD =
   'Invalid Password use min 8 letters with numbers and special character'
 export const COUNTRY_REG = 'Country of registration'
+export const COUNTRY_RESIDENCE = 'Country of residence'
 export const TRUST_LIST = [
   { list: 'We’ll use an encrypted end to end connection.' },
   {
@@ -109,5 +111,10 @@ export const CHOOSE_BANK = 'Choose your bank'
 export const CANCEL_TRANSFER = 'Cancel the transfer'
 export const PASSWORD_REGEX =
   '^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*])[A-Za-z\\d!@#$%^&*]{8,}$'
+export const DIRECTOR_MESSAGE =
+  'Please confirm these details from companies house. If anyone’s missing, add them below.'
+export const OWNERS_MESSAGE =
+  'Please confirm these details from companies house. If anyone else controls more than 25% of your business, add them below.'
+export const CONFIRM_BUSINESS = 'Confirm your business'
 export const FOUR_DIGIT_LABEL = 'Last four digit '
 export const EXPIRATION_LABEL = ' Expiry date '

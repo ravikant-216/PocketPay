@@ -118,3 +118,5 @@ export const OWNERS_MESSAGE =
 export const CONFIRM_BUSINESS = 'Confirm your business'
 export const FOUR_DIGIT_LABEL = 'Last four digit '
 export const EXPIRATION_LABEL = ' Expiry date '
+export const SENDING_MONEY = 'Who are you sending money to?'
+export const WHAT_TO_DO = 'What would you like to do today?'

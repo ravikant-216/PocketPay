@@ -106,7 +106,6 @@ export const REDIRECTED =
 export const CONTINUE = 'Continue to pay'
 export const PAY_MANUALLY = 'Pay manually'
 export const APPROVE_PAYMENT = 'account and approve the payment for your'
-
 export const CHOOSE_BANK = 'Choose your bank'
 export const CANCEL_TRANSFER = 'Cancel the transfer'
 export const PASSWORD_REGEX =
@@ -134,3 +133,23 @@ export const BUSINESS_NOT_MESSAGE = 'Can’t find your business?'
 export const ENTER_DETAIL = 'Enter your details'
 export const SENDING_MONEY = 'Who are you sending money to?'
 export const WHAT_TO_DO = 'What would you like to do today?'
+export const CANCEL = 'Cancel'
+export const RECIPIENT_DETAILS = 'Recipient Details'
+export const RECIPIENT_DETAILS_CONTINUE = 'Continue'
+export const USER_DETAIL = [
+  {
+    email: 'mario.gabriel@gmail.com',
+    account: '123456885865',
+    firstName: 'Mario',
+    lastName: 'Gabriel',
+    ifsc: 'ABFJ12929G',
+  },
+
+  {
+    email: 'paul.gabriel@gmail.com',
+    account: '144456885865',
+    firstName: 'Paul',
+    lastName: 'Gabriel',
+    ifsc: 'ACFJ12929H',
+  },
+]

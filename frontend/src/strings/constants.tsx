@@ -118,5 +118,19 @@ export const OWNERS_MESSAGE =
 export const CONFIRM_BUSINESS = 'Confirm your business'
 export const FOUR_DIGIT_LABEL = 'Last four digit '
 export const EXPIRATION_LABEL = ' Expiry date '
+export const ADDRESSES = [
+  '1234, Street Name, Mumbai, Maharashtra, 400001',
+  '5678, Avenue Road, Delhi, Delhi, 110001',
+  '9876, Park Street, Kolkata, West Bengal, 700001',
+  '4321, Main Road, Chennai, Tamil Nadu, 600001',
+  '2468, Market Area, Bangalore, Karnataka, 560001',
+  '1357, Lane No. 9, Hyderabad, Telangana, 500001',
+  '8642, Gandhi Nagar, Ahmedabad, Gujarat, 380001',
+  '9753, MG Road, Pune, Maharashtra, 411001',
+  '7912, New Colony, Jaipur, Rajasthan, 302001',
+  '4319, Beach Road, Surat, Gujarat, 395003',
+]
+export const BUSINESS_NOT_MESSAGE = 'Can’t find your business?'
+export const ENTER_DETAIL = 'Enter your details'
 export const SENDING_MONEY = 'Who are you sending money to?'
 export const WHAT_TO_DO = 'What would you like to do today?'

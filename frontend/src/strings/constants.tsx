@@ -153,3 +153,8 @@ export const USER_DETAIL = [
     ifsc: 'ACFJ12929H',
   },
 ]
+
+export const REVIEW_ACCOUNT = 'Review details of your transfer'
+export const BUSINESS_DETAILS = 'Business details'
+export const SAVE = 'Save'
+export const Cancel = 'Cancel'

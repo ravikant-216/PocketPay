@@ -153,8 +153,15 @@ export const USER_DETAIL = [
     ifsc: 'ACFJ12929H',
   },
 ]
-
 export const REVIEW_ACCOUNT = 'Review details of your transfer'
 export const BUSINESS_DETAILS = 'Business details'
 export const SAVE = 'Save'
 export const Cancel = 'Cancel'
+export const CONFIRM_BUSINESS_DETAILS_TITLE = 'Confirm your business details'
+export const CONFIRM_BUSINESS_DETAILS_TITLE_CAPTION =
+  'Sole trader, freelancer or not registered with Companies house?'
+export const BUSINESS_DETAILS_LABEL = 'Business Details'
+export const CANCEL_BUTTON_LABEL = 'Cancel'
+export const SAVE_BUTTON_LABEL = 'Save'
+export const CONFIRM_BUTTON_LABEL = 'Confirm'
+export const EDIT_LABEL = 'edit'

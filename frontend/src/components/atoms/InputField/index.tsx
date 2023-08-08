@@ -40,9 +40,8 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
 
   '& label': {
     color: theme.palette.text.lowEmphasis,
-    ...theme.typography.body3,
+    ...theme.typography.body2,
     '&.Mui-focused': {
-      ...theme.typography.caption,
       color: theme.palette.primary[500],
     },
   },

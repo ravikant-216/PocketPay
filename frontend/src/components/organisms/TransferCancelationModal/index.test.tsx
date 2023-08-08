@@ -1,6 +1,6 @@
 import { ThemeProvider } from '@mui/material'
 import '@testing-library/jest-dom'
-import { act, fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import theme from '../../../theme'
 import TransferCancelationModal from '.'
 import {

@@ -4,6 +4,7 @@ import US from '../../public/assets/icons/US.svg'
 import GBP from '../../public/assets/icons/GBP.svg'
 import austria from '../../public/assets/icons/austria.svg'
 import andorra from '../../public/assets/icons/andorra.svg'
+import CountryCurrencyCard from '../components/molecules/CountryCurrencyCard'
 export const USER_NAME = 'Ross Gener'
 export const USER_ID = 'P44561754'
 export const DETAILS_LABEL = 'Your details'
@@ -172,3 +173,55 @@ export const steps = [
   { time: 'Tomorrow at 12:00 am', label: 'We pay out your EUR' },
   { time: 'Tomorrow at 6:00 am', label: 'George max recieves your EUR' },
 ]
+export const CURRENCY_EXCHANGE_TRANSFER = 'How much would you like to transfer?'
+import UK from '../../public/assets/icons/uk.svg'
+export const SELECT_CURRENCY_ARRAY = [
+  <CountryCurrencyCard
+    key="Andorra"
+    countryName="Andorra"
+    iconTitle="Andorra"
+    countryImageSrc={andorra}
+    countryImageAlt="Andorra Flag"
+    countryCurrencyCode="EUR"
+    sx={{ width: '100%' }}
+  />,
+  <CountryCurrencyCard
+    key="India"
+    countryName="India"
+    iconTitle="India"
+    countryImageSrc={india}
+    countryImageAlt="India Flag"
+    countryCurrencyCode="INR"
+    sx={{ width: '100%' }}
+  />,
+  <CountryCurrencyCard
+    key="United Kingdom"
+    countryName="United Kingdom"
+    iconTitle="United Kingdom"
+    countryImageSrc={UK}
+    countryImageAlt="Uk Flag"
+    countryCurrencyCode="GBP"
+    sx={{ width: '100%' }}
+  />,
+  <CountryCurrencyCard
+    key="United States"
+    iconTitle="United States"
+    countryName="United States"
+    countryImageSrc={US}
+    countryImageAlt="US Flag"
+    countryCurrencyCode="USD"
+    sx={{ width: '100%' }}
+  />,
+]
+export const CURRENCY_VALUE = 75
+export const DEFAULT_SENDER = SELECT_CURRENCY_ARRAY[1]
+export const LOW_COST_TRANSFER = 'Low cost transfer fee:'
+export const TRANSFER_FEE = 'From 3.69GBP'
+export const GURANTEED_RATE = 'Guaranteed rate (24 hrs):'
+export const GURANTEED_RATE_VALUE = '1.20048'
+export const TOTAL_AMOUNT = 'Total amount:'
+export const TOTAL_AMOUNT_VALUE = ' 996.31 GBP'
+export const CURRENCY_EXCHANGE_CONTINUE = 'Continue'
+export const MODAL_CONTENT =
+  ' We’ll apply this rate if we receive your money today.'
+export const AGREE = 'OK'

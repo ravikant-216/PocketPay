@@ -15,11 +15,12 @@ const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
   gap: theme.spacing(6),
 }))
 
-interface CountryCurrencCardProps extends MenuItemProps {
+export interface CountryCurrencCardProps extends MenuItemProps {
   countryImageSrc: string
   countryImageAlt: string
   countryCurrencyCode: string
   countryName: string
+  iconTitle?: string
 }
 
 const CountryCurrencyCard: React.FC<CountryCurrencCardProps> = ({

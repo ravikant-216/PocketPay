@@ -229,3 +229,17 @@ export const CURRENCY_EXCHANGE_CONTINUE = 'Continue'
 export const MODAL_CONTENT =
   ' We’ll apply this rate if we receive your money today.'
 export const AGREE = 'OK'
+export const CHOOSE_TRANSFER_TYPE_TITLE = 'Choose your transfer type'
+export const FEATURE_DESCRIPTION_LABEL_1 = 'Fear and easy transfer'
+export const FEATURE_DESCRIPTION_LABEL_2 = 'Low cost transfer'
+export const FEATURE_DESCRIPTION_LABEL_3 = 'Advanced transfer'
+export const PAY_WITH_CARD_LABEL = 'Pay with your card'
+export const CONFIRM_PURCHASE_LABEL = 'Confirm your purchase'
+export const GBP_LABEL = 'GBP 100.0 '
+export const ENDING_CARD_LABEL = ' to PocketPay using visa card ending '
+export const LAST_FOUR_CARD_NUMBER = ' 9313'
+export const PAYMENT_CONFIRMATION_STEP_1 =
+  'Step 1: Open and confirm the push notification we sent to your mobile.'
+export const PAYMENT_CONFIRMATION_STEP_2 =
+  'Step 2: Return to this screen and press the button below to finish your purchase.'
+export const COMPLETE_BUTTON_LABEL = 'Complete'

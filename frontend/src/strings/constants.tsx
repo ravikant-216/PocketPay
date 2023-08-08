@@ -155,6 +155,10 @@ export const USER_DETAIL = [
   },
 ]
 export const REVIEW_ACCOUNT = 'Review details of your transfer'
+
+export const AMOUNT_CONVERT = 'Amount we’ll convert'
+export const TRANSFER_DETAIL = 'Transfer details'
+
 export const BUSINESS_DETAILS = 'Business details'
 export const SAVE = 'Save'
 export const Cancel = 'Cancel'

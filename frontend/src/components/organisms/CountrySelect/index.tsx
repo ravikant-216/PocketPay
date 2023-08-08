@@ -96,9 +96,7 @@ const CountrySelect = ({
           (inputVariant === 'country' && !countryName) ||
           (inputVariant === 'password' &&
             (!password ||
-
               passwordError === INVALID_PASSWORD ||
-
               passwordError == null))
         }
         onClick={() => onChange && onChange({ country: countryName, password })}

@@ -292,6 +292,10 @@ export const PAYMENT_CONFIRMATION_STEP_1 =
 export const PAYMENT_CONFIRMATION_STEP_2 =
   'Step 2: Return to this screen and press the button below to finish your purchase.'
 export const COMPLETE_BUTTON_LABEL = 'Complete'
+
+export const FILL_DETAIL = 'Fill in your details'
+export const ACCOUNT_OPEN =
+  'Since you’re opening the account, we need to know a bit more about you.'
 export const POCKEY_PAY_PURPOSE = [
   'Paying rent, utilities or property charges',
   'Paying suppliers/contractors/employees',

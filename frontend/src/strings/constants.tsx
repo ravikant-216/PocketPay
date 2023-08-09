@@ -170,6 +170,55 @@ export const CANCEL_BUTTON_LABEL = 'Cancel'
 export const SAVE_BUTTON_LABEL = 'Save'
 export const CONFIRM_BUTTON_LABEL = 'Confirm'
 export const EDIT_LABEL = 'edit'
+
+
+interface Country {
+  name: string
+  code: string
+  flagIconSrc: string
+}
+
+export const COUNTRIES: Country[] = [
+  {
+    name: 'United States',
+    code: '13',
+    flagIconSrc: US,
+  },
+  {
+    name: 'GBP',
+    code: '21',
+    flagIconSrc: GBP,
+  },
+  {
+    name: 'Andorra',
+    code: '52',
+    flagIconSrc: andorra,
+  },
+  {
+    name: 'Austria',
+    code: '31',
+    flagIconSrc: austria,
+  },
+  {
+    name: 'India',
+    code: '91',
+    flagIconSrc: india,
+  },
+]
+export const VERIFY_PHONE = 'Verify your phone number with a code'
+export const ACCOUNT_MESSAGE = 'It helps us keep your account secure.'
+export const ENTER_OTP = 'Enter the 6-digit code'
+export const CODE_SENT = 'We sent a code to +'
+export const CODE_ENTER = 'Enter code here'
+export const CODE_NOTFOUND = 'I didn’t receive a code'
+export const APPROVE = 'Approve another way'
+export const CODE_SEND = 'We sent it to +'
+export const SMS_CODE = 'Resend code by SMS'
+export const CALL_CODE = 'Send code by voice call'
+export const ANOTHER_PHONE = 'Use a different phone number'
+export const SUBMIT = 'Submit'
+export const CONTINUE_BUTTON = 'Continue'
+
 export const steps = [
   { time: 'Today at 6:43 pm', label: 'You set up your transfer' },
   { time: 'Today at 6:44 pm', label: 'We recieved your GBP' },

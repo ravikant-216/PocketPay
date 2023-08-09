@@ -22,7 +22,7 @@ export interface SearchDropdownProps extends BoxProps {
   minHeight?: string
   variant?: 'footer' | 'nonFooter'
   placeholder?: string
-  onValueChange: (value: string | null) => void
+  onValueChange: (value: string) => void
 }
 
 export default function SearchDropdown(props: SearchDropdownProps) {

@@ -243,3 +243,15 @@ export const PAYMENT_CONFIRMATION_STEP_1 =
 export const PAYMENT_CONFIRMATION_STEP_2 =
   'Step 2: Return to this screen and press the button below to finish your purchase.'
 export const COMPLETE_BUTTON_LABEL = 'Complete'
+export const POCKEY_PAY_PURPOSE = [
+  'Paying rent, utilities or property charges',
+  'Paying suppliers/contractors/employees',
+  'Paying for goods or services abroad',
+  'Paying tax on profit or property',
+]
+export const POCKEY_PAY_PURPOSE_HEADING =
+  'What’s the purpose for using PocketPay?'
+export const POCKEY_PAY_PURPOSE_SUB_HEADING =
+  'To help us keep PocketPay safe and secure, please tell us what you’re using PocketPay for'
+export const POCKEY_PAY_PURPOSE_PLACEHOLDER =
+  'Tell us what you’re using PocketPay for'

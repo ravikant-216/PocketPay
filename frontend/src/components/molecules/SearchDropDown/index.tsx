@@ -62,6 +62,7 @@ export default function SearchDropdown(props: SearchDropdownProps) {
               border: `1px solid ${theme.palette.grey[300]}`,
               borderTop: 'none',
               borderRadius: theme.spacing(2),
+              backgroundColor: theme.palette.structuralColors.white,
             }}
           >
             {children}

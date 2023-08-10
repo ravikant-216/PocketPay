@@ -171,7 +171,6 @@ export const SAVE_BUTTON_LABEL = 'Save'
 export const CONFIRM_BUTTON_LABEL = 'Confirm'
 export const EDIT_LABEL = 'edit'
 
-
 interface Country {
   name: string
   code: string
@@ -292,7 +291,6 @@ export const PAYMENT_CONFIRMATION_STEP_1 =
 export const PAYMENT_CONFIRMATION_STEP_2 =
   'Step 2: Return to this screen and press the button below to finish your purchase.'
 export const COMPLETE_BUTTON_LABEL = 'Complete'
-
 export const FILL_DETAIL = 'Fill in your details'
 export const ACCOUNT_OPEN =
   'Since you’re opening the account, we need to know a bit more about you.'
@@ -308,3 +306,34 @@ export const POCKEY_PAY_PURPOSE_SUB_HEADING =
   'To help us keep PocketPay safe and secure, please tell us what you’re using PocketPay for'
 export const POCKEY_PAY_PURPOSE_PLACEHOLDER =
   'Tell us what you’re using PocketPay for'
+export const ACCOUNT_VERIFICATION_CATEGORY = {
+  category: [
+    'Design, marketing or communication',
+    'Health, sports or personal care',
+    'Real estate or construction',
+    'Education or learning',
+    'Others',
+  ],
+
+  subcategory: [
+    'Real estate sale, purchase and management',
+    'Healthcare services',
+    'Digital marketing',
+    'Fitness and wellness coaching',
+    'Language education',
+    'Financial consulting',
+  ],
+
+  businessSize: [
+    '1-50',
+    '50-100',
+    '100-150',
+    '150-200',
+    '200-350',
+    '350-400',
+    '400-450',
+  ],
+}
+export const ACCOUNT_VERIFICATION_HEADING = 'Help us verify your account faster'
+export const ACCOUNT_VERIFICATION_SUBHEADING =
+  'Without this information we can’t verify your account'

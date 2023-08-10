@@ -14,7 +14,7 @@ describe('BusinessDetailsForm', () => {
       <BusinessDetailsForm
         name="ravi kant"
         email="ravi.kant@gmail.com"
-        accountNo="123456789"
+        accountNumber="123456789"
         accountType="Savings"
       />
     )
@@ -47,7 +47,7 @@ describe('BusinessDetailsForm', () => {
       <BusinessDetailsForm
         name="ravi kant"
         email="ravi.kant@gmail.com"
-        accountNo="123456789"
+        accountNumber="123456789"
         accountType="Savings"
         saveOnClick={saveOnClick}
       />
@@ -58,7 +58,7 @@ describe('BusinessDetailsForm', () => {
     expect(saveOnClick).toHaveBeenCalledWith({
       name: 'ravi kant',
       email: 'ravi.kant@gmail.com',
-      accountNo: '123456789',
+      accountNumber: '123456789',
       accountType: 'Savings',
     })
   })

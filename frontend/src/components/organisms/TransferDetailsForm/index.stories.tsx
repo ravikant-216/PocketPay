@@ -14,7 +14,7 @@ const Template: Story<TransferDetailsProps> = (args) => (
 
 export const Default = Template.bind({})
 Default.args = {
-  amount: '100.00 GBP',
+  amount: '100.00',
   fee: '00.00 GBP',
   amountRate: '77.74 GBP',
   guaranteedRate: '1 GBP = 1.14 EUR',

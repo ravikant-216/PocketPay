@@ -14,13 +14,13 @@ import {
 export interface BusinessDetailsProps extends BoxProps {
   name?: string
   email?: string
-  accountNo?: string
+  accountNumber?: string
   accountType?: string
   cancelOnClick?: () => void
   saveOnClick?: (values: {
     name: string
     email: string
-    accountNo: string
+    accountNumber: string
     accountType: string
   }) => void
 }
@@ -28,7 +28,7 @@ export interface BusinessDetailsProps extends BoxProps {
 export default function BusinessDetailsForm({
   name: initialName,
   email: initialEmail,
-  accountNo: initialAccountNo,
+  accountNumber: initialAccountNumber,
   accountType: initialAccountType,
   cancelOnClick,
   saveOnClick,
@@ -36,12 +36,12 @@ export default function BusinessDetailsForm({
 }: BusinessDetailsProps) {
   const [name, setName] = useState(initialName ?? '')
   const [email, setEmail] = useState(initialEmail ?? '')
-  const [accountNo, setAccountNo] = useState(initialAccountNo ?? '')
+  const [accountNumber, setAccountNumber] = useState(initialAccountNumber ?? '')
   const [accountType, setAccountType] = useState(initialAccountType ?? '')
 
   const handleSaveClick = () => {
     if (saveOnClick) {
-      saveOnClick({ name, email, accountNo, accountType })
+      saveOnClick({ name, email, accountNumber, accountType })
     }
   }
 
@@ -63,9 +63,9 @@ export default function BusinessDetailsForm({
     {
       label: 'Account Number',
       placeholder: 'Account Number',
-      value: accountNo,
+      value: accountNumber,
       onChange: (event: React.ChangeEvent<HTMLInputElement>) =>
-        setAccountNo(event.target.value),
+        setAccountNumber(event.target.value),
     },
     {
       label: 'Account type',

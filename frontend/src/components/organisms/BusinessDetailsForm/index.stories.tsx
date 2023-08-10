@@ -16,7 +16,7 @@ export const Default = Template.bind({})
 Default.args = {
   name: 'Ravi',
   email: 'ravi.kant@gmail.com',
-  accountNo: '123456789',
+  accountNumber: '123456789',
   accountType: 'Savings',
   saveOnClick: action('saveOnClick'),
 }

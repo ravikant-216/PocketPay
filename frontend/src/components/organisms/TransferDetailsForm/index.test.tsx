@@ -24,7 +24,7 @@ describe('TransferDetailsForm', () => {
       screen.getByText('Review details of your transfer')
     ).toBeInTheDocument()
     expect(screen.getByText('Transfer details')).toBeInTheDocument()
-    expect(screen.getByLabelText('Amount')).toHaveValue('1000')
+    expect(screen.getByLabelText('Amount')).toHaveValue(1000)
     expect(screen.getByLabelText('Fee')).toHaveValue('10')
     expect(screen.getByLabelText(AMOUNT_CONVERT)).toHaveValue('990')
     expect(screen.getByLabelText('Guaranteed rate')).toHaveValue('1.5')
@@ -56,7 +56,7 @@ describe('TransferDetailsForm', () => {
     const saveOnClick = jest.fn()
     renderWithTheme(
       <TransferDetailsForm
-        amount="1000"
+        amount=""
         fee="10"
         amountRate="990"
         guaranteedRate="1.5"
@@ -68,6 +68,6 @@ describe('TransferDetailsForm', () => {
       target: { value: '2000' },
     })
 
-    expect(screen.getByLabelText('Amount')).toHaveValue('2000')
+    expect(screen.getByLabelText('Amount')).toHaveValue(2000)
   })
 })

@@ -23,6 +23,8 @@ test('Should open profile menu on clicking avatar', async () => {
   })
   // profile menu popped up
   expect(screen.getByTestId('ProfileMenu')).toBeInTheDocument() // passed
+  // For coverage
+  fireEvent.click(screen.getByText('Logout'))
   act(() => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     fireEvent.click(screen.getByRole('presentation').firstChild!)

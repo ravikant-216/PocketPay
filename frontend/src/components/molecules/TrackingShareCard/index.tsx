@@ -17,6 +17,7 @@ export interface TrackingShareCardProps {
   onClickEmail?: () => void
   onClickShare?: () => void
   open?: boolean
+  onClose?: () => void
 }
 
 const modalStyles: React.CSSProperties = {
@@ -109,7 +110,12 @@ const TrackingShareCard = (props: TrackingShareCardProps) => {
     )
   }
   return (
-    <ModalBox open={props.open} {...props} style={modalStyles}>
+    <ModalBox
+      open={props.open}
+      {...props}
+      style={modalStyles}
+      onClose={props.onClose}
+    >
       {<TrackingShareCardContent />}
     </ModalBox>
   )

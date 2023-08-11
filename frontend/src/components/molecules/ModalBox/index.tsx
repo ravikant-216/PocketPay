@@ -8,6 +8,7 @@ export interface ModalBoxProps {
   width?: string
   height?: string
   style?: React.CSSProperties
+  onClose?: () => void
 }
 
 const ModalOverlay = styled(Paper)({
@@ -38,7 +39,7 @@ const ModalBox = (props: ModalBoxProps) => {
   return (
     <>
       {props.open && (
-        <ModalOverlay>
+        <ModalOverlay onClick={props.onClose}>
           <Modal {...props} sx={props.style}>
             {props.children}
           </Modal>

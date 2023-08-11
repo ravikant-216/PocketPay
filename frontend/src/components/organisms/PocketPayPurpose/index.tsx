@@ -49,6 +49,7 @@ const PocketPayPurpose = (props: PocketPayPurposeProps) => {
             options={POCKEY_PAY_PURPOSE}
             onValueChange={handleChange}
             placeholder={POCKEY_PAY_PURPOSE_PLACEHOLDER}
+            label={POCKEY_PAY_PURPOSE_PLACEHOLDER}
             data-testid="purpose-input"
           />
         </Stack>

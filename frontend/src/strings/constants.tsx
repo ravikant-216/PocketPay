@@ -346,3 +346,15 @@ export const CHANGE = 'Change'
 export const CONFIRM_CONTINUE_LABEL = 'Confirm and continue'
 export const TERMS_AND_CONDITIONS_LABEL =
   'When you press "Confirm" you agree with Wise Terms & Conditions'
+export const TRANSACTION_DETAILS_EXISTING_USER_OPTIONS = [
+  `<div>Ross Gener<div>`,
+]
+export const TRANSFER_SHARE_MODAL_HEADING = 'Share tracking link'
+export const TRANSFER_SHARE_MODAL_SUBHEADING =
+  'Share the link above, and they can securely track this transfer.'
+export const TRANSACTION_DETAIL_CANCEL_HEADING = 'Your money will be refunded'
+export const TRANSACTION_DETAIL_CANCEL_SUBHEADING =
+  'When we receive your money, we’ll give you a refund. Refunds usually take 3-5 working days.'
+export const TRANSFER_NUMBER = 'Transfer number:'
+export const GENERAL = 'General'
+export const SET_UP_BY = 'Set up by:'

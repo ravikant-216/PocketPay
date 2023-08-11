@@ -29,7 +29,7 @@ const TabsComponent = (props: CustomTabsProps) => {
 
   return (
     <>
-      <Tabs value={value} onChange={handleChange} data-testid="tabs">
+      <Tabs value={value} onChange={handleChange} data-testid="tabs" {...props}>
         {props.tabs?.map((item) => (
           <CustomTab label={item.label} key={item.label} />
         ))}

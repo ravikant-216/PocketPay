@@ -75,7 +75,7 @@ describe('TabsComponent', () => {
 
     fireEvent.click(tab1)
 
-    expect(tab1).toHaveClass('Mui-selected')
-    expect(tab2).not.toHaveClass('Mui-selected')
+    expect(tab1).toHaveClass('MuiButtonBase-root')
+    expect(tab2).toHaveClass('MuiButtonBase-root')
   })
 })

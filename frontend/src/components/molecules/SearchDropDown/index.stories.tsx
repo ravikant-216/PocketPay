@@ -21,7 +21,6 @@ WithFooter.args = {
   label: 'Select Address',
   placeholder: 'Select Address',
   variant: 'footer',
-  minHeight: '300px',
 }
 
 export const WithoutFooter = Template.bind({})
@@ -29,5 +28,12 @@ WithoutFooter.args = {
   options: ADDRESSES,
   label: 'Select Address',
   placeholder: 'Select Address',
-  minHeight: '400px',
+}
+export const WithSearch = Template.bind({})
+WithSearch.args = {
+  options: ADDRESSES,
+  label: 'Select Address',
+  placeholder: 'Select Address',
+  variant: 'footer',
+  type: 'search',
 }

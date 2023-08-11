@@ -337,6 +337,10 @@ export const ACCOUNT_VERIFICATION_CATEGORY = {
 export const ACCOUNT_VERIFICATION_HEADING = 'Help us verify your account faster'
 export const ACCOUNT_VERIFICATION_SUBHEADING =
   'Without this information we can’t verify your account'
+export const SEARCH_BUSINESS = 'Search for your business'
+export const SOLO_TRADER =
+  'Sole trader, freelancer or not registered with Companies house?'
+export const SELECT_BUSINESS = 'Select your business'
 export const REVIEW_TRANSFER_DETAILS_TITLE = 'Review details of your transfer'
 export const TRANSFER_DETAILS_LABEL = 'Transfer details:'
 export const RECIEPIENT_DETAILS_LABEL = 'Sender details:'

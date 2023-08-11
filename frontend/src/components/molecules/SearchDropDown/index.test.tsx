@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render, fireEvent } from '@testing-library/react'
+import { render, fireEvent, screen } from '@testing-library/react'
 import SearchDropdown from '.'
 import { ThemeProvider } from '@emotion/react'
 import theme from '../../../theme'
@@ -72,5 +72,18 @@ describe('SearchDropdown', () => {
     expect(getAllByRole('option')).toHaveLength(2)
     fireEvent.click(getAllByRole('option')[0])
     expect(onValueChange).toHaveBeenCalledWith('Option1')
+  })
+  test('renders search icon when type is "search"', () => {
+    const mockValueChange = jest.fn()
+    renderWithTheme(
+      <SearchDropdown
+        options={['Option 1', 'Option 2']}
+        type="search"
+        onValueChange={mockValueChange}
+      />
+    )
+
+    const searchIcon = screen.getByRole('img', { name: '' })
+    expect(searchIcon).toBeInTheDocument()
   })
 })

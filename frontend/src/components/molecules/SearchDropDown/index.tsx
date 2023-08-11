@@ -5,14 +5,28 @@ import Box, { BoxProps } from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
 import theme from '../../../theme'
 import Typography from '../../atoms/Typography'
-import { Stack } from '@mui/material'
+import { InputAdornment, Stack } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { BUSINESS_NOT_MESSAGE, ENTER_DETAIL } from '../../../strings/constants'
+import Image from '../../atoms/Image'
+import search from '../../../../public/assets/icons/search.svg'
 
 const CustomTextField = styled(TextField)(({ theme }) => ({
+  '& label.Mui-focused': {
+    color: theme.palette.text.lowEmphasis,
+  },
   '& .MuiOutlinedInput-root': {
     color: theme.palette.text.highEmphasis,
     borderRadius: theme.spacing(2),
+    '&.Mui-focused fieldset': {
+      border: `${theme.spacing(0.25)} solid ${theme.palette.Greys.stroke}`,
+      borderBottom: 'none',
+      borderBottomRightRadius: '0',
+      borderBottomLeftRadius: '0',
+    },
+    '&.Mui-focused .search': {
+      display: 'none',
+    },
   },
 }))
 
@@ -22,6 +36,7 @@ export interface SearchDropdownProps extends BoxProps {
   minHeight?: string
   variant?: 'footer' | 'nonFooter'
   placeholder?: string
+  type?: 'search' | 'dropdown'
   onValueChange: (value: string) => void
 }
 
@@ -32,6 +47,7 @@ export default function SearchDropdown(props: SearchDropdownProps) {
     placeholder,
     onValueChange,
     variant,
+    type = 'dropdown',
     minHeight = 'auto',
     ...boxProps
   } = props
@@ -47,6 +63,22 @@ export default function SearchDropdown(props: SearchDropdownProps) {
             {...params}
             label={label}
             placeholder={placeholder}
+            InputProps={{
+              ...params.InputProps,
+              sx: {
+                borderTopRightRadius: '0',
+                borderTopLeftRadius: '0',
+              },
+              ...(type === 'search'
+                ? {
+                    endAdornment: (
+                      <InputAdornment position="end" className="search">
+                        <Image src={search} alt=""></Image>
+                      </InputAdornment>
+                    ),
+                  }
+                : {}),
+            }}
             variant="outlined"
             theme={theme}
           />
@@ -63,6 +95,8 @@ export default function SearchDropdown(props: SearchDropdownProps) {
               borderTop: 'none',
               borderRadius: theme.spacing(2),
               backgroundColor: theme.palette.structuralColors.white,
+              borderTopRightRadius: '0',
+              borderTopLeftRadius: '0',
             }}
           >
             {children}

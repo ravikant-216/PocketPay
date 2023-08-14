@@ -23,11 +23,14 @@ describe('PocketPayPurpose', () => {
       </ThemeProvider>
     )
 
-    const dropdownButton = screen.getAllByRole('button')[0]
+    const component = screen.getByTestId('pocketpayPurpose')
+    const dropdownButton = component.querySelectorAll('.MuiInputBase-root')[0]
     const button = screen.getByText(RECIPIENT_DETAILS_CONTINUE)
     expect(button).toBeDisabled()
     fireEvent.click(dropdownButton)
-    fireEvent.click(screen.getAllByRole('option')[0])
+    fireEvent.click(
+      screen.getByText('Paying rent, utilities or property charges')
+    )
     expect(button).toBeEnabled()
   })
 })

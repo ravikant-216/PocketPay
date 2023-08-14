@@ -1,4 +1,3 @@
-import React from 'react'
 import { render, screen } from '@testing-library/react'
 import BankCard from '.'
 import '@testing-library/jest-dom/extend-expect'

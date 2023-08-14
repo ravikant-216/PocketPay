@@ -14,13 +14,16 @@ export interface RecipientTypeProps {
   type: 'sendMoney' | 'default'
   onClickSendMoneyHandler?: () => void
   onClickBusinessCharityHandler?: () => void
+  style?: React.CSSProperties
 }
 const StyledContainer = styled(Box)({
   display: 'flex',
   flexDirection: 'column',
   gap: theme.spacing(10),
 })
-const RecipientType: React.FC<RecipientTypeProps> = (props) => {
+const RecipientType: React.FC<RecipientTypeProps> = (
+  props: RecipientTypeProps
+) => {
   const RECIPIENT_TYPE = {
     sendMoney: [
       {
@@ -47,7 +50,7 @@ const RecipientType: React.FC<RecipientTypeProps> = (props) => {
   }
   const mainText = props.type === 'sendMoney' ? SENDING_MONEY : WHAT_TO_DO
   return (
-    <StyledContainer>
+    <StyledContainer style={props.style}>
       <Typography variant="h1" color="text.highEmphasis">
         {mainText}
       </Typography>

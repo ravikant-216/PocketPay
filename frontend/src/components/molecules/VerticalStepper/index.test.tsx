@@ -1,4 +1,3 @@
-import React from 'react'
 import VerticalStepper from '.'
 import { render } from '@testing-library/react'
 import '@testing-library/jest-dom'

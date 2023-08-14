@@ -78,4 +78,19 @@ describe('PhoneNumber', () => {
     )
     expect(phoneNumberInput).toHaveValue()
   })
+
+  it('updates the country code and flag when a country is selected', () => {
+    renderWithTheme(<PhoneNumber />)
+
+    const countrySelect = screen.getAllByAltText('')
+    fireEvent.click(countrySelect[0])
+    expect(screen.getByTestId('Typography')).toBeInTheDocument()
+    const countryDropdown = screen.getAllByRole('button')[0]
+    const countryDropdownButton = screen.getAllByRole('button')[1]
+    fireEvent.mouseDown(countryDropdown)
+    fireEvent.click(screen.getByText('India'))
+    fireEvent.click(countryDropdownButton)
+    const list = screen.getAllByAltText('')
+    expect(list[2]).toBeInTheDocument()
+  })
 })

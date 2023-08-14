@@ -5,10 +5,11 @@ import theme from '../../../theme'
 import CurrencyExchange from '.'
 
 describe('CurrencyExchange', () => {
+  const mockOnClick = jest.fn()
   it('should render the component', () => {
     render(
       <ThemeProvider theme={theme}>
-        <CurrencyExchange />
+        <CurrencyExchange onClick={mockOnClick} />
       </ThemeProvider>
     )
 
@@ -18,7 +19,7 @@ describe('CurrencyExchange', () => {
   test('dropdown opens when sender currency arrow is clicked', () => {
     render(
       <ThemeProvider theme={theme}>
-        <CurrencyExchange />
+        <CurrencyExchange onClick={mockOnClick} />
       </ThemeProvider>
     )
     const senderArrow = screen.getByTestId('sender-arrow')
@@ -29,7 +30,7 @@ describe('CurrencyExchange', () => {
   test('dropdown opens when receiver currency arrow is clicked', () => {
     render(
       <ThemeProvider theme={theme}>
-        <CurrencyExchange />
+        <CurrencyExchange onClick={mockOnClick} />
       </ThemeProvider>
     )
     const receiverArrow = screen.getByTestId('receiver-arrow')
@@ -40,7 +41,7 @@ describe('CurrencyExchange', () => {
   test('currency selection closes when button is clicked', () => {
     render(
       <ThemeProvider theme={theme}>
-        <CurrencyExchange />
+        <CurrencyExchange onClick={mockOnClick} />
       </ThemeProvider>
     )
     const senderArrow = screen.getByTestId('sender-arrow')
@@ -59,7 +60,7 @@ describe('CurrencyExchange', () => {
 
     render(
       <ThemeProvider theme={theme}>
-        <CurrencyExchange />
+        <CurrencyExchange onClick={mockOnClick} />
       </ThemeProvider>
     )
     fireEvent.click(screen.getByTestId('sender-arrow'))
@@ -75,7 +76,7 @@ describe('CurrencyExchange', () => {
   it('should', () => {
     render(
       <ThemeProvider theme={theme}>
-        <CurrencyExchange />
+        <CurrencyExchange onClick={mockOnClick} />
       </ThemeProvider>
     )
     const selectedValue = 'USD'
@@ -91,7 +92,7 @@ describe('CurrencyExchange', () => {
   it('should update', () => {
     render(
       <ThemeProvider theme={theme}>
-        <CurrencyExchange />
+        <CurrencyExchange onClick={mockOnClick} />
       </ThemeProvider>
     )
 
@@ -105,7 +106,7 @@ describe('CurrencyExchange', () => {
   it('should trigger handleChange', () => {
     render(
       <ThemeProvider theme={theme}>
-        <CurrencyExchange />
+        <CurrencyExchange onClick={mockOnClick} />
       </ThemeProvider>
     )
 
@@ -119,7 +120,7 @@ describe('CurrencyExchange', () => {
   it('should trigger handleChange', () => {
     render(
       <ThemeProvider theme={theme}>
-        <CurrencyExchange />
+        <CurrencyExchange onClick={mockOnClick} />
       </ThemeProvider>
     )
 
@@ -130,25 +131,36 @@ describe('CurrencyExchange', () => {
     fireEvent.click(screen.getByText(country))
   })
 
-  it('displays the modal content when the modal is open', () => {
-    render(
-      <ThemeProvider theme={theme}>
-        <CurrencyExchange />
-      </ThemeProvider>
-    )
-
-    fireEvent.click(screen.getByTestId('button'))
-
-    expect(screen.getByTestId('modalContent')).toBeInTheDocument()
-  })
-
   it('does not display the modal content when the modal is closed', () => {
     render(
       <ThemeProvider theme={theme}>
-        <CurrencyExchange />
+        <CurrencyExchange onClick={mockOnClick} />
       </ThemeProvider>
     )
 
     expect(screen.queryByTestId('modalContent')).not.toBeInTheDocument()
+  })
+  it('calls onClick with correct data when button is clicked', () => {
+    const { getByText } = render(
+      <ThemeProvider theme={theme}>
+        <CurrencyExchange onClick={mockOnClick} />
+      </ThemeProvider>
+    )
+    const senderInput = screen.getByTestId('senderInput')
+    const input = senderInput.querySelector('.senderInput')
+    const continueButton = getByText('Continue')
+    expect(continueButton).toBeDisabled
+    fireEvent.change(input as HTMLInputElement, { target: { value: 75 } })
+
+    fireEvent.click(continueButton)
+    const modalButton = screen.getByTestId('modalButton')
+    fireEvent.click(modalButton)
+
+    expect(mockOnClick).toHaveBeenCalledWith({
+      senderAmount: '75',
+      recipientAmount: '5625',
+      senderCountry: 'INR',
+      recipientCountry: 'USD',
+    })
   })
 })

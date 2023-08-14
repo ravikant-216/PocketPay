@@ -21,17 +21,22 @@ describe('AccountVerification', () => {
         <AccountVerification />
       </ThemeProvider>
     )
-    const categoryDropdown = screen.getAllByRole('button')[0]
-    const subcategoryDropdown = screen.getAllByRole('button')[1]
-    const businessSizeDropdown = screen.getAllByRole('button')[2]
+    const component = screen.getByTestId('accountVerification')
+    const categoryDropdown = component.querySelectorAll('.MuiInputBase-root')[0]
+    const subcategoryDropdown =
+      component.querySelectorAll('.MuiInputBase-root')[1]
+    const businessSizeDropdown =
+      component.querySelectorAll('.MuiInputBase-root')[2]
     const button = screen.getByTestId('continue')
-    expect(button).toBeDisabled
+    expect(button).toBeDisabled()
     fireEvent.click(categoryDropdown)
-    fireEvent.click(screen.getAllByRole('option')[0])
+    fireEvent.click(screen.getByText('Design, marketing or communication'))
     fireEvent.click(subcategoryDropdown)
-    fireEvent.click(screen.getAllByRole('option')[0])
+    fireEvent.click(
+      screen.getByText('Real estate sale, purchase and management')
+    )
     fireEvent.click(businessSizeDropdown)
-    fireEvent.click(screen.getAllByRole('option')[0])
-    expect(button).toBeEnabled
+    fireEvent.click(screen.getByText('50-100'))
+    expect(button).toBeEnabled()
   })
 })

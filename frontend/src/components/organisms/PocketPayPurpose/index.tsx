@@ -34,7 +34,7 @@ const PocketPayPurpose = (props: PocketPayPurposeProps) => {
   }
   return (
     <>
-      <StyledContainer {...props} data-testid="pocketpayPurpose">
+      <StyledContainer style={props.style} data-testid="pocketpayPurpose">
         <Stack flex={1} gap={theme.spacing(13)}>
           <Stack direction={'column'} sx={{ gap: '12px' }}>
             <Typography variant="h1" color="text.highEmphasis">

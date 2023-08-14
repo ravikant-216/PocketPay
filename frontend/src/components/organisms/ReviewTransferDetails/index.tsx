@@ -3,7 +3,6 @@ import Typography from '../../atoms/Typography'
 import {
   CHANGE,
   CONFIRM_CONTINUE_LABEL,
-  EDIT,
   RECIEPIENT_DETAILS_LABEL,
   REVIEW_TRANSFER_DETAILS_TITLE,
   SCHEDULE_DETAILS_LABEL,
@@ -65,7 +64,7 @@ const StyledStack = styled(Stack)(({ theme }) => ({
   '& .footer': {
     alignItems: 'center',
     justifyContent: 'center',
-    gap: theme.spacing(5),
+    gap: theme.spacing(8),
   },
 }))
 
@@ -226,7 +225,7 @@ const ReviewTransferDetails: React.FC<ReviewTransferDetailsProps> = ({
               variant="link"
               color="primary.500"
             >
-              {EDIT}
+              {CHANGE}
             </Typography>
           </Box>
         </Stack>

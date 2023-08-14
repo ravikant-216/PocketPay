@@ -1,4 +1,3 @@
-import React from 'react'
 import { Meta, Story } from '@storybook/react'
 import CountryDropdown, { Props } from '.'
 import theme from '../../../theme'
@@ -18,7 +17,10 @@ const Template: Story<Props> = (args) => <CountryDropdown {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
+  style: {
+    width: theme.spacing(129),
+  },
   names: COUNTRY_ARRAY,
-  size: 'small',
+  size: 'medium',
   menuMaxHeight: theme.spacing(56),
 }

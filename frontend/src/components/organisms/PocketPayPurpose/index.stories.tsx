@@ -1,5 +1,6 @@
 import { Meta, Story } from '@storybook/react'
 import PocketPayPurpose, { PocketPayPurposeProps } from '.'
+import theme from '../../../theme'
 
 export default {
   title: 'organisms/PocketPayPurpose',
@@ -14,4 +15,8 @@ const template: Story<PocketPayPurposeProps> = (args) => (
 
 export const PocketPayPurposeStory = template.bind({})
 
-PocketPayPurposeStory.args = {}
+PocketPayPurposeStory.args = {
+  style: {
+    width: theme.spacing(150),
+  },
+}

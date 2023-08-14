@@ -11,11 +11,12 @@ import theme from '../../../theme'
 
 export interface SearchBusinessProps {
   onValueChange: (value: string) => void
+  style?: React.CSSProperties
 }
 
 export default function SearchBusiness(props: SearchBusinessProps) {
   return (
-    <Box>
+    <Box style={props.style}>
       <Typography variant="h1" sx={{ marginBottom: theme.spacing(4) }}>
         {SEARCH_BUSINESS}
       </Typography>

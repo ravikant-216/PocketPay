@@ -35,10 +35,16 @@ interface CurrencyCardProps {
   countryImageAlt?: string
   countryCurrencyCode?: string
 }
+interface Data {
+  senderAmount?: string
+  recipientAmount?: string
+  senderCountry?: string
+  recipientCountry?: string
+}
 
 export interface CurrencyExchangeProps {
   style?: React.CSSProperties
-  onClick?: () => void
+  onClick: (data: Data) => void
 }
 const CommonStyles: React.CSSProperties = {
   display: 'flex',
@@ -120,7 +126,7 @@ const CurrencyExchange = (props: CurrencyExchangeProps) => {
     setReceiver(true)
   }
 
-  const [sendercurrencyCard, setSenderCurrencyCard] =
+  const [senderCurrencyCard, setSenderCurrencyCard] =
     useState<CurrencyCardProps>(DEFAULT_SENDER.props)
 
   const [receiverCurrencyCard, setReceiverCurrencyCard] =
@@ -173,7 +179,18 @@ const CurrencyExchange = (props: CurrencyExchangeProps) => {
         </TextContainer>
 
         <StyledBox>
-          <CustomButton variant="contained" onClick={props.onClick}>
+          <CustomButton
+            variant="contained"
+            onClick={() => {
+              props.onClick({
+                senderAmount: input,
+                recipientAmount: String(Number(input) * CURRENCY_VALUE),
+                senderCountry: senderCurrencyCard.countryCurrencyCode,
+                recipientCountry: receiverCurrencyCard.countryCurrencyCode,
+              })
+            }}
+            data-testid="modalButton"
+          >
             {AGREE}
           </CustomButton>
         </StyledBox>
@@ -206,14 +223,14 @@ const CurrencyExchange = (props: CurrencyExchangeProps) => {
                   endAdornment={
                     <Stack direction={'row'} sx={{ gap: theme.spacing(2.5) }}>
                       <Image
-                        src={sendercurrencyCard.countryImageSrc}
+                        src={senderCurrencyCard.countryImageSrc}
                         alt="image"
                       />
                       <Typography
                         variant="caption"
                         data-testid="sender-country-code"
                       >
-                        {sendercurrencyCard.countryCurrencyCode}
+                        {senderCurrencyCard.countryCurrencyCode}
                       </Typography>
                       <KeyboardArrowDown
                         onClick={handleSenderClick}
@@ -226,6 +243,7 @@ const CurrencyExchange = (props: CurrencyExchangeProps) => {
                   value={input}
                   data-testid="senderInput"
                   type="number"
+                  inputProps={{ className: 'senderInput' }}
                 />
                 <InputField
                   placeholder="Recipient gets"
@@ -298,6 +316,7 @@ const CurrencyExchange = (props: CurrencyExchangeProps) => {
             variant="contained"
             onClick={dropdown ? handleSelectCurrency : handleModalOpen}
             data-testid={dropdown ? 'select-currency-button' : 'button'}
+            disabled={dropdown ? false : !input}
           >
             {CURRENCY_EXCHANGE_CONTINUE}
           </CustomButton>
@@ -309,6 +328,7 @@ const CurrencyExchange = (props: CurrencyExchangeProps) => {
         height={theme.spacing(83.75)}
         style={modalStyles}
         data-testid="modalContent"
+        onClose={() => setOpen(false)}
       >
         <ModalContent />
       </ModalBox>

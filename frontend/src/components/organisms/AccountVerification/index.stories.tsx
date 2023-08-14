@@ -1,5 +1,5 @@
 import { Meta, Story } from '@storybook/react'
-import AccountVerification from '.'
+import AccountVerification, { AccountVerificationProps } from '.'
 
 export default {
   title: 'organisms/AccountVerification',
@@ -8,8 +8,14 @@ export default {
   decorators: [(Story) => <Story />],
 } as Meta
 
-const template: Story = () => <AccountVerification />
+const template: Story<AccountVerificationProps> = (args) => (
+  <AccountVerification {...args} />
+)
 
 export const AccountVerificationStory = template.bind({})
 
-AccountVerificationStory.args = {}
+AccountVerificationStory.args = {
+  style: {
+    width: '516px',
+  },
+}

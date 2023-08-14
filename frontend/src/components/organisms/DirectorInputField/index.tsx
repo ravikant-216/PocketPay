@@ -6,6 +6,7 @@ import IconLabel from '../../atoms/IconLabel'
 import plusIcon from '../../../../public/assets/icons/plusIcon.svg'
 import { useState, useEffect } from 'react'
 import CustomButton from '../../atoms/Button'
+
 import {
   DIRECTOR_MESSAGE,
   OWNERS_MESSAGE,
@@ -89,9 +90,32 @@ export default function DirectorInputField({
 
   const renderForm = (index: number) => (
     <>
-      <Typography variant="body3" color={theme.palette.text.highEmphasis}>
-        {variant === 'director' ? `Director ${index}` : `Shareholder ${index}`}
-      </Typography>
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent={'space-between'}
+      >
+        <Typography variant="body3" color={theme.palette.text.highEmphasis}>
+          {variant === 'director'
+            ? `Director ${index}`
+            : `Shareholder ${index}`}
+        </Typography>
+        {index > 1 && (
+          <Box
+            sx={{ cursor: 'pointer' }}
+            onClick={() => {
+              setFormCount(formCount - 1)
+              setFormData((prevFormData) =>
+                prevFormData.filter((_, i) => i !== index - 1)
+              )
+            }}
+          >
+            <Typography variant="link" color={theme.palette.primary[500]}>
+              {`Remove ${variant === 'director' ? 'director' : 'owner'}`}
+            </Typography>
+          </Box>
+        )}
+      </Stack>
       {inputFields.map(({ type, label, placeholder, field }) => (
         <InputField
           key={field}
@@ -136,6 +160,7 @@ export default function DirectorInputField({
         {[...Array(formCount)].map((_, index) => renderForm(index + 1))}
         <IconLabel
           alt="plusIcon"
+          style={{ cursor: 'pointer' }}
           color={theme.palette.primary[500]}
           iconTitle={`Add another ${
             variant === 'director' ? `director` : `owner`

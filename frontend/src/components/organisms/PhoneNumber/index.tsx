@@ -1,8 +1,7 @@
-import { Box, BoxProps, InputAdornment, Link } from '@mui/material'
-import Typography from '../../atoms/Typography'
+import React, { useState, useEffect } from 'react'
+import { Box, BoxProps, InputAdornment, Link, Typography } from '@mui/material'
 import theme from '../../../theme'
 import CustomButton from '../../atoms/Button'
-import { useState, useEffect } from 'react'
 import InputField from '../../atoms/InputField'
 import Image from '../../atoms/Image'
 import divider from '../../../../public/assets/icons/divider.svg'
@@ -24,6 +23,7 @@ import {
   VERIFY_PHONE,
 } from '../../../strings/constants'
 import BankCard from '../../molecules/BankCard'
+import CountrySelect from '../CountrySelect'
 
 export interface PhoneNumberProps extends BoxProps {
   country?: string
@@ -41,6 +41,7 @@ export default function PhoneNumber({
   const [otp, setOtp] = useState('')
   const [step, setStep] = useState(1)
   const [showResendOptions, setShowResendOptions] = useState(false)
+  const [showCountrySelect, setShowCountrySelect] = useState(false)
 
   useEffect(() => {
     const selectedCountry = COUNTRIES.find(
@@ -83,6 +84,10 @@ export default function PhoneNumber({
     setShowResendOptions(false)
   }
 
+  const handleCountryClick = () => {
+    setShowCountrySelect(true)
+  }
+
   return (
     <Box
       sx={{
@@ -93,116 +98,151 @@ export default function PhoneNumber({
       {...props}
     >
       <Box sx={{ width: '100%', minHeight: theme.spacing(131) }}>
-        {step === 1 && (
-          <>
-            <Typography
-              variant="h1"
-              color="text.highEmphasis"
-              sx={{ marginBottom: theme.spacing(3) }}
-            >
-              {VERIFY_PHONE}
-            </Typography>
-            <Box sx={{ marginBottom: theme.spacing(8) }}>
-              <Typography variant="body3" color="text.mediumEmphasis">
-                {ACCOUNT_MESSAGE}
-              </Typography>
-            </Box>
-            <InputField
-              type="number"
-              sx={{ width: '100%' }}
-              label="Mobile Number"
-              value={phoneNumber}
-              onChange={handlePhoneNumberChange}
-              startAdornment={
-                <InputAdornment position="start">
-                  <Box sx={{ display: 'flex', columnGap: theme.spacing(2) }}>
-                    <Image src={flagUrl} alt={country} />
-                    <Box sx={{ display: 'flex', columnGap: theme.spacing(4) }}>
-                      <Image src={dropdownIcon} alt="" />
-                      <Image src={divider} alt="" />
-                      <Typography variant="body2" color="text.highEmphasis">
-                        {countryCode && `+${countryCode}`}
-                      </Typography>
-                    </Box>
-                  </Box>
-                </InputAdornment>
+        {showCountrySelect ? (
+          <CountrySelect
+            inputVariant="country"
+            onChange={({ country }) => {
+              const selectedCountry = COUNTRIES.find(
+                (item) => item.name.toLowerCase() === country.toLowerCase()
+              )
+              if (selectedCountry) {
+                setCountryCode(selectedCountry.code)
+                setFlagUrl(selectedCountry.flagIconSrc)
               }
-            />
-          </>
-        )}
-        {step === 2 && (
+              setShowCountrySelect(false)
+            }}
+          />
+        ) : (
           <>
-            <Typography
-              variant="h1"
-              color="text.highEmphasis"
-              sx={{ marginBottom: theme.spacing(3) }}
-            >
-              {ENTER_OTP}
-            </Typography>
-            <Box sx={{ marginBottom: theme.spacing(8) }}>
-              <Typography variant="body3" color="text.mediumEmphasis">
-                {CODE_SENT}
-                {countryCode}
-                {phoneNumber}
-              </Typography>
-            </Box>
-            <InputField
-              type="number"
-              sx={{ width: '100%' }}
-              label={CODE_ENTER}
-              value={otp}
-              onChange={handleOtpChange}
-            />
-            {!showResendOptions && (
-              <Box sx={{ marginTop: theme.spacing(4) }}>
-                <Link
-                  component="button"
-                  variant="body2"
-                  onClick={handleDidNotReceiveCodeClick}
+            {step === 1 && (
+              <>
+                <Typography
+                  variant="h1"
+                  color="text.highEmphasis"
+                  sx={{ marginBottom: theme.spacing(3) }}
                 >
-                  {CODE_NOTFOUND}
-                </Link>
-              </Box>
+                  {VERIFY_PHONE}
+                </Typography>
+                <Box sx={{ marginBottom: theme.spacing(8) }}>
+                  <Typography variant="body3" color="text.mediumEmphasis">
+                    {ACCOUNT_MESSAGE}
+                  </Typography>
+                </Box>
+                <InputField
+                  type="number"
+                  sx={{ width: '100%', marginBottom: theme.spacing(1) }}
+                  label="Mobile Number"
+                  value={phoneNumber}
+                  onChange={handlePhoneNumberChange}
+                  startAdornment={
+                    <InputAdornment position="start">
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          justifyItems: 'flex-end',
+                          columnGap: theme.spacing(2),
+                        }}
+                        onClick={handleCountryClick}
+                      >
+                        <Image src={flagUrl} alt="" />
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            justifyItems: 'flex-end',
+                            columnGap: theme.spacing(4),
+                          }}
+                        >
+                          <Image src={dropdownIcon} alt="" />
+                          <Image src={divider} alt="" />
+                          <Typography variant="body2" color="text.highEmphasis">
+                            {countryCode && `+${countryCode}`}
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </InputAdornment>
+                  }
+                />
+              </>
+            )}
+            {step === 2 && (
+              <>
+                <Typography
+                  variant="h1"
+                  color="text.highEmphasis"
+                  sx={{ marginBottom: theme.spacing(3) }}
+                >
+                  {ENTER_OTP}
+                </Typography>
+                <Box sx={{ marginBottom: theme.spacing(8) }}>
+                  <Typography variant="body3" color="text.mediumEmphasis">
+                    {CODE_SENT}
+                    {countryCode}
+                    {phoneNumber}
+                  </Typography>
+                </Box>
+                <InputField
+                  type="number"
+                  sx={{ width: '100%' }}
+                  label={CODE_ENTER}
+                  value={otp}
+                  onChange={handleOtpChange}
+                />
+                {!showResendOptions && (
+                  <Box sx={{ marginTop: theme.spacing(4) }}>
+                    <Link
+                      component="button"
+                      variant="body2"
+                      onClick={handleDidNotReceiveCodeClick}
+                    >
+                      {CODE_NOTFOUND}
+                    </Link>
+                  </Box>
+                )}
+              </>
+            )}
+            {step === 3 && (
+              <>
+                <Typography
+                  variant="h1"
+                  color="text.highEmphasis"
+                  sx={{ marginBottom: theme.spacing(3) }}
+                >
+                  {APPROVE}
+                </Typography>
+                <Box sx={{ marginBottom: theme.spacing(8) }}>
+                  <Typography variant="body3" color="text.mediumEmphasis">
+                    {CODE_SEND}
+                    {countryCode}
+                    {phoneNumber}
+                  </Typography>
+                </Box>
+                <Box sx={{ marginTop: theme.spacing(4) }}>
+                  <BankCard
+                    iconTitle={SMS_CODE}
+                    alt=""
+                    sx={{ cursor: 'pointer' }}
+                  ></BankCard>
+                  <BankCard
+                    iconTitle={CALL_CODE}
+                    alt=""
+                    sx={{ marginTop: theme.spacing(4), cursor: 'pointer' }}
+                  ></BankCard>
+                </Box>
+                <Box sx={{ marginTop: theme.spacing(4) }}>
+                  <Link
+                    component="button"
+                    variant="body2"
+                    onClick={handleUseDifferentPhoneNumberClick}
+                  >
+                    {ANOTHER_PHONE}
+                  </Link>
+                </Box>
+              </>
             )}
           </>
         )}
-        {step === 3 && (
-          <>
-            <Typography
-              variant="h1"
-              color="text.highEmphasis"
-              sx={{ marginBottom: theme.spacing(3) }}
-            >
-              {APPROVE}
-            </Typography>
-            <Box sx={{ marginBottom: theme.spacing(8) }}>
-              <Typography variant="body3" color="text.mediumEmphasis">
-                {CODE_SEND}
-                {countryCode}
-                {phoneNumber}
-              </Typography>
-            </Box>
-            <Box sx={{ marginTop: theme.spacing(4) }}>
-              <BankCard iconTitle={SMS_CODE} alt=""></BankCard>
-              <BankCard
-                iconTitle={CALL_CODE}
-                alt=""
-                sx={{ marginTop: theme.spacing(4) }}
-              ></BankCard>
-            </Box>
-            <Box sx={{ marginTop: theme.spacing(4) }}>
-              <Link
-                component="button"
-                variant="body2"
-                onClick={handleUseDifferentPhoneNumberClick}
-              >
-                {ANOTHER_PHONE}
-              </Link>
-            </Box>
-          </>
-        )}
       </Box>
-      {step !== 3 && (
+      {!showCountrySelect && step !== 3 && (
         <Box>
           <CustomButton
             variant="contained"

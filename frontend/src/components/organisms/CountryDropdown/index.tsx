@@ -5,8 +5,12 @@ import MenuItem from '@mui/material/MenuItem'
 import FormControl, { FormControlProps } from '@mui/material/FormControl'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import { IconLabelPropType } from '../../atoms/IconLabel'
+import { styled } from '@mui/material/styles'
 import theme from '../../../theme'
 import { SELECT_COUNTRY, COUNTRY_REG } from '../../../strings/constants'
+import { Stack } from '@mui/material'
+import Image from '../../atoms/Image'
+import ExpandIcon from '../../../../public/assets/icons/expand.svg'
 
 export interface Props extends Omit<FormControlProps, 'onChange'> {
   names: React.ReactElement<IconLabelPropType>[]
@@ -16,6 +20,37 @@ export interface Props extends Omit<FormControlProps, 'onChange'> {
   onChange?: (selectedValue: string) => void
   menuMaxHeight?: string
   menuWidth?: string
+}
+const CustomFormControl = styled(FormControl)(() => ({
+  '&.Mui': {
+    color: theme.palette.text.lowEmphasis,
+  },
+  '& .MuiOutlinedInput-root': {
+    color: theme.palette.text.highEmphasis,
+    borderRadius: theme.spacing(2),
+    '&.Mui-focused fieldset': {
+      border: `${theme.spacing(0.25)} solid ${theme.palette.Greys.stroke}`,
+      borderBottom: 'none',
+      borderBottomRightRadius: '0',
+      borderBottomLeftRadius: '0',
+    },
+    '&.Mui-focused .search': {
+      display: 'none',
+    },
+    '& .search': {
+      marginTop: theme.spacing(2),
+      marginRight: theme.spacing(5),
+    },
+  },
+  width: '100%',
+}))
+
+function Icon() {
+  return (
+    <Stack alignItems="center" justifyContent="center">
+      <Image src={ExpandIcon} alt="" className="search"></Image>
+    </Stack>
+  )
 }
 
 export default function CountryDropdown({
@@ -44,18 +79,17 @@ export default function CountryDropdown({
   }
 
   return (
-    <FormControl
-      sx={{
-        width: '100%',
-      }}
-      {...props}
-    >
-      <InputLabel sx={{ fontSize: theme.spacing(4.25) }}>
+    <CustomFormControl {...props}>
+      <InputLabel
+        sx={{ fontSize: theme.spacing(4.25) }}
+        className="placeholder"
+      >
         {CountryName == '' ? placeHolder : label}
       </InputLabel>
       <Select
         value={CountryName}
         label="Country"
+        IconComponent={Icon}
         onChange={handleChange}
         input={
           <OutlinedInput
@@ -63,6 +97,17 @@ export default function CountryDropdown({
             sx={{
               borderRadius: theme.spacing(2),
               fontSize: theme.spacing(4.25),
+              '&:hover fieldset': {
+                border: `1px solid ${theme.palette.Greys.stroke} !important`,
+                borderBottom: `2px solid ${theme.palette.primary[500]} !important`,
+              },
+              '&.placeholder fieldset': {
+                color: 'text.lowEmphasis',
+              },
+              '& fieldset': {
+                border: `1px solid ${theme.palette.Greys.stroke} !important`,
+                borderRadius: `${theme.spacing(2)} !important`,
+              },
             }}
           />
         }
@@ -78,6 +123,6 @@ export default function CountryDropdown({
           </MenuItem>
         ))}
       </Select>
-    </FormControl>
+    </CustomFormControl>
   )
 }

@@ -17,11 +17,17 @@ const Template: Story<Props> = (args) => <CountrySelect {...args} />
 
 export const Primary = Template.bind({})
 Primary.args = {
+  style: {
+    width: theme.spacing(129),
+  },
   menuMaxHeight: theme.spacing(56),
   inputVariant: 'password',
 }
 export const Secondary = Template.bind({})
 Secondary.args = {
+  style: {
+    width: theme.spacing(129),
+  },
   menuMaxHeight: theme.spacing(56),
   inputVariant: 'country',
 }

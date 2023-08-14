@@ -27,7 +27,6 @@ const StyledStack = styled(Stack)(({ theme }) => ({
   padding: theme.spacing(6),
   background: theme.palette.structuralColors.white,
 
-  // layout
   display: 'flex',
   flexFlow: 'column nowrap',
   justifyContent: 'flex-start',

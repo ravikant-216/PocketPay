@@ -20,11 +20,3 @@ TrackingShareCardStory.args = {
     'Share the link above, and they can securely track this transfer.',
   open: true,
 }
-
-export const TrackingShareCardHiddenStory = template.bind({})
-TrackingShareCardHiddenStory.args = {
-  heading: 'Share tracking link',
-  subHeading:
-    'Share the link above, and they can securely track this transfer.',
-  open: false,
-}

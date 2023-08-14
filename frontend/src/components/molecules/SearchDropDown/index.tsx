@@ -5,11 +5,12 @@ import Box, { BoxProps } from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
 import theme from '../../../theme'
 import Typography from '../../atoms/Typography'
-import { InputAdornment, Stack } from '@mui/material'
+import { Stack } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { BUSINESS_NOT_MESSAGE, ENTER_DETAIL } from '../../../strings/constants'
 import Image from '../../atoms/Image'
 import search from '../../../../public/assets/icons/search.svg'
+import ExpandIcon from '../../../../public/assets/icons/expand.svg'
 
 const CustomTextField = styled(TextField)(({ theme }) => ({
   '& label.Mui-focused': {
@@ -17,17 +18,32 @@ const CustomTextField = styled(TextField)(({ theme }) => ({
   },
   '& .MuiOutlinedInput-root': {
     color: theme.palette.text.highEmphasis,
-    borderRadius: theme.spacing(2),
     '&.Mui-focused fieldset': {
       border: `${theme.spacing(0.25)} solid ${theme.palette.Greys.stroke}`,
-      borderBottom: 'none',
+      borderBottom: `none !important`,
       borderBottomRightRadius: '0',
       borderBottomLeftRadius: '0',
     },
     '&.Mui-focused .search': {
       display: 'none',
     },
+    '& .search': {
+      marginTop: theme.spacing(2),
+      marginRight: theme.spacing(-3),
+    },
+    '& fieldset': {
+      border: `1px solid ${theme.palette.Greys.stroke} !important`,
+      borderRadius: `${theme.spacing(2)} !important`,
+    },
   },
+}))
+const StyledBox = styled(Box)(({ theme }) => ({
+  border: `1px solid ${theme.palette.grey[300]}`,
+  borderTop: 'none',
+  borderRadius: theme.spacing(2),
+  backgroundColor: theme.palette.structuralColors.white,
+  borderTopRightRadius: '0',
+  borderTopLeftRadius: '0',
 }))
 
 export interface SearchDropdownProps extends BoxProps {
@@ -68,16 +84,29 @@ export default function SearchDropdown(props: SearchDropdownProps) {
               sx: {
                 borderTopRightRadius: '0',
                 borderTopLeftRadius: '0',
+                cursor: 'pointer',
               },
               ...(type === 'search'
                 ? {
                     endAdornment: (
-                      <InputAdornment position="end" className="search">
-                        <Image src={search} alt=""></Image>
-                      </InputAdornment>
+                      <Image
+                        src={search}
+                        className="search"
+                        alt="Search Icon"
+                      />
                     ),
                   }
-                : {}),
+                : {
+                    endAdornment: (
+                      <Stack alignItems="center" justifyContent="center">
+                        <Image
+                          src={ExpandIcon}
+                          alt=""
+                          className="search"
+                        ></Image>
+                      </Stack>
+                    ),
+                  }),
             }}
             variant="outlined"
             theme={theme}
@@ -89,16 +118,7 @@ export default function SearchDropdown(props: SearchDropdownProps) {
           </li>
         )}
         PaperComponent={({ children }) => (
-          <Box
-            sx={{
-              border: `1px solid ${theme.palette.grey[300]}`,
-              borderTop: 'none',
-              borderRadius: theme.spacing(2),
-              backgroundColor: theme.palette.structuralColors.white,
-              borderTopRightRadius: '0',
-              borderTopLeftRadius: '0',
-            }}
-          >
+          <StyledBox>
             {children}
             {variant === 'footer' && (
               <>
@@ -120,7 +140,7 @@ export default function SearchDropdown(props: SearchDropdownProps) {
                 </Stack>
               </>
             )}
-          </Box>
+          </StyledBox>
         )}
         ListboxProps={{ style: { minHeight: minHeight, overflow: 'auto' } }}
       />

@@ -5,10 +5,11 @@ import RecipientDetails from '.'
 import '@testing-library/jest-dom/extend-expect'
 
 describe('Recipient Details', () => {
+  const mockOnClick = jest.fn()
   it('should render the component', () => {
     const { getByTestId } = render(
       <ThemeProvider theme={theme}>
-        <RecipientDetails />
+        <RecipientDetails onClick={mockOnClick} />
       </ThemeProvider>
     )
 
@@ -19,7 +20,7 @@ describe('Recipient Details', () => {
   it('should enable the button if all fields are filled', () => {
     const { getByLabelText, getByText } = render(
       <ThemeProvider theme={theme}>
-        <RecipientDetails />
+        <RecipientDetails onClick={mockOnClick} />
       </ThemeProvider>
     )
     const emailInput = getByLabelText('Email')
@@ -56,7 +57,7 @@ describe('Recipient Details', () => {
   it('should disable the button if any field is empty', () => {
     const { getByLabelText, getByText } = render(
       <ThemeProvider theme={theme}>
-        <RecipientDetails />
+        <RecipientDetails onClick={mockOnClick} />
       </ThemeProvider>
     )
     const emailInput = getByLabelText('Email')
@@ -72,7 +73,7 @@ describe('Recipient Details', () => {
   test('setDetails updates the state with the correct data when valid email is entered', () => {
     render(
       <ThemeProvider theme={theme}>
-        <RecipientDetails />
+        <RecipientDetails onClick={mockOnClick} />
       </ThemeProvider>
     )
 
@@ -87,5 +88,38 @@ describe('Recipient Details', () => {
     expect(screen.getByDisplayValue('Mario')).toBeInTheDocument()
     expect(screen.getByDisplayValue('Gabriel')).toBeInTheDocument()
     expect(screen.getByDisplayValue('123456885865')).toBeInTheDocument()
+  })
+  it('calls onClick with correct values when button is clicked', () => {
+    const { getByText, getByLabelText } = render(
+      <ThemeProvider theme={theme}>
+        <RecipientDetails onClick={mockOnClick} />
+      </ThemeProvider>
+    )
+
+    const emailInput = getByLabelText('Email')
+    fireEvent.change(emailInput, { target: { value: 'test@example.com' } })
+
+    const accountInput = getByLabelText('Account number')
+    fireEvent.change(accountInput, { target: { value: '123456789012' } })
+
+    const firstNameInput = getByLabelText('First name')
+    fireEvent.change(firstNameInput, { target: { value: 'John' } })
+
+    const lastNameInput = getByLabelText('Last name')
+    fireEvent.change(lastNameInput, { target: { value: 'Doe' } })
+
+    const ifscInput = getByLabelText('IFSC code')
+    fireEvent.change(ifscInput, { target: { value: 'ABCD0123456' } })
+
+    const continueButton = getByText('Continue')
+    fireEvent.click(continueButton)
+
+    expect(mockOnClick).toHaveBeenCalledWith({
+      email: 'test@example.com',
+      account: '123456789012',
+      firstName: 'John',
+      lastName: 'Doe',
+      ifsc: 'ABCD0123456',
+    })
   })
 })

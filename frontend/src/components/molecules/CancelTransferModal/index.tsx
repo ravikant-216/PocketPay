@@ -1,5 +1,5 @@
 import React from 'react'
-import ModalBox, { ModalBoxProps } from '../../molecules/ModalBox'
+import ModalBox, { ModalBoxProps } from '../ModalBox'
 import { Stack, styled } from '@mui/material'
 import Typography from '../../atoms/Typography'
 import Button from '../../atoms/Button'
@@ -7,6 +7,7 @@ import Button from '../../atoms/Button'
 interface CancelTransferModalProps extends ModalBoxProps {
   onPositiveAction: React.MouseEventHandler<HTMLButtonElement>
   onNegativeAction: React.MouseEventHandler<HTMLButtonElement>
+  onClose?: () => void
 }
 
 const StyledStack = styled(Stack)(({ theme }) => ({
@@ -34,7 +35,7 @@ const CancelTransferModal: React.FC<CancelTransferModalProps> = ({
   ...props
 }) => {
   return (
-    <ModalBox {...props}>
+    <ModalBox {...props} onClose={props.onClose}>
       <StyledStack>
         <Typography variant="h1">{'Are you sure?'}</Typography>
         <Typography variant="body1" color="text.mediumEmphasis">

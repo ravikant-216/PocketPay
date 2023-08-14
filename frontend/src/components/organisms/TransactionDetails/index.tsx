@@ -42,6 +42,7 @@ export interface TransactionDetailProps {
   senderName: string
   receiverName: string
   transferNumber: string
+  style?: React.CSSProperties
 }
 
 const TextWrapper = styled(Box)({
@@ -191,6 +192,7 @@ const TransactionDetails = (props: TransactionDetailProps) => {
       <CustomAccordion
         sx={{ minWidth: theme.spacing(139.5) }}
         data-testid="transactionDetails"
+        style={props.style}
       >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon sx={{ marginX: '16px' }} />}

@@ -92,6 +92,7 @@ const CountrySelect = ({
       </Box>
       <CustomButton
         variant="contained"
+        data-testid="country-button"
         disabled={
           (inputVariant === 'country' && !countryName) ||
           (inputVariant === 'password' &&

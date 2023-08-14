@@ -1,5 +1,6 @@
 import { Meta, Story } from '@storybook/react'
 import LloydsConfirmation, { LlooydsConfirmationProps } from '.'
+import theme from '../../../theme'
 
 export default {
   title: 'organisms/LloydsConfirmation',
@@ -17,4 +18,7 @@ export const LloydsConfirmationStory = template.bind({})
 LloydsConfirmationStory.args = {
   amount: 75.38,
   currency: 'GBP',
+  style: {
+    width: theme.spacing(129),
+  },
 }

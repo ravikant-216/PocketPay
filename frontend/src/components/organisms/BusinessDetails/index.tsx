@@ -48,7 +48,7 @@ const StyledStack = styled(Stack)(({ theme }) => ({
   },
 
   '& .details': {
-    gap: theme.spacing(10),
+    gap: theme.spacing(7),
     '& > *': {
       display: 'flex',
       flexFlow: 'column wrap',

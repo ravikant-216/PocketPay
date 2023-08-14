@@ -6,7 +6,6 @@ import theme from '../../../theme'
 import {
   CANCEL,
   CHANGE,
-  EDIT,
   REVIEW_ACCOUNT,
   SAVE,
 } from '../../../strings/constants'
@@ -29,7 +28,7 @@ describe('Testing the flow of editing SenderDetails', () => {
       <ReviewTransferDetails onConfirmAndContinue={onConfirmAndContinueMock} />
     )
     act(() => {
-      fireEvent.click(screen.getAllByText(CHANGE)[0])
+      fireEvent.click(screen.getAllByText(CHANGE)[1])
     })
     expect(screen.getByText(REVIEW_ACCOUNT)).toBeInTheDocument()
     expect(screen.getByLabelText('Name')).not.toHaveValue('')
@@ -46,7 +45,7 @@ describe('Testing the flow of editing SenderDetails', () => {
       <ReviewTransferDetails onConfirmAndContinue={onConfirmAndContinueMock} />
     )
     act(() => {
-      fireEvent.click(screen.getAllByText(CHANGE)[0])
+      fireEvent.click(screen.getAllByText(CHANGE)[1])
     })
     expect(screen.getByText(REVIEW_ACCOUNT)).toBeInTheDocument()
     expect(screen.getByLabelText('Name')).not.toHaveValue('')
@@ -66,7 +65,7 @@ describe('Testing the flow of editing TransferDetails', () => {
       <ReviewTransferDetails onConfirmAndContinue={onConfirmAndContinueMock} />
     )
     act(() => {
-      fireEvent.click(screen.getByText(EDIT))
+      fireEvent.click(screen.getAllByText(CHANGE)[0])
     })
     expect(screen.getByText(REVIEW_ACCOUNT)).toBeInTheDocument()
     expect(screen.getByLabelText('Amount')).not.toHaveValue('')
@@ -83,7 +82,7 @@ describe('Testing the flow of editing TransferDetails', () => {
       <ReviewTransferDetails onConfirmAndContinue={onConfirmAndContinueMock} />
     )
     act(() => {
-      fireEvent.click(screen.getAllByText(EDIT)[0])
+      fireEvent.click(screen.getAllByText(CHANGE)[0])
     })
     expect(screen.getByText(REVIEW_ACCOUNT)).toBeInTheDocument()
     expect(screen.getByLabelText('Amount')).not.toHaveValue('')

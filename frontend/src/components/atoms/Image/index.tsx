@@ -10,12 +10,20 @@ export interface ImageProps {
 }
 
 const StyledImage = styled.img`
-  display: 'block';
-  height: 'auto';
+  display: block;
+  height: auto;
 `
 const Image = (props: ImageProps) => {
   return (
-    <Box onClick={props.onClick} sx={{ cursor: 'pointer' }}>
+    <Box
+      onClick={props.onClick}
+      sx={{
+        display: 'inline-block',
+        width: 'fit-content',
+        height: 'fit-content',
+        cursor: 'pointer',
+      }}
+    >
       <StyledImage
         src={props.src}
         alt={props.alt}

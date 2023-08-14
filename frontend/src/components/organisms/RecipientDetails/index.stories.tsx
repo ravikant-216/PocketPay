@@ -1,5 +1,6 @@
 import { Meta, Story } from '@storybook/react'
 import RecipientDetails, { RecipientDetailsProps } from '.'
+import theme from '../../../theme'
 
 export default {
   title: 'organisms/RecipientDetails',
@@ -14,4 +15,8 @@ const template: Story<RecipientDetailsProps> = (args) => (
 
 export const RecipientDetailsStory = template.bind({})
 
-RecipientDetailsStory.args = {}
+RecipientDetailsStory.args = {
+  style: {
+    width: theme.spacing(129),
+  },
+}

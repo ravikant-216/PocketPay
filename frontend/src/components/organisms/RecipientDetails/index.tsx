@@ -22,6 +22,7 @@ interface UserDetails {
 
 export interface RecipientDetailsProps {
   style?: React.CSSProperties
+  onClick: (form: UserDetails) => void
 }
 const StyledContainer = styled(Box)({
   display: 'flex',
@@ -75,6 +76,7 @@ const RecipientDetails = (props: RecipientDetailsProps) => {
       const data = USER_DETAIL.find((item) => item.email === value)
       if (data) {
         setDetails(data)
+        setValues(data)
       } else {
         setDetails(undefined)
       }
@@ -84,15 +86,15 @@ const RecipientDetails = (props: RecipientDetailsProps) => {
   const validateFields = () => {
     return (
       new RegExp(Email_REGEX).test(values.email) &&
-      values.account.length >= 12 &&
-      values.firstName.length >= 5 &&
-      values.lastName.length >= 5 &&
+      values.account.length == 12 &&
+      values.firstName.length >= 3 &&
+      values.lastName.length >= 3 &&
       values.ifsc.length == 11
     )
   }
 
   return (
-    <OuterContainer {...props} data-testid="recipientDetails">
+    <OuterContainer style={props.style} data-testid="recipientDetails">
       <StyledContainer>
         <Typography variant="h1" color="text.highEmphasis">
           Send to Someone
@@ -158,6 +160,9 @@ const RecipientDetails = (props: RecipientDetailsProps) => {
         <CustomButton
           variant="contained"
           disabled={(details ? false : !validateFields()) || values.email == ''}
+          onClick={() => {
+            props.onClick(values)
+          }}
         >
           {RECIPIENT_DETAILS_CONTINUE}
         </CustomButton>

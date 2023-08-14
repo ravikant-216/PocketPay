@@ -1,5 +1,6 @@
 import { Meta, Story } from '@storybook/react'
 import ChooseBank, { ChooseBankProps } from '.'
+import theme from '../../../theme'
 
 export default {
   title: 'organisms/ChooseBank',
@@ -13,6 +14,9 @@ const template: Story<ChooseBankProps> = (args) => <ChooseBank {...args} />
 export const ChooseBankStory = template.bind({})
 
 ChooseBankStory.args = {
+  style: {
+    width: theme.spacing(129),
+  },
   onClickHandler: () => {
     console.log('clicked Lloyds Bank')
   },

@@ -14,7 +14,7 @@ export const TabsStory = template.bind({})
 TabsStory.args = {
   tabs: [
     { label: 'Updates', content: <div>Update Tab</div> },
-    { label: 'check', content: '' },
+    { label: 'check', content: 'Checks Tab' },
   ],
-  value: 1,
+  value: 0,
 }

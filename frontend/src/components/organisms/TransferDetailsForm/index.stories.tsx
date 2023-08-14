@@ -2,6 +2,7 @@ import React from 'react'
 import { Story, Meta } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import TransferDetailsForm, { TransferDetailsProps } from '.'
+import theme from '../../../theme'
 
 export default {
   title: 'Organisms/TransferDetailsForm',
@@ -19,4 +20,7 @@ Default.args = {
   amountRate: '77.74 GBP',
   guaranteedRate: '1 GBP = 1.14 EUR',
   saveOnClick: action('saveOnClick'),
+  style: {
+    width: theme.spacing(129),
+  },
 }

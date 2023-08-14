@@ -35,6 +35,21 @@ describe('DirectorInputField', () => {
     const icon = getByText('Add another director')
     fireEvent.click(icon)
     expect(getAllByText('First Name').length).toBe(4)
+    const icon1 = getByText('Remove director')
+    fireEvent.click(icon1)
+    expect(getAllByText('First Name').length).toBe(2)
+  })
+  it('adds another form on icon click', () => {
+    const mockOnClick = jest.fn()
+    const { getByText, getAllByText } = renderWithTheme(
+      <DirectorInputField variant="owner" buttonOnClick={mockOnClick} />
+    )
+    const icon = getByText('Add another owner')
+    fireEvent.click(icon)
+    expect(getAllByText('First Name').length).toBe(4)
+    const icon1 = getByText('Remove owner')
+    fireEvent.click(icon1)
+    expect(getAllByText('First Name').length).toBe(2)
   })
   it('handles last name input change', () => {
     const mockOnClick = jest.fn()

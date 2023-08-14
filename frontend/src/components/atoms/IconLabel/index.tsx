@@ -21,7 +21,7 @@ const IconLabel = ({
     <Box>
       <Stack
         direction="row"
-        gap={theme.spacing(3)}
+        columnGap={theme.spacing(3)}
         alignItems="center"
         style={style}
         onClick={onClick}

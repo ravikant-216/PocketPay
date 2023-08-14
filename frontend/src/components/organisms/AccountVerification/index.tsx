@@ -12,6 +12,10 @@ import styled from '@emotion/styled'
 import { Box, Stack } from '@mui/material'
 import theme from '../../../theme'
 
+export interface AccountVerificationProps {
+  onClick?: () => void
+  style?: React.CSSProperties
+}
 const ContentWrapper = styled(Box)({
   display: 'flex',
   height: theme.spacing(180),
@@ -28,7 +32,7 @@ const DropDownWrapper = styled(Box)({
   gap: theme.spacing(7),
 })
 
-const AccountVerification = () => {
+const AccountVerification = (props: AccountVerificationProps) => {
   const accountVerificationData = {
     category: '',
     subcategory: '',
@@ -53,7 +57,7 @@ const AccountVerification = () => {
   console.log(value.businessSize)
   return (
     <>
-      <ContentWrapper data-testid="accountVerification">
+      <ContentWrapper data-testid="accountVerification" style={props.style}>
         <Stack direction={'column'} flex={1} gap={theme.spacing(13)}>
           <TextWrapper>
             <Typography variant="h1" color="text.highEmpahis">
@@ -102,6 +106,7 @@ const AccountVerification = () => {
             variant="contained"
             disabled={isContinueButtonDisabled}
             data-testid={'continue'}
+            onClick={props.onClick}
           >
             {CONTINUE_BUTTON}
           </CustomButton>

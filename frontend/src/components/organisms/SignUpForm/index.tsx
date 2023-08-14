@@ -22,7 +22,7 @@ import { Box, Divider, Stack } from '@mui/material'
 import theme from '../../../theme'
 
 export interface SignUpWrapperProps {
-  sx?: React.CSSProperties
+  style?: React.CSSProperties
 }
 
 const SignUpFromWrapper = styled(Box)({
@@ -67,7 +67,7 @@ const SignUpForm = (props: SignUpWrapperProps) => {
 
   return (
     <>
-      <SignUpFromWrapper {...props} data-testid="SignUpForm">
+      <SignUpFromWrapper style={props.style} data-testid="SignUpForm">
         <InnerWrapper>
           <Typography
             variant="h1"

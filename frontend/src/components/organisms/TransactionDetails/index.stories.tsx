@@ -1,5 +1,6 @@
 import { Meta, Story } from '@storybook/react'
 import TransactionDetails, { TransactionDetailProps } from '.'
+import theme from '../../../theme'
 
 export default {
   title: 'organisms/TransactionDetails',
@@ -23,4 +24,7 @@ TransactionDetailsStory.args = {
   sendingAmount: '100',
   recievingAmount: '114.89',
   transferNumber: '3227627272',
+  style: {
+    width: theme.spacing(129),
+  },
 }

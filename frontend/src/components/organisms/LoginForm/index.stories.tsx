@@ -1,6 +1,7 @@
 import React from 'react'
 import { Meta, Story } from '@storybook/react'
 import SignIn, { SignInProps } from '.'
+import theme from '../../../theme'
 
 export default {
   title: 'organisms/SignIn',
@@ -20,3 +21,8 @@ export default {
 const Template: Story<SignInProps> = (args) => <SignIn {...args} />
 
 export const Default = Template.bind({})
+Default.args = {
+  style: {
+    width: theme.spacing(129),
+  },
+}

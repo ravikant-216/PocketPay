@@ -30,7 +30,7 @@ import {
 
 const StyledStack = styled(Stack)(({ theme }) => ({
   width: theme.spacing(57.5),
-  height: '100%',
+  height: '100vh',
   maxWidth: theme.spacing(57.5),
 
   // layout
@@ -53,12 +53,35 @@ const StyledStack = styled(Stack)(({ theme }) => ({
     paddingRight: theme.spacing(4.5),
   },
 
+  '& .sp-label': {
+    display: 'flex',
+    flexFlow: 'row wrap',
+    alignItems: 'center',
+    gap: theme.spacing(6.25),
+  },
+
+  '& .chip': {
+    display: 'flex',
+    width: theme.spacing(15.75),
+    height: theme.spacing(6.5),
+    padding: `${theme.spacing(1)} ${theme.spacing(3)} ${theme.spacing(
+      0.5
+    )} ${theme.spacing(3)}`,
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: theme.spacing(2.5),
+    flexShrink: 0,
+    borderRadius: theme.spacing(4),
+    background: theme.palette.structuralColors.buttonHover,
+    color: theme.palette.primary[500],
+  },
+
   '& .logo': {
+    margin: '0 auto',
     marginBottom: theme.spacing(9.25),
     width: theme.spacing(25.75),
     height: theme.spacing(5.5),
     flexShrink: 0,
-    alignSelf: 'center',
   },
 }))
 
@@ -126,7 +149,7 @@ const SideNavigation: React.FC<SideNavigationProps> = ({ newUser }) => {
 
   function renderItems(items: IconLabelPropType[]) {
     return items.map((item) => (
-      <IconLabel color="text.mediumEmphasis" key={item.iconTitle} {...item} />
+      <IconLabel color="text.mediumEmphasis" key={item.alt} {...item} />
     ))
   }
 
@@ -134,7 +157,7 @@ const SideNavigation: React.FC<SideNavigationProps> = ({ newUser }) => {
     <StyledStack data-testid="SideNavigation">
       <Image className="logo" src={PocketPayLogo} alt="Pocket Pay Logo" />
       <Stack className="nav-items-group">{renderItems(navItems)}</Stack>
-      {newUser && (
+      {!newUser && (
         <>
           <Divider />
           <Stack className="nav-items-group">

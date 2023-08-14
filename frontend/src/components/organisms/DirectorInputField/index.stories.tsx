@@ -1,6 +1,7 @@
 import React from 'react'
 import { Story, Meta } from '@storybook/react'
 import DirectorInputField, { DirectorInputFieldProps } from '.'
+import theme from '../../../theme'
 
 export default {
   title: 'organisms/DirectorInputField',
@@ -21,9 +22,10 @@ const Template: Story<DirectorInputFieldProps> = (args) => (
 
 export const Default = Template.bind({})
 Default.args = {
-  buttonWidth: '126px',
+  buttonWidth: theme.spacing(31.5),
   sx: {
-    minWidth: '642px',
+    minWidth: theme.spacing(160.5),
+    width: theme.spacing(129),
   },
   variant: 'director',
 }

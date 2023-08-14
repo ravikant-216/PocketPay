@@ -1,5 +1,6 @@
 import { Meta, Story } from '@storybook/react'
 import RecipientType, { RecipientTypeProps } from '.'
+import theme from '../../../theme'
 
 export default {
   title: 'organisms/RecipientType',
@@ -21,5 +22,8 @@ RecipientTypeStory.args = {
   },
   onClickSendMoneyHandler: () => {
     console.log('send money clicked')
+  },
+  style: {
+    width: theme.spacing(129),
   },
 }

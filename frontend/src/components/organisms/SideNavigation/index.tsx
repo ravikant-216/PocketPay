@@ -1,4 +1,4 @@
-import { Divider, Stack, styled } from '@mui/material'
+import { Divider, Stack, StackProps, styled } from '@mui/material'
 import Image from '../../atoms/Image'
 import IconLabel, { IconLabelPropType } from '../../atoms/IconLabel'
 import PocketPayLogo from '../../../../public/assets/icons/pocketpay.svg'
@@ -85,11 +85,14 @@ const StyledStack = styled(Stack)(({ theme }) => ({
   },
 }))
 
-interface SideNavigationProps {
+export interface SideNavigationProps extends StackProps {
   newUser: boolean
 }
 
-const SideNavigation: React.FC<SideNavigationProps> = ({ newUser }) => {
+const SideNavigation: React.FC<SideNavigationProps> = ({
+  newUser,
+  ...rest
+}) => {
   const navItems: IconLabelPropType[] = [
     {
       src: HomeIcon,
@@ -154,7 +157,7 @@ const SideNavigation: React.FC<SideNavigationProps> = ({ newUser }) => {
   }
 
   return (
-    <StyledStack data-testid="SideNavigation">
+    <StyledStack data-testid="SideNavigation" {...rest}>
       <Image className="logo" src={PocketPayLogo} alt="Pocket Pay Logo" />
       <Stack className="nav-items-group">{renderItems(navItems)}</Stack>
       {!newUser && (

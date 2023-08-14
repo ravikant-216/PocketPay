@@ -1,35 +1,28 @@
 import styled from '@emotion/styled'
-import { Box } from '@mui/material'
+import { Box, BoxProps } from '@mui/material'
 
-export interface ImageProps {
-  style?: React.CSSProperties
+export interface ImageProps extends BoxProps {
   alt: string
   src?: string
-  className?: string
-  onClick?: () => void
 }
 
 const StyledImage = styled.img`
   display: block;
   height: auto;
 `
-const Image = (props: ImageProps) => {
+const Image: React.FC<ImageProps> = ({ sx, alt, src, ...rest }) => {
   return (
     <Box
-      onClick={props.onClick}
       sx={{
         display: 'inline-block',
         width: 'fit-content',
         height: 'fit-content',
         cursor: 'pointer',
+        ...sx,
       }}
+      {...rest}
     >
-      <StyledImage
-        src={props.src}
-        alt={props.alt}
-        className={props.className}
-        style={props.style}
-      />
+      <StyledImage src={src} alt={alt} />
     </Box>
   )
 }

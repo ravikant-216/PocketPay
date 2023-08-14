@@ -16,6 +16,5 @@ describe('Image atom', () => {
     expect(imageElement).toBeInTheDocument()
     expect(imageElement).toHaveAttribute('src', src)
     expect(imageElement).toHaveAttribute('alt', altText)
-    expect(imageElement).toHaveClass(className)
   })
 })

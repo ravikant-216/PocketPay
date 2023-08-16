@@ -116,4 +116,54 @@ describe('TransactionDetails', () => {
     fireEvent.click(cancelTransferButton)
     expect(transferCancelationModal).not.toBeInTheDocument()
   })
+
+  it('should close the model when background is clicked', () => {
+    const { getByTestId } = render(
+      <ThemeProvider theme={theme}>
+        <TransactionDetails
+          transactionStatus={'Sending'}
+          sendingAmount={'100'}
+          recievingAmount={'114.89'}
+          sendingCurrency={'GBP'}
+          recievingCurrency={'EUR'}
+          senderName={'Ross Gener'}
+          receiverName={'Mario Gabriel'}
+          transferNumber={'3227627272'}
+        />
+      </ThemeProvider>
+    )
+    const cancelButton = screen.getByTestId('cancelButton')
+    fireEvent.click(cancelButton)
+    const transferCancelationModal = getByTestId('transferCancelationModal')
+    expect(transferCancelationModal).toBeInTheDocument()
+    const overlay = screen.getByTestId('modalOverlay')
+    fireEvent.click(overlay)
+    expect(transferCancelationModal).not.toBeInTheDocument()
+  })
+
+  it('should close tracking share card modal when background is clicked', () => {
+    const { getByTestId } = render(
+      <ThemeProvider theme={theme}>
+        <TransactionDetails
+          transactionStatus={'Sending'}
+          sendingAmount={'100'}
+          recievingAmount={'114.89'}
+          sendingCurrency={'GBP'}
+          recievingCurrency={'EUR'}
+          senderName={'Ross Gener'}
+          receiverName={'Mario Gabriel'}
+          transferNumber={'3227627272'}
+        />
+      </ThemeProvider>
+    )
+
+    const shareIconElement = screen.getByAltText('shareIcon')
+    fireEvent.click(shareIconElement)
+
+    const trackingShareModal = getByTestId('trackingShareModal')
+    expect(trackingShareModal).toBeInTheDocument()
+    const overlay = screen.getByTestId('modalOverlay')
+    fireEvent.click(overlay)
+    expect(trackingShareModal).not.toBeInTheDocument()
+  })
 })

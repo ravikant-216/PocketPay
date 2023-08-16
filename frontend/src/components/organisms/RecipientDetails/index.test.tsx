@@ -90,6 +90,7 @@ describe('Recipient Details', () => {
     expect(screen.getByDisplayValue('123456885865')).toBeInTheDocument()
   })
   it('calls onClick with correct values when button is clicked', () => {
+    const mockOnClick = jest.fn()
     const { getByText, getByLabelText } = render(
       <ThemeProvider theme={theme}>
         <RecipientDetails onClick={mockOnClick} />
@@ -121,5 +122,32 @@ describe('Recipient Details', () => {
       lastName: 'Doe',
       ifsc: 'ABCD0123456',
     })
+  })
+  it('should empty other fields when email field is empty', () => {
+    const { getByLabelText } = render(
+      <ThemeProvider theme={theme}>
+        <RecipientDetails onClick={mockOnClick} />
+      </ThemeProvider>
+    )
+
+    const emailInput = getByLabelText('Email')
+    const accountInput = getByLabelText('Account number')
+    const firstNameInput = getByLabelText('First name')
+    const lastNameInput = getByLabelText('Last name')
+    const ifscInput = getByLabelText('IFSC code')
+
+    fireEvent.change(emailInput, {
+      target: { value: 'mario.gabriel@gmail.com' },
+    })
+
+    fireEvent.change(emailInput, {
+      target: { value: '' },
+    })
+
+    expect(emailInput.getAttribute('value')).toBe('')
+    expect(accountInput.getAttribute('value')).toBe('')
+    expect(firstNameInput.getAttribute('value')).toBe('')
+    expect(lastNameInput.getAttribute('value')).toBe('')
+    expect(ifscInput.getAttribute('value')).toBe('')
   })
 })

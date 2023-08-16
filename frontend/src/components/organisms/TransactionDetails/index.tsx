@@ -32,6 +32,7 @@ import VerticalStepper from '../../molecules/VerticalStepper'
 import TrackingShareCard from '../../molecules/TrackingShareCard'
 import CustomButton from '../../atoms/Button'
 import TransferCancelationModal from '../TransferCancelationModal'
+import LabelValue from '../../molecules/LabelValue'
 
 export interface TransactionDetailProps {
   transactionStatus: 'Sending' | 'Cancelled'
@@ -56,12 +57,6 @@ const CustomAccordion = styled(Accordion)({
   },
 
   '& .MuiAccordionSummary-root': { paddingRight: '20px' },
-})
-
-const TextDetailWrapper = styled(Box)({
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
 })
 
 const GeneralWidgetWrapper = styled(Box)({
@@ -119,25 +114,31 @@ const TransactionDetails = (props: TransactionDetailProps) => {
                 sx={{
                   flexDirection: 'column',
                   display: 'flex',
-                  width: theme.spacing(100),
+                  width: theme.spacing(120),
+                  gap: theme.spacing(4),
                 }}
               >
-                <TextDetailWrapper>
-                  <Typography variant="body2" color="text.mediumEmphasis">
-                    {SET_UP_BY}
-                  </Typography>
-                  <Typography variant="body2" color="text.highEmphasis">
-                    {props.senderName} (YOU)
-                  </Typography>
-                </TextDetailWrapper>
-                <TextDetailWrapper>
-                  <Typography variant="body2" color="text.mediumEmphasis">
-                    {TRANSFER_NUMBER}
-                  </Typography>
-                  <Typography variant="body2" color="text.highEmphasis">
-                    {`#${props.transferNumber}`}
-                  </Typography>
-                </TextDetailWrapper>
+                <LabelValue
+                  info={SET_UP_BY}
+                  description={`${props.senderName} (YOU)`}
+                  infoVar={'body2'}
+                  descVar={'body2'}
+                  direction={'row'}
+                  infoColor={theme.palette.text.mediumEmphasis}
+                  descColor={theme.palette.text.highEmphasis}
+                  gap={theme.spacing(44.5)}
+                />
+
+                <LabelValue
+                  info={TRANSFER_NUMBER}
+                  description={`#${props.transferNumber}`}
+                  infoVar={'body2'}
+                  descVar={'body2'}
+                  direction={'row'}
+                  infoColor={theme.palette.text.mediumEmphasis}
+                  descColor={theme.palette.text.highEmphasis}
+                  gap={theme.spacing(44.5)}
+                />
               </Box>
 
               {transactionStatus === 'Cancelled' ? (
@@ -195,7 +196,7 @@ const TransactionDetails = (props: TransactionDetailProps) => {
         style={props.style}
       >
         <AccordionSummary
-          expandIcon={<ExpandMoreIcon sx={{ marginX: '16px' }} />}
+          expandIcon={<ExpandMoreIcon sx={{ marginX: theme.spacing(4) }} />}
         >
           <Box
             display={'flex'}
@@ -240,7 +241,7 @@ const TransactionDetails = (props: TransactionDetailProps) => {
             </Box>
           </Box>
         </AccordionSummary>
-        <AccordionDetails sx={{ padding: 0, height: theme.spacing(114) }}>
+        <AccordionDetails sx={{ padding: 0, height: theme.spacing(120) }}>
           <StyledDivider variant="middle" />
           <HeaderContent>
             <GeneralWidgetWrapper>
@@ -260,7 +261,9 @@ const TransactionDetails = (props: TransactionDetailProps) => {
 
           <TabsComponent
             tabs={TABS}
-            sx={{ '& .MuiTabs-flexContainer': { paddingLeft: '30px' } }}
+            sx={{
+              '& .MuiTabs-flexContainer': { paddingLeft: theme.spacing(7.5) },
+            }}
           />
         </AccordionDetails>
       </CustomAccordion>
@@ -281,6 +284,7 @@ const TransactionDetails = (props: TransactionDetailProps) => {
           setShowCancelModal(false)
         }}
         open={showCancelModal}
+        onClose={() => setShowCancelModal(false)}
       />
     </>
   )

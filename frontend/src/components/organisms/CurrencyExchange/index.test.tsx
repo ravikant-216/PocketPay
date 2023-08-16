@@ -163,4 +163,22 @@ describe('CurrencyExchange', () => {
       recipientCountry: 'USD',
     })
   })
+
+  it('should close the modal when background is clicked', () => {
+    const { getByText } = render(
+      <ThemeProvider theme={theme}>
+        <CurrencyExchange onClick={mockOnClick} />
+      </ThemeProvider>
+    )
+    const senderInput = screen.getByTestId('senderInput')
+    const input = senderInput.querySelector('.senderInput')
+    const continueButton = getByText('Continue')
+    expect(continueButton).toBeDisabled()
+    fireEvent.change(input as HTMLInputElement, { target: { value: 75 } })
+    fireEvent.click(continueButton)
+
+    const overlay = screen.getByTestId('modalOverlay')
+    fireEvent.click(overlay)
+    expect(screen.queryByTestId('modalContent')).not.toBeInTheDocument()
+  })
 })

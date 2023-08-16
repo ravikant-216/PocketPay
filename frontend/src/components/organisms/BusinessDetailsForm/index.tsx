@@ -96,9 +96,7 @@ export default function BusinessDetailsForm({
             flexDirection: 'column',
           }}
         >
-          <Typography variant="h1" sx={{ marginBottom: theme.spacing(3) }}>
-            {REVIEW_ACCOUNT}
-          </Typography>
+          <Typography variant="h1">{REVIEW_ACCOUNT}</Typography>
           <Typography variant="caption" color="text.lowEmphasis">
             {BUSINESS_DETAILS}
           </Typography>

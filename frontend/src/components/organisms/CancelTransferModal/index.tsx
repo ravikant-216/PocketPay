@@ -1,5 +1,5 @@
 import React from 'react'
-import ModalBox, { ModalBoxProps } from '../ModalBox'
+import ModalBox, { ModalBoxProps } from '../../molecules/ModalBox'
 import { Stack, styled } from '@mui/material'
 import Typography from '../../atoms/Typography'
 import Button from '../../atoms/Button'

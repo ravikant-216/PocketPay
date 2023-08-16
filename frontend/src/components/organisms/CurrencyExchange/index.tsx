@@ -1,5 +1,4 @@
 import { Box, Divider, Stack } from '@mui/material'
-
 import InputField from '../../atoms/InputField'
 import Typography from '../../atoms/Typography'
 import info from '../../../../public/assets/icons/info.svg'
@@ -79,7 +78,7 @@ const IconBox = styled(Box)({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  gap: theme.spacing(0.25),
+  gap: theme.spacing(1),
 })
 
 const ButtonWrapper = styled(Box)({

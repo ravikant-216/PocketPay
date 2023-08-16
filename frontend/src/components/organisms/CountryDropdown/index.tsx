@@ -99,7 +99,9 @@ export default function CountryDropdown({
               fontSize: theme.spacing(4.25),
               '&:hover fieldset': {
                 border: `1px solid ${theme.palette.Greys.stroke} !important`,
-                borderBottom: `2px solid ${theme.palette.primary[500]} !important`,
+                borderBottom: `${theme.spacing(0.625)} ${
+                  theme.palette.primary[500]
+                } !important`,
               },
               '&.placeholder fieldset': {
                 color: 'text.lowEmphasis',

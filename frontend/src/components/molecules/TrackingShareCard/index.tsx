@@ -72,6 +72,8 @@ const TrackingShareCard = (props: TrackingShareCardProps) => {
               borderColor={theme.palette.primary[500]}
               onclick={props.onClickEmail}
               data-testid="email-icon"
+              width={theme.spacing(7.5)}
+              height={theme.spacing(7.5)}
             />
             <Typography
               variant="body3"
@@ -88,6 +90,8 @@ const TrackingShareCard = (props: TrackingShareCardProps) => {
               borderRadius={theme.spacing(12.5)}
               onclick={props.onClickShare}
               data-testid="share-icon"
+              width={theme.spacing(7.5)}
+              height={theme.spacing(7.5)}
             />
             <Typography
               variant="body3"

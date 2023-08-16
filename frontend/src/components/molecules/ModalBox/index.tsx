@@ -36,11 +36,14 @@ const Modal = styled(Box)(
 )
 
 const ModalBox = (props: ModalBoxProps) => {
+  const handleClick = (event: React.MouseEvent) => {
+    event.stopPropagation()
+  }
   return (
     <>
       {props.open && (
-        <ModalOverlay onClick={props.onClose}>
-          <Modal {...props} sx={props.style}>
+        <ModalOverlay onClick={props.onClose} data-testid="modalOverlay">
+          <Modal {...props} sx={props.style} onClick={handleClick}>
             {props.children}
           </Modal>
         </ModalOverlay>

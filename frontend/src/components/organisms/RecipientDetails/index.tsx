@@ -34,6 +34,7 @@ const StyledContainer = styled(Box)({
 const OuterContainer = styled(Box)({
   display: 'flex',
   width: '100%',
+  height: '650px',
 })
 
 const ButtonWrapper = styled(Box)({
@@ -80,6 +81,10 @@ const RecipientDetails = (props: RecipientDetailsProps) => {
       } else {
         setDetails(undefined)
       }
+    }
+
+    if (name === 'email' && value == '') {
+      setValues(initalValues)
     }
   }
 

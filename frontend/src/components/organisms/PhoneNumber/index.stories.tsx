@@ -26,11 +26,3 @@ India.args = {
     width: theme.spacing(129),
   },
 }
-
-export const USA = Template.bind({})
-USA.args = {
-  country: 'United States',
-  style: {
-    width: theme.spacing(129),
-  },
-}

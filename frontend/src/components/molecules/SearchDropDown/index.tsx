@@ -11,6 +11,7 @@ import { BUSINESS_NOT_MESSAGE, ENTER_DETAIL } from '../../../strings/constants'
 import Image from '../../atoms/Image'
 import search from '../../../../public/assets/icons/search.svg'
 import ExpandIcon from '../../../../public/assets/icons/expand.svg'
+import { useState } from 'react'
 
 const CustomTextField = styled(TextField)(({ theme }) => ({
   '& label.Mui-focused': {
@@ -34,6 +35,7 @@ const CustomTextField = styled(TextField)(({ theme }) => ({
     '& fieldset': {
       border: `1px solid ${theme.palette.Greys.stroke} !important`,
       borderRadius: `${theme.spacing(2)} !important`,
+      borderBottom: `none !important`,
     },
   },
 }))
@@ -68,6 +70,8 @@ export default function SearchDropdown(props: SearchDropdownProps) {
     ...boxProps
   } = props
 
+  const [listboxActive, setListboxActive] = useState(false)
+
   return (
     <Box {...boxProps}>
       <Autocomplete
@@ -85,6 +89,10 @@ export default function SearchDropdown(props: SearchDropdownProps) {
                 borderTopRightRadius: '0',
                 borderTopLeftRadius: '0',
                 cursor: 'pointer',
+                borderRadius: `${theme.spacing(2)}`,
+                borderBottom: listboxActive
+                  ? 'none'
+                  : `1px solid ${theme.palette.Greys.stroke}`,
               },
               ...(type === 'search'
                 ? {
@@ -142,6 +150,8 @@ export default function SearchDropdown(props: SearchDropdownProps) {
             )}
           </StyledBox>
         )}
+        onOpen={() => setListboxActive(true)}
+        onClose={() => setListboxActive(false)}
         ListboxProps={{ style: { minHeight: minHeight, overflow: 'auto' } }}
       />
     </Box>

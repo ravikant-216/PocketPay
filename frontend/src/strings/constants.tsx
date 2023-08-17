@@ -365,3 +365,16 @@ export const TRANSACTION_DETAIL_CANCEL_SUBHEADING =
 export const TRANSFER_NUMBER = 'Transfer number:'
 export const GENERAL = 'General'
 export const SET_UP_BY = 'Set up by:'
+
+export const TRADING_ADDRESS_HEADING = 'Confirm trading address'
+export const TRADING_ADDRESS_SUBHEADING =
+  'Your trading address is usually the place you work every day. If thebusiness has multiple trading addresses, add as many as possible'
+export const TRADING_ADDRESS = [
+  {
+    address:
+      '#2097, Triveni Main Rd, Gokula 1st Stage, Nanjappa Reddy Colony, Yeswanthpur, Bengaluru, Karnataka 560054',
+  },
+]
+export const TRADING_ADDRESSES = 'Trading addresses'
+export const ADD_TRADING_ADDRESS = 'Add trading Address'
+export const ADD = 'Add'

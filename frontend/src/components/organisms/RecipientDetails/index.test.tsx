@@ -150,4 +150,42 @@ describe('Recipient Details', () => {
     expect(lastNameInput.getAttribute('value')).toBe('')
     expect(ifscInput.getAttribute('value')).toBe('')
   })
+  it('should render messages when given validation fails', () => {
+    const { getByLabelText } = render(
+      <ThemeProvider theme={theme}>
+        <RecipientDetails onClick={mockOnClick} />
+      </ThemeProvider>
+    )
+
+    const emailInput = getByLabelText('Email')
+    const ifscInput = getByLabelText('IFSC code')
+    const accountInput = getByLabelText('Account number')
+
+    fireEvent.change(emailInput, {
+      target: { value: 'mario.gabriel@gmail.com' },
+    })
+
+    fireEvent.change(emailInput, {
+      target: { value: '' },
+    })
+
+    fireEvent.change(emailInput, {
+      target: { value: 'user@gmail' },
+    })
+    fireEvent.change(ifscInput, {
+      target: { value: '123' },
+    })
+
+    fireEvent.change(accountInput, {
+      target: { value: '133' },
+    })
+
+    const emailError = screen.getByText('Invalid email address')
+    const ifscError = screen.getByText('Invalid ifsc code')
+
+    const accountError = screen.getByText('Invalid account number')
+    expect(emailError).toBeInTheDocument()
+    expect(ifscError).toBeInTheDocument()
+    expect(accountError).toBeInTheDocument()
+  })
 })

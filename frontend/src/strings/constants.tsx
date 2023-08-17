@@ -236,6 +236,7 @@ export const SELECT_CURRENCY_ARRAY = [
     countryImageAlt="Andorra Flag"
     countryCurrencyCode="EUR"
     sx={{ width: '100%' }}
+    currencyValue={90.27}
   />,
   <CountryCurrencyCard
     key="India"
@@ -245,6 +246,7 @@ export const SELECT_CURRENCY_ARRAY = [
     countryImageAlt="India Flag"
     countryCurrencyCode="INR"
     sx={{ width: '100%' }}
+    currencyValue={1}
   />,
   <CountryCurrencyCard
     key="United Kingdom"
@@ -254,6 +256,7 @@ export const SELECT_CURRENCY_ARRAY = [
     countryImageAlt="Uk Flag"
     countryCurrencyCode="GBP"
     sx={{ width: '100%' }}
+    currencyValue={105}
   />,
   <CountryCurrencyCard
     key="United States"
@@ -263,9 +266,9 @@ export const SELECT_CURRENCY_ARRAY = [
     countryImageAlt="US Flag"
     countryCurrencyCode="USD"
     sx={{ width: '100%' }}
+    currencyValue={83}
   />,
 ]
-export const CURRENCY_VALUE = 75
 export const DEFAULT_SENDER = SELECT_CURRENCY_ARRAY[1]
 export const LOW_COST_TRANSFER = 'Low cost transfer fee:'
 export const TRANSFER_FEE = 'From 3.69GBP'

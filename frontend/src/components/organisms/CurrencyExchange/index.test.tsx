@@ -150,15 +150,15 @@ describe('CurrencyExchange', () => {
     const input = senderInput.querySelector('.senderInput')
     const continueButton = getByText('Continue')
     expect(continueButton).toBeDisabled
-    fireEvent.change(input as HTMLInputElement, { target: { value: 75 } })
+    fireEvent.change(input as HTMLInputElement, { target: { value: 1 } })
 
     fireEvent.click(continueButton)
     const modalButton = screen.getByTestId('modalButton')
     fireEvent.click(modalButton)
 
     expect(mockOnClick).toHaveBeenCalledWith({
-      senderAmount: '75',
-      recipientAmount: '5625',
+      senderAmount: '1',
+      recipientAmount: '0.012',
       senderCountry: 'INR',
       recipientCountry: 'USD',
     })

@@ -21,6 +21,7 @@ export interface CountryCurrencCardProps extends MenuItemProps {
   countryCurrencyCode: string
   countryName: string
   iconTitle?: string
+  currencyValue?: number
 }
 
 const CountryCurrencyCard: React.FC<CountryCurrencCardProps> = ({

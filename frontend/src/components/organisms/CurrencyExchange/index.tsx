@@ -11,7 +11,6 @@ import {
   AGREE,
   CURRENCY_EXCHANGE_CONTINUE,
   CURRENCY_EXCHANGE_TRANSFER,
-  CURRENCY_VALUE,
   DEFAULT_SENDER,
   GURANTEED_RATE,
   GURANTEED_RATE_VALUE,
@@ -33,6 +32,7 @@ interface CurrencyCardProps {
   countryImageSrc?: string
   countryImageAlt?: string
   countryCurrencyCode?: string
+  currencyValue: number
 }
 interface Data {
   senderAmount?: string
@@ -144,6 +144,7 @@ const CurrencyExchange = (props: CurrencyExchangeProps) => {
         countryImageSrc: card.props.countryImageSrc,
         countryImageAlt: card.props.countryImageAlt,
         countryCurrencyCode: card.props.countryCurrencyCode,
+        currencyValue: card.props.currencyValue,
       }
       if (!receiver) {
         setSenderCurrencyCard(updatedCard)
@@ -167,6 +168,10 @@ const CurrencyExchange = (props: CurrencyExchangeProps) => {
     const value = e.target.value.trim()
     setInput(value)
   }
+  const reciverCurrencyValue = (
+    (senderCurrencyCard.currencyValue / receiverCurrencyCard.currencyValue) *
+    Number(input)
+  ).toFixed(3)
 
   const ModalContent = () => {
     return (
@@ -183,7 +188,7 @@ const CurrencyExchange = (props: CurrencyExchangeProps) => {
             onClick={() => {
               props.onClick({
                 senderAmount: input,
-                recipientAmount: String(Number(input) * CURRENCY_VALUE),
+                recipientAmount: String(reciverCurrencyValue),
                 senderCountry: senderCurrencyCard.countryCurrencyCode,
                 recipientCountry: receiverCurrencyCard.countryCurrencyCode,
               })
@@ -264,7 +269,7 @@ const CurrencyExchange = (props: CurrencyExchangeProps) => {
                     </Stack>
                   }
                   disabled
-                  value={input ? Number(input) * CURRENCY_VALUE : ''}
+                  value={input ? String(reciverCurrencyValue) : ''}
                   data-testid="recieverInput"
                   type="number"
                 />

@@ -16,5 +16,4 @@ TabsStory.args = {
     { label: 'Updates', content: <div>Update Tab</div> },
     { label: 'check', content: 'Checks Tab' },
   ],
-  value: 0,
 }

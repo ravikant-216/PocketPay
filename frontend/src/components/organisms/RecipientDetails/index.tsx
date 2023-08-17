@@ -49,6 +49,9 @@ interface UserDetails {
   lastName: string
   ifsc: string
 }
+const ACCOUNT_NUMBER_LENGTH = 12
+const IFSC_CODE_LENGTH = 11
+const MIN_NAME_LENGTH = 3
 
 const RecipientDetails = (props: RecipientDetailsProps) => {
   const [details, setDetails] = useState<UserDetails | undefined>({
@@ -68,12 +71,24 @@ const RecipientDetails = (props: RecipientDetailsProps) => {
 
   const [values, setValues] = useState(initalValues)
 
+  const [accountError, setAccountError] = useState('')
+  const [ifscError, setIfscError] = useState('')
+  const [emailError, setEmailError] = useState('')
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
-
+    if (name === 'account') {
+      const isAccountValid = value.length === ACCOUNT_NUMBER_LENGTH
+      setAccountError(isAccountValid ? '' : 'Invalid account number')
+    }
+    if (name == 'ifsc') {
+      const isIfscValid = value.length === IFSC_CODE_LENGTH
+      setIfscError(isIfscValid ? '' : 'Invalid ifsc code')
+    }
     setValues({ ...values, [name]: value })
 
     if (name === 'email') {
+      const isEmailValid = new RegExp(Email_REGEX).test(value)
+      setEmailError(isEmailValid ? '' : 'Invalid email address')
       const data = USER_DETAIL.find((item) => item.email === value)
       if (data) {
         setDetails(data)
@@ -91,10 +106,10 @@ const RecipientDetails = (props: RecipientDetailsProps) => {
   const validateFields = () => {
     return (
       new RegExp(Email_REGEX).test(values.email) &&
-      values.account.length == 12 &&
-      values.firstName.length >= 3 &&
-      values.lastName.length >= 3 &&
-      values.ifsc.length == 11
+      values.account.length === ACCOUNT_NUMBER_LENGTH &&
+      values.firstName.length >= MIN_NAME_LENGTH &&
+      values.lastName.length >= MIN_NAME_LENGTH &&
+      values.ifsc.length === IFSC_CODE_LENGTH
     )
   }
 
@@ -114,6 +129,8 @@ const RecipientDetails = (props: RecipientDetailsProps) => {
           name="email"
           onChange={handleChange}
           value={values.email}
+          error={Boolean(emailError)}
+          helperText={emailError}
         />
         <CheckboxLabels label="I know their bank details" checked={true} />
         <Typography variant="body3" color="text.highEmphasis">
@@ -128,6 +145,8 @@ const RecipientDetails = (props: RecipientDetailsProps) => {
           name="account"
           onChange={handleChange}
           value={details ? details.account : values.account}
+          error={Boolean(accountError)}
+          helperText={accountError}
         />
         <InputField
           variant="outlined"
@@ -159,6 +178,8 @@ const RecipientDetails = (props: RecipientDetailsProps) => {
           name="ifsc"
           onChange={handleChange}
           value={details ? details.ifsc : values.ifsc}
+          error={Boolean(ifscError)}
+          helperText={ifscError}
         />
       </StyledContainer>
       <ButtonWrapper>

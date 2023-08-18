@@ -23,13 +23,17 @@ const StyledIconButton = styled(IconButton)<{
 
   padding: ${theme.spacing(3.5)};
   border: 1px solid
-    ${({ borderColor }) => borderColor || theme.palette.Greys.stroke};
-  border-radius: ${({ borderRadius }) => borderRadius || theme.spacing(1)};
+    ${({ borderColor }) => borderColor ?? theme.palette.Greys.stroke};
+  border-radius: ${({ borderRadius }) => borderRadius ?? theme.spacing(1)};
 `
 
 const Icon = (props: IconProps) => {
   return (
-    <StyledIconButton onClick={props.onclick} {...props}>
+    <StyledIconButton
+      onClick={props.onclick}
+      {...props}
+      data-testid="iconButton"
+    >
       <img
         src={props.icon}
         alt={props.alt}

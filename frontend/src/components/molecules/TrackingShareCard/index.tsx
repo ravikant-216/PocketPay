@@ -14,8 +14,6 @@ import { Email, Share } from '../../../strings/constants'
 export interface TrackingShareCardProps {
   heading?: string
   subHeading?: string
-  onClickEmail?: () => void
-  onClickShare?: () => void
   open?: boolean
   onClose?: () => void
 }
@@ -70,7 +68,6 @@ const TrackingShareCard = (props: TrackingShareCardProps) => {
               icon={EmailIcon}
               borderRadius={theme.spacing(12.5)}
               borderColor={theme.palette.primary[500]}
-              onclick={props.onClickEmail}
               data-testid="email-icon"
               width={theme.spacing(7.5)}
               height={theme.spacing(7.5)}
@@ -88,7 +85,6 @@ const TrackingShareCard = (props: TrackingShareCardProps) => {
               icon={ShareIcon}
               borderColor={theme.palette.primary[500]}
               borderRadius={theme.spacing(12.5)}
-              onclick={props.onClickShare}
               data-testid="share-icon"
               width={theme.spacing(7.5)}
               height={theme.spacing(7.5)}

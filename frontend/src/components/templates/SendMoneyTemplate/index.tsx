@@ -15,8 +15,6 @@ export interface SendMoneyTemplateProps {
 const ContentBox = styled(Box)({
   display: 'flex',
   justifyContent: 'center',
-  paddingTop: theme.spacing(12.5),
-  paddingLeft: theme.spacing(25),
 })
 
 const BackButtonBox = styled(Box)({
@@ -24,7 +22,7 @@ const BackButtonBox = styled(Box)({
   justifyContent: 'flex-start',
   flexGrow: 1,
   marginBottom: theme.spacing(7.25),
-  marginLeft: theme.spacing(-55),
+  marginLeft: '-24%',
   width: 'fit-content',
 })
 
@@ -32,9 +30,9 @@ const HeaderGrid = styled(Grid)({
   alignItems: 'stretch',
   justifyContent: 'space-between',
   gap: theme.spacing(26.5),
-  padding: `${theme.spacing(6)} ${theme.spacing(20)} ${theme.spacing(
+  padding: `${theme.spacing(2)} ${theme.spacing(16)} ${theme.spacing(
     7.5
-  )} ${theme.spacing(20)}`,
+  )} ${theme.spacing(16)}`,
 })
 
 const StepperGrid = styled(Grid)({
@@ -48,7 +46,7 @@ const SendMoneyTemplate = (props: SendMoneyTemplateProps) => {
         <Grid item>
           <Image src={logo} alt="pocketPayLogo" />
         </Grid>
-        <StepperGrid item sm={7.5}>
+        <StepperGrid item sm={8}>
           {props.stepperComponent}
         </StepperGrid>
         <Grid item>{props.crossIcon}</Grid>
@@ -58,6 +56,7 @@ const SendMoneyTemplate = (props: SendMoneyTemplateProps) => {
           display={'flex'}
           flexDirection={'column'}
           width={theme.spacing(155.25)}
+          marginRight={theme.spacing(-33.75)}
         >
           <BackButtonBox>{props.backButton}</BackButtonBox>
 

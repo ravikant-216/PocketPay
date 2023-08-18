@@ -29,37 +29,6 @@ describe('TransactionDetails', () => {
     expect(component).toBeInTheDocument()
   })
 
-  it('should render the tracking share modal when cancel button is clicked', async () => {
-    const { getByTestId } = render(
-      <ThemeProvider theme={theme}>
-        <TransactionDetails
-          transactionStatus={'Sending'}
-          sendingAmount={'100'}
-          recievingAmount={'114.89'}
-          sendingCurrency={'GBP'}
-          recievingCurrency={'EUR'}
-          senderName={'Ross Gener'}
-          receiverName={'Mario Gabriel'}
-          transferNumber={'3227627272'}
-        />
-      </ThemeProvider>
-    )
-
-    const shareIconElement = await screen.findByAltText('shareIcon')
-    fireEvent.click(shareIconElement)
-
-    const trackingShareModal = getByTestId('trackingShareModal')
-    expect(trackingShareModal).toBeInTheDocument()
-
-    const emailIcon = screen.getByTestId('email-icon')
-    fireEvent.click(emailIcon)
-    expect(trackingShareModal).not.toBeInTheDocument()
-    fireEvent.click(shareIconElement)
-
-    const shareIcon = screen.getByTestId('share-icon')
-    fireEvent.click(shareIcon)
-    expect(trackingShareModal).not.toBeInTheDocument()
-  })
   it('should render the cancel transfer modal when cancel button is clicked', () => {
     const { getByTestId } = render(
       <ThemeProvider theme={theme}>

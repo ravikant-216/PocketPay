@@ -270,8 +270,6 @@ const TransactionDetails = (props: TransactionDetailProps) => {
       <TrackingShareCard
         data-testid="trackingShareModal"
         open={showTrackingShare}
-        onClickEmail={() => setShowTrackingShare(false)}
-        onClickShare={() => setShowTrackingShare(false)}
         heading={TRANSFER_SHARE_MODAL_HEADING}
         subHeading={TRANSFER_SHARE_MODAL_SUBHEADING}
         onClose={() => setShowTrackingShare(false)}

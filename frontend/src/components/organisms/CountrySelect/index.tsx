@@ -18,7 +18,7 @@ import CountryDropdown from '../CountryDropdown'
 
 export interface Props extends Omit<BoxProps, 'onChange'> {
   width?: string
-  onChange?: (selectedValue: { country: string; password: string }) => void
+  onChange: (selectedValue: { country: string; password: string }) => void
   menuMaxHeight?: string
   inputVariant: 'password' | 'country'
   size?: 'small' | 'medium'
@@ -100,7 +100,7 @@ const CountrySelect = ({
               passwordError === INVALID_PASSWORD ||
               passwordError == null))
         }
-        onClick={() => onChange && onChange({ country: countryName, password })}
+        onClick={() => onChange({ country: countryName, password })}
       >
         Continue
       </CustomButton>

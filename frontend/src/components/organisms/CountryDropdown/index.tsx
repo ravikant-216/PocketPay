@@ -72,8 +72,8 @@ export default function CountryDropdown({
   const MenuProps = {
     PaperProps: {
       style: {
-        maxHeight: menuMaxHeight || 'auto',
-        width: menuWidth || 'auto',
+        maxHeight: menuMaxHeight,
+        width: menuWidth,
       },
     },
   }
@@ -114,7 +114,6 @@ export default function CountryDropdown({
           />
         }
         MenuProps={MenuProps}
-        renderValue={(selected) => selected as string}
       >
         {names.map((iconTitle) => (
           <MenuItem

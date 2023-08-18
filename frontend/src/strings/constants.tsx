@@ -90,8 +90,7 @@ export const SELECT_COUNTRY = 'Select  Your  Country'
 export const CREATE_PASSWORD = 'Create your password'
 export const ENTER_PASSWORD = 'Enter your password'
 export const DOB = 'Date of birth'
-export const INVALID_PASSWORD =
-  'Invalid Password use min 8 letters with numbers and special character'
+export const INVALID_PASSWORD = 'Minimum password length should be 8'
 export const COUNTRY_REG = 'Country of registration'
 export const COUNTRY_RESIDENCE = 'Country of residence'
 export const TRUST_LIST = [
@@ -134,9 +133,12 @@ export const BUSINESS_NOT_MESSAGE = 'Can’t find your business?'
 export const ENTER_DETAIL = 'Enter your details'
 export const SENDING_MONEY = 'Who are you sending money to?'
 export const WHAT_TO_DO = 'What would you like to do today?'
+export const WHAT_ACCOUNT_SETUP =
+  'What kind of account would you like to open today?'
 export const CANCEL = 'Cancel'
 export const RECIPIENT_DETAILS = 'Recipient Details'
 export const RECIPIENT_DETAILS_CONTINUE = 'Continue'
+export const ADD_ANOTHER_ACCOUNT = 'You can add another account later on, too.'
 export const USER_DETAIL = [
   {
     email: 'mario.gabriel@gmail.com',
@@ -155,10 +157,8 @@ export const USER_DETAIL = [
   },
 ]
 export const REVIEW_ACCOUNT = 'Review details of your transfer'
-
 export const AMOUNT_CONVERT = 'Amount we’ll convert'
 export const TRANSFER_DETAIL = 'Transfer details'
-
 export const BUSINESS_DETAILS = 'Business details'
 export const SAVE = 'Save'
 export const Cancel = 'Cancel'

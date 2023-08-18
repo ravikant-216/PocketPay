@@ -10,20 +10,27 @@ const renderWithTheme = (T: React.ReactNode) =>
   render(<ThemeProvider theme={theme}>{T}</ThemeProvider>)
 
 describe('CountrySelect', () => {
+  const mockOnChange = jest.fn()
   it('renders select country variant correctly', () => {
-    renderWithTheme(<CountrySelect inputVariant="country" />)
+    renderWithTheme(
+      <CountrySelect inputVariant="country" onChange={mockOnChange} />
+    )
     expect(screen.getByRole('button', { name: 'Continue' })).toBeDisabled()
   })
 
   it('renders password variant correctly', () => {
-    renderWithTheme(<CountrySelect inputVariant="password" />)
+    renderWithTheme(
+      <CountrySelect inputVariant="password" onChange={mockOnChange} />
+    )
 
     expect(screen.getByText('Create your password')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Continue' })).toBeDisabled()
   })
 
   it('Enables continue button when a Valid password is entered', () => {
-    renderWithTheme(<CountrySelect inputVariant="password" />)
+    renderWithTheme(
+      <CountrySelect inputVariant="password" onChange={mockOnChange} />
+    )
 
     fireEvent.change(screen.getByPlaceholderText('Enter your password'), {
       target: { value: 'ValidPassword123@' },
@@ -33,7 +40,9 @@ describe('CountrySelect', () => {
   })
 
   it('displays error message when an invalid password is entered', () => {
-    renderWithTheme(<CountrySelect inputVariant="password" />)
+    renderWithTheme(
+      <CountrySelect inputVariant="password" onChange={mockOnChange} />
+    )
 
     fireEvent.change(screen.getByPlaceholderText(ENTER_PASSWORD), {
       target: { value: 'invalid' },
@@ -57,7 +66,7 @@ describe('CountrySelect', () => {
   })
   it('should toggle the visibility of the password when the visibility icon is clicked', () => {
     const { getByLabelText, getByRole } = renderWithTheme(
-      <CountrySelect inputVariant="password" />
+      <CountrySelect inputVariant="password" onChange={mockOnChange} />
     )
     fireEvent.change(getByLabelText('Password'), {
       target: { value: 'ValidPassword123' },

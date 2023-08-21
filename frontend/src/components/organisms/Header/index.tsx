@@ -15,7 +15,7 @@ const StyledStack = styled(Stack)(({ theme }) => ({
   // sticking to top
   position: 'sticky',
   top: 0,
-
+  zIndex: 1,
   backgroundColor: theme.palette.structuralColors.white,
   boxShadow: `0px ${theme.spacing(0.25)} ${theme.spacing(
     2

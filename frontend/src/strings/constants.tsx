@@ -378,3 +378,22 @@ export const TRADING_ADDRESS = [
 export const TRADING_ADDRESSES = 'Trading addresses'
 export const ADD_TRADING_ADDRESS = 'Add trading Address'
 export const ADD = 'Add'
+export type TransactionStatus = 'Sending' | 'Cancelled'
+export const DASHBOARD_HEADING_FIRST =
+  ' This is where you’ll see your activity and transactions.'
+export const DASHBOARD_HEADING_SECOND = 'Choose how you’d like to get started.'
+export const DASHBOARD_HOME = 'Home'
+export const SEND_MONEY = 'Send money'
+export const TRANSACTION_LIST = [
+  {
+    senderName: 'Ross Gener',
+    receiverName: 'Mario Gabriel',
+    transactionStatus: 'Sending',
+    transferNumber: '3227627272',
+    sendingCurrency: 'GBP',
+    sendingAmount: '100',
+    recievingAmount: '114.89',
+    recievingCurrency: 'EUR',
+    key: 0,
+  },
+]

@@ -18,6 +18,7 @@ import CountryDropdown from '../CountryDropdown'
 
 export interface Props extends Omit<BoxProps, 'onChange'> {
   width?: string
+  country?: string
   onChange: (selectedValue: { country: string; password: string }) => void
   menuMaxHeight?: string
   inputVariant: 'password' | 'country'
@@ -25,11 +26,12 @@ export interface Props extends Omit<BoxProps, 'onChange'> {
 }
 const CountrySelect = ({
   onChange,
+  country = '',
   menuMaxHeight,
   inputVariant,
   ...props
 }: Props) => {
-  const [countryName, setCountryName] = useState<string>('')
+  const [countryName, setCountryName] = useState<string>(country)
   const [password, setPassword] = useState('')
   const [passwordError, setPasswordError] = useState<string | null>(null)
   const [showPassword, setShowPassword] = useState(false)
@@ -58,6 +60,7 @@ const CountrySelect = ({
           <CountryDropdown
             data-testid="country-button"
             onChange={setCountryName}
+            country={countryName}
             names={COUNTRY_ARRAY}
             size={props.size}
             role="option"

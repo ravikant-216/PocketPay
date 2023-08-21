@@ -28,20 +28,29 @@ import CountrySelect from '../CountrySelect'
 export interface PhoneNumberProps extends BoxProps {
   country?: string
   onSubmit?: () => void
+  onCountrySelect?: () => void
+  handlePhoneStep?: (step: number) => void
+  stepProp?: number
 }
 
 export default function PhoneNumber({
   country = 'India',
   onSubmit,
+  stepProp = 1,
+  handlePhoneStep,
+  onCountrySelect,
   ...props
 }: PhoneNumberProps) {
   const [countryCode, setCountryCode] = useState('')
   const [flagUrl, setFlagUrl] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
   const [otp, setOtp] = useState('')
-  const [step, setStep] = useState(1)
-  const [showResendOptions, setShowResendOptions] = useState(false)
+  const [step, setStep] = useState(stepProp)
   const [showCountrySelect, setShowCountrySelect] = useState(false)
+
+  useEffect(() => {
+    setStep(stepProp)
+  }, [stepProp])
 
   useEffect(() => {
     const selectedCountry = COUNTRIES.find(
@@ -52,7 +61,6 @@ export default function PhoneNumber({
       setFlagUrl(selectedCountry.flagIconSrc)
     }
   }, [country])
-
   const handlePhoneNumberChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -66,6 +74,7 @@ export default function PhoneNumber({
   const handleContinueClick = () => {
     if (step === 1) {
       setStep(2)
+      if (handlePhoneStep) handlePhoneStep(2)
     } else if (step === 2) {
       if (onSubmit) {
         onSubmit()
@@ -74,17 +83,20 @@ export default function PhoneNumber({
   }
 
   const handleDidNotReceiveCodeClick = () => {
-    setShowResendOptions(true)
     setStep(3)
+    if (handlePhoneStep) handlePhoneStep(3)
   }
 
   const handleUseDifferentPhoneNumberClick = () => {
     setPhoneNumber('')
     setStep(1)
-    setShowResendOptions(false)
+    if (handlePhoneStep) handlePhoneStep(1)
   }
 
   const handleCountryClick = () => {
+    if (onCountrySelect) {
+      onCountrySelect()
+    }
     setShowCountrySelect(true)
   }
 
@@ -141,10 +153,14 @@ export default function PhoneNumber({
                           display: 'flex',
                           justifyItems: 'flex-end',
                           columnGap: theme.spacing(2),
+                          cursor: 'default',
                         }}
-                        onClick={handleCountryClick}
                       >
-                        <Image src={flagUrl} alt="" />
+                        <Image
+                          src={flagUrl}
+                          alt=""
+                          sx={{ cursor: 'default' }}
+                        />
                         <Box
                           sx={{
                             display: 'flex',
@@ -152,8 +168,17 @@ export default function PhoneNumber({
                             columnGap: theme.spacing(4),
                           }}
                         >
-                          <Image src={dropdownIcon} alt="" />
-                          <Image src={divider} alt="" />
+                          <Image
+                            data-testId="downButton"
+                            src={dropdownIcon}
+                            alt=""
+                            onClick={handleCountryClick}
+                          />
+                          <Image
+                            src={divider}
+                            alt=""
+                            sx={{ cursor: 'default' }}
+                          />
                           <Typography variant="body2" color="text.highEmphasis">
                             {countryCode && `+${countryCode}`}
                           </Typography>
@@ -187,7 +212,7 @@ export default function PhoneNumber({
                   value={otp}
                   onChange={handleOtpChange}
                 />
-                {!showResendOptions && (
+                {step === 2 && (
                   <Box sx={{ marginTop: theme.spacing(4) }}>
                     <Link
                       component="button"
@@ -220,12 +245,29 @@ export default function PhoneNumber({
                   <BankCard
                     iconTitle={SMS_CODE}
                     alt=""
-                    sx={{ cursor: 'pointer' }}
+                    sx={{
+                      cursor: 'pointer',
+                      '&:hover': {
+                        backgroundColor:
+                          theme.palette.structuralColors.background,
+                        borderRadius: theme.spacing(2),
+                      },
+                      padding: theme.spacing(3),
+                    }}
                   ></BankCard>
                   <BankCard
                     iconTitle={CALL_CODE}
                     alt=""
-                    sx={{ marginTop: theme.spacing(4), cursor: 'pointer' }}
+                    sx={{
+                      marginTop: theme.spacing(4),
+                      cursor: 'pointer',
+                      '&:hover': {
+                        backgroundColor:
+                          theme.palette.structuralColors.background,
+                        borderRadius: theme.spacing(2),
+                      },
+                      padding: theme.spacing(3),
+                    }}
                   ></BankCard>
                 </Box>
                 <Box sx={{ marginTop: theme.spacing(4) }}>

@@ -1,4 +1,3 @@
-// Import necessary components and modules
 import React from 'react'
 import { Box, Stack, Typography } from '@mui/material'
 import styled from '@emotion/styled'
@@ -40,9 +39,10 @@ const RecipientType: React.FC<RecipientTypeProps> = (
         icon: MyBusiness,
         option: 'My business',
         onClick: props.onClickBusinessCharityHandler,
+        title: '',
       },
-      { icon: Someonelse, option: 'Someone else' },
-      { icon: BusinessOrCharity, option: 'Business or Charity' },
+      { icon: Someonelse, option: 'Someone else', title: '' },
+      { icon: BusinessOrCharity, option: 'Business or Charity', title: '' },
     ],
     default: [
       {
@@ -106,9 +106,11 @@ const RecipientType: React.FC<RecipientTypeProps> = (
           <OptionCard
             src={item.icon}
             iconTitle={item.option}
+            caption={item.title}
             key={item.option}
             alt=""
             onclick={item.onClick}
+            style={{ cursor: 'pointer' }}
           />
         ))}
       </Stack>

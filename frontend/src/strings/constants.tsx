@@ -378,6 +378,7 @@ export const TRADING_ADDRESS = [
 export const TRADING_ADDRESSES = 'Trading addresses'
 export const ADD_TRADING_ADDRESS = 'Add trading Address'
 export const ADD = 'Add'
+
 export type TransactionStatus = 'Sending' | 'Cancelled'
 export const DASHBOARD_HEADING_FIRST =
   ' This is where you’ll see your activity and transactions.'
@@ -396,4 +397,12 @@ export const TRANSACTION_LIST = [
     recievingCurrency: 'EUR',
     key: 0,
   },
+]
+
+export const ACCOUNT_LABEL = [
+  'Email',
+  'Account type',
+  'Country',
+  '2-factor-authentication',
+  'Password',
 ]

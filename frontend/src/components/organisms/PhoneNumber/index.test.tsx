@@ -33,12 +33,14 @@ describe('PhoneNumber', () => {
   })
 
   it('renders the third step correctly', () => {
-    renderWithTheme(<PhoneNumber />)
+    const handlePhoneStep = jest.fn()
+    renderWithTheme(<PhoneNumber handlePhoneStep={handlePhoneStep} />)
 
     fireEvent.change(screen.getByLabelText('Mobile Number'), {
       target: { value: '1234567890' },
     })
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
+    expect(handlePhoneStep).toHaveBeenCalled()
     fireEvent.click(
       screen.getByRole('button', { name: 'I didn’t receive a code' })
     )
@@ -62,7 +64,8 @@ describe('PhoneNumber', () => {
     expect(onSubmit).toHaveBeenCalled()
   })
   it('updates the phone number input value correctly', () => {
-    renderWithTheme(<PhoneNumber />)
+    const handlePhoneStep = jest.fn()
+    renderWithTheme(<PhoneNumber handlePhoneStep={handlePhoneStep} />)
 
     const phoneNumberInput = screen.getByLabelText('Mobile Number')
 
@@ -76,20 +79,28 @@ describe('PhoneNumber', () => {
     fireEvent.click(
       screen.getByRole('button', { name: 'Use a different phone number' })
     )
+    expect(handlePhoneStep).toHaveBeenCalled()
     expect(phoneNumberInput).toHaveValue()
   })
 
   it('updates the country code and flag when a country is selected', () => {
-    renderWithTheme(<PhoneNumber />)
+    const mockFunction = jest.fn()
+    renderWithTheme(<PhoneNumber onCountrySelect={mockFunction} />)
 
     const countrySelect = screen.getAllByAltText('')
     fireEvent.click(countrySelect[0])
-    expect(screen.getByTestId('Typography')).toBeInTheDocument()
-    const countryDropdown = screen.getAllByRole('button')[0]
-    const countryDropdownButton = screen.getAllByRole('button')[1]
-    fireEvent.mouseDown(countryDropdown)
+    expect(
+      screen.getByText('Verify your phone number with a code')
+    ).toBeInTheDocument()
+    const countryDropdown = screen.getByTestId('downButton')
+    fireEvent.click(countryDropdown)
+    expect(mockFunction).toHaveBeenCalled()
+    expect(screen.getByTestId('Typography')).toBeInTheDocument
+    const countryDropdown2 = screen.getAllByRole('button')[0]
+    const countryDropdownButton2 = screen.getAllByRole('button')[1]
+    fireEvent.mouseDown(countryDropdown2)
     fireEvent.click(screen.getByText('India'))
-    fireEvent.click(countryDropdownButton)
+    fireEvent.click(countryDropdownButton2)
     const list = screen.getAllByAltText('')
     expect(list[2]).toBeInTheDocument()
   })

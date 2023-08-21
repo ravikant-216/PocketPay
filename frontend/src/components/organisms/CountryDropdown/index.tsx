@@ -16,6 +16,7 @@ export interface Props extends Omit<FormControlProps, 'onChange'> {
   names: React.ReactElement<IconLabelPropType>[]
   width?: string
   placeHolder?: string
+  country?: string
   label?: string
   onChange?: (selectedValue: string) => void
   menuMaxHeight?: string
@@ -59,10 +60,11 @@ export default function CountryDropdown({
   placeHolder = SELECT_COUNTRY,
   label = COUNTRY_REG,
   menuMaxHeight,
+  country = '',
   menuWidth,
   ...props
 }: Props) {
-  const [CountryName, setCountryName] = React.useState<string>('')
+  const [CountryName, setCountryName] = React.useState<string>(country)
 
   const handleChange = (event: SelectChangeEvent<string>) => {
     setCountryName(event.target.value)
@@ -87,8 +89,8 @@ export default function CountryDropdown({
         {CountryName == '' ? placeHolder : label}
       </InputLabel>
       <Select
-        value={CountryName}
         label="Country"
+        value={CountryName}
         IconComponent={Icon}
         onChange={handleChange}
         input={
@@ -114,6 +116,7 @@ export default function CountryDropdown({
           />
         }
         MenuProps={MenuProps}
+        renderValue={(selected) => selected}
       >
         {names.map((iconTitle) => (
           <MenuItem

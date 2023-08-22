@@ -3,13 +3,20 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import theme from '../../../theme'
 import RecipientDetails from '.'
 import '@testing-library/jest-dom/extend-expect'
+const data = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  account: '',
+  ifsc: '',
+}
 
 describe('Recipient Details', () => {
   const mockOnClick = jest.fn()
   it('should render the component', () => {
     const { getByTestId } = render(
       <ThemeProvider theme={theme}>
-        <RecipientDetails onClick={mockOnClick} />
+        <RecipientDetails onClick={mockOnClick} data={data} />
       </ThemeProvider>
     )
 
@@ -20,7 +27,7 @@ describe('Recipient Details', () => {
   it('should enable the button if all fields are filled', () => {
     const { getByLabelText, getByText } = render(
       <ThemeProvider theme={theme}>
-        <RecipientDetails onClick={mockOnClick} />
+        <RecipientDetails onClick={mockOnClick} data={data} />
       </ThemeProvider>
     )
     const emailInput = getByLabelText('Email')
@@ -57,7 +64,7 @@ describe('Recipient Details', () => {
   it('should disable the button if any field is empty', () => {
     const { getByLabelText, getByText } = render(
       <ThemeProvider theme={theme}>
-        <RecipientDetails onClick={mockOnClick} />
+        <RecipientDetails onClick={mockOnClick} data={data} />
       </ThemeProvider>
     )
     const emailInput = getByLabelText('Email')
@@ -73,7 +80,7 @@ describe('Recipient Details', () => {
   test('setDetails updates the state with the correct data when valid email is entered', () => {
     render(
       <ThemeProvider theme={theme}>
-        <RecipientDetails onClick={mockOnClick} />
+        <RecipientDetails onClick={mockOnClick} data={data} />
       </ThemeProvider>
     )
 
@@ -93,7 +100,7 @@ describe('Recipient Details', () => {
     const mockOnClick = jest.fn()
     const { getByText, getByLabelText } = render(
       <ThemeProvider theme={theme}>
-        <RecipientDetails onClick={mockOnClick} />
+        <RecipientDetails onClick={mockOnClick} data={data} />
       </ThemeProvider>
     )
 
@@ -126,7 +133,7 @@ describe('Recipient Details', () => {
   it('should empty other fields when email field is empty', () => {
     const { getByLabelText } = render(
       <ThemeProvider theme={theme}>
-        <RecipientDetails onClick={mockOnClick} />
+        <RecipientDetails onClick={mockOnClick} data={data} />
       </ThemeProvider>
     )
 
@@ -153,7 +160,7 @@ describe('Recipient Details', () => {
   it('should render messages when given validation fails', () => {
     const { getByLabelText } = render(
       <ThemeProvider theme={theme}>
-        <RecipientDetails onClick={mockOnClick} />
+        <RecipientDetails onClick={mockOnClick} data={data} />
       </ThemeProvider>
     )
 

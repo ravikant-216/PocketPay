@@ -1,15 +1,18 @@
 import Image from '../../atoms/Image'
 import logo from '../../../../public/assets/icons/logo.svg'
-import { Grid } from '@mui/material'
+import { Divider, Grid } from '@mui/material'
 import theme from '../../../theme'
 import { Box } from '@mui/system'
 import styled from '@emotion/styled'
+import Avatar from '../../atoms/Avatar'
+import avatar from '../../../../public/assets/icons/avatar.svg'
 
 export interface SendMoneyTemplateProps {
   content: React.ReactNode
   crossIcon?: React.ReactNode
   backButton?: React.ReactNode
   stepperComponent?: React.ReactNode
+  avatar?: boolean
 }
 
 const ContentBox = styled(Box)({
@@ -27,37 +30,46 @@ const BackButtonBox = styled(Box)({
 })
 
 const HeaderGrid = styled(Grid)({
-  alignItems: 'stretch',
+  alignItems: 'center',
   justifyContent: 'space-between',
-  gap: theme.spacing(26.5),
   padding: `${theme.spacing(2)} ${theme.spacing(16)} ${theme.spacing(
     7.5
   )} ${theme.spacing(16)}`,
 })
 
-const StepperGrid = styled(Grid)({
-  paddingRight: theme.spacing(19.75),
-})
+const StepperGrid = styled(Grid)({})
 
 const SendMoneyTemplate = (props: SendMoneyTemplateProps) => {
   return (
     <>
       <HeaderGrid container>
-        <Grid item>
+        <Grid item sm={1}>
           <Image src={logo} alt="pocketPayLogo" />
         </Grid>
-        <StepperGrid item sm={8}>
+        <StepperGrid item sm={7}>
           {props.stepperComponent}
         </StepperGrid>
-        <Grid item>{props.crossIcon}</Grid>
+        <Grid
+          sx={{
+            display: 'flex',
+            flexFlow: 'row wrap',
+            gap: theme.spacing(3),
+            alignItems: 'center',
+          }}
+          item
+          sm={1}
+        >
+          {props.avatar && (
+            <>
+              <Avatar src={avatar} alt="Avatar" />
+              <Divider orientation="vertical" />
+            </>
+          )}
+          {props.crossIcon}
+        </Grid>
       </HeaderGrid>
       <Box display={'flex'} justifyContent={'center'}>
-        <Box
-          display={'flex'}
-          flexDirection={'column'}
-          width={theme.spacing(155.25)}
-          marginRight={theme.spacing(-33.75)}
-        >
+        <Box display={'flex'} flexDirection={'column'} minWidth={'60%'}>
           <BackButtonBox>{props.backButton}</BackButtonBox>
 
           <ContentBox>{props.content}</ContentBox>

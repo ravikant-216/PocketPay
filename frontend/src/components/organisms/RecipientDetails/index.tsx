@@ -14,6 +14,7 @@ import {
 import { useState } from 'react'
 
 interface UserDetails {
+  email: string
   account: string
   firstName: string
   lastName: string
@@ -21,6 +22,7 @@ interface UserDetails {
 }
 
 export interface RecipientDetailsProps {
+  data: UserDetails
   style?: React.CSSProperties
   onClick: (form: UserDetails) => void
 }
@@ -54,13 +56,7 @@ const IFSC_CODE_LENGTH = 11
 const MIN_NAME_LENGTH = 3
 
 const RecipientDetails = (props: RecipientDetailsProps) => {
-  const [details, setDetails] = useState<UserDetails | undefined>({
-    account: '',
-    firstName: '',
-    lastName: '',
-    ifsc: '',
-  })
-
+  const [disabled, setDisabled] = useState(false)
   const initalValues = {
     email: '',
     account: '',
@@ -69,7 +65,7 @@ const RecipientDetails = (props: RecipientDetailsProps) => {
     ifsc: '',
   }
 
-  const [values, setValues] = useState(initalValues)
+  const [values, setValues] = useState(props.data)
 
   const [accountError, setAccountError] = useState('')
   const [ifscError, setIfscError] = useState('')
@@ -91,10 +87,10 @@ const RecipientDetails = (props: RecipientDetailsProps) => {
       setEmailError(isEmailValid ? '' : 'Invalid email address')
       const data = USER_DETAIL.find((item) => item.email === value)
       if (data) {
-        setDetails(data)
         setValues(data)
+        setDisabled(true)
       } else {
-        setDetails(undefined)
+        setDisabled(false)
       }
     }
 
@@ -127,6 +123,7 @@ const RecipientDetails = (props: RecipientDetailsProps) => {
           label="Email"
           sx={{ width: '100%' }}
           name="email"
+          disabled={disabled}
           onChange={handleChange}
           value={values.email}
           error={Boolean(emailError)}
@@ -139,12 +136,13 @@ const RecipientDetails = (props: RecipientDetailsProps) => {
         <InputField
           variant="outlined"
           type="number"
+          disabled={disabled}
           placeholder="Account number"
           label="Account number"
           sx={{ width: '100%' }}
           name="account"
           onChange={handleChange}
-          value={details ? details.account : values.account}
+          value={values.account}
           error={Boolean(accountError)}
           helperText={accountError}
         />
@@ -152,32 +150,35 @@ const RecipientDetails = (props: RecipientDetailsProps) => {
           variant="outlined"
           type="text"
           placeholder="First name"
+          disabled={disabled}
           label="First name"
           sx={{ width: '100%' }}
           name="firstName"
           onChange={handleChange}
-          value={details ? details.firstName : values.firstName}
+          value={values.firstName}
         />
         <InputField
           variant="outlined"
           type="text"
           placeholder="Last name"
+          disabled={disabled}
           label="Last name"
           sx={{ width: '100%' }}
           name="lastName"
           onChange={handleChange}
-          value={details ? details.lastName : values.lastName}
+          value={values.lastName}
         />
 
         <InputField
           variant="outlined"
           type="text"
           placeholder="IFSC code"
+          disabled={disabled}
           label="IFSC code"
           sx={{ width: '100%' }}
           name="ifsc"
           onChange={handleChange}
-          value={details ? details.ifsc : values.ifsc}
+          value={values.ifsc}
           error={Boolean(ifscError)}
           helperText={ifscError}
         />
@@ -185,7 +186,7 @@ const RecipientDetails = (props: RecipientDetailsProps) => {
       <ButtonWrapper>
         <CustomButton
           variant="contained"
-          disabled={(details ? false : !validateFields()) || values.email == ''}
+          disabled={!validateFields() || values.email == ''}
           onClick={() => {
             props.onClick(values)
           }}

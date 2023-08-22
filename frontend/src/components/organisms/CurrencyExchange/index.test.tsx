@@ -3,13 +3,22 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import theme from '../../../theme'
 import CurrencyExchange from '.'
+const data = {
+  senderAmount: '',
+  recipientAmount: '',
+  senderCountry: 'INR',
+  recipientCountry: 'USD',
+}
 
 describe('CurrencyExchange', () => {
   const mockOnClick = jest.fn()
   it('should render the component', () => {
     render(
       <ThemeProvider theme={theme}>
-        <CurrencyExchange onClick={mockOnClick} />
+        <CurrencyExchange
+          onClick={mockOnClick}
+          data={{ ...data, senderCountry: '' }}
+        />
       </ThemeProvider>
     )
 
@@ -19,7 +28,7 @@ describe('CurrencyExchange', () => {
   test('dropdown opens when sender currency arrow is clicked', () => {
     render(
       <ThemeProvider theme={theme}>
-        <CurrencyExchange onClick={mockOnClick} />
+        <CurrencyExchange onClick={mockOnClick} data={data} />
       </ThemeProvider>
     )
     const senderArrow = screen.getByTestId('sender-arrow')
@@ -30,7 +39,7 @@ describe('CurrencyExchange', () => {
   test('dropdown opens when receiver currency arrow is clicked', () => {
     render(
       <ThemeProvider theme={theme}>
-        <CurrencyExchange onClick={mockOnClick} />
+        <CurrencyExchange onClick={mockOnClick} data={data} />
       </ThemeProvider>
     )
     const receiverArrow = screen.getByTestId('receiver-arrow')
@@ -41,7 +50,7 @@ describe('CurrencyExchange', () => {
   test('currency selection closes when button is clicked', () => {
     render(
       <ThemeProvider theme={theme}>
-        <CurrencyExchange onClick={mockOnClick} />
+        <CurrencyExchange onClick={mockOnClick} data={data} />
       </ThemeProvider>
     )
     const senderArrow = screen.getByTestId('sender-arrow')
@@ -60,7 +69,7 @@ describe('CurrencyExchange', () => {
 
     render(
       <ThemeProvider theme={theme}>
-        <CurrencyExchange onClick={mockOnClick} />
+        <CurrencyExchange onClick={mockOnClick} data={data} />
       </ThemeProvider>
     )
     fireEvent.click(screen.getByTestId('sender-arrow'))
@@ -76,7 +85,7 @@ describe('CurrencyExchange', () => {
   it('should', () => {
     render(
       <ThemeProvider theme={theme}>
-        <CurrencyExchange onClick={mockOnClick} />
+        <CurrencyExchange onClick={mockOnClick} data={data} />
       </ThemeProvider>
     )
     const selectedValue = 'USD'
@@ -92,7 +101,7 @@ describe('CurrencyExchange', () => {
   it('should update', () => {
     render(
       <ThemeProvider theme={theme}>
-        <CurrencyExchange onClick={mockOnClick} />
+        <CurrencyExchange onClick={mockOnClick} data={data} />
       </ThemeProvider>
     )
 
@@ -106,7 +115,7 @@ describe('CurrencyExchange', () => {
   it('should trigger handleChange', () => {
     render(
       <ThemeProvider theme={theme}>
-        <CurrencyExchange onClick={mockOnClick} />
+        <CurrencyExchange onClick={mockOnClick} data={data} />
       </ThemeProvider>
     )
 
@@ -120,7 +129,7 @@ describe('CurrencyExchange', () => {
   it('should trigger handleChange', () => {
     render(
       <ThemeProvider theme={theme}>
-        <CurrencyExchange onClick={mockOnClick} />
+        <CurrencyExchange onClick={mockOnClick} data={data} />
       </ThemeProvider>
     )
 
@@ -134,7 +143,7 @@ describe('CurrencyExchange', () => {
   it('does not display the modal content when the modal is closed', () => {
     render(
       <ThemeProvider theme={theme}>
-        <CurrencyExchange onClick={mockOnClick} />
+        <CurrencyExchange onClick={mockOnClick} data={data} />
       </ThemeProvider>
     )
 
@@ -143,7 +152,7 @@ describe('CurrencyExchange', () => {
   it('calls onClick with correct data when button is clicked', () => {
     const { getByText } = render(
       <ThemeProvider theme={theme}>
-        <CurrencyExchange onClick={mockOnClick} />
+        <CurrencyExchange onClick={mockOnClick} data={data} />
       </ThemeProvider>
     )
     const senderInput = screen.getByTestId('senderInput')
@@ -167,7 +176,7 @@ describe('CurrencyExchange', () => {
   it('should close the modal when background is clicked', () => {
     const { getByText } = render(
       <ThemeProvider theme={theme}>
-        <CurrencyExchange onClick={mockOnClick} />
+        <CurrencyExchange onClick={mockOnClick} data={data} />
       </ThemeProvider>
     )
     const senderInput = screen.getByTestId('senderInput')

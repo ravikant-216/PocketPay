@@ -4,11 +4,12 @@ import theme from '../../../theme'
 import PocketPayPurpose from '.'
 import '@testing-library/jest-dom/extend-expect'
 import { RECIPIENT_DETAILS_CONTINUE } from '../../../strings/constants'
+const onClick = jest.fn()
 describe('PocketPayPurpose', () => {
   it('should render the component', () => {
     const { getByTestId } = render(
       <ThemeProvider theme={theme}>
-        <PocketPayPurpose />
+        <PocketPayPurpose onClick={onClick} />
       </ThemeProvider>
     )
 
@@ -19,7 +20,7 @@ describe('PocketPayPurpose', () => {
   it('disables the button if no value is selected', () => {
     render(
       <ThemeProvider theme={theme}>
-        <PocketPayPurpose />
+        <PocketPayPurpose onClick={onClick} />
       </ThemeProvider>
     )
 
@@ -32,5 +33,7 @@ describe('PocketPayPurpose', () => {
       screen.getByText('Paying rent, utilities or property charges')
     )
     expect(button).toBeEnabled()
+    fireEvent.click(button)
+    expect(onClick).toBeCalled()
   })
 })

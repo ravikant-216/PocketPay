@@ -5,7 +5,7 @@ import { SliderProps, styled } from '@mui/material'
 
 export interface Props extends SliderProps {
   labels: string[]
-  value: number
+  value: number | undefined
 }
 
 const NewStepper = styled(Slider)(() => ({

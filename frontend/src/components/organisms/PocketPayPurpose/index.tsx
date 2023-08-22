@@ -23,7 +23,7 @@ const ButtonWrapper = styled(Box)({
 })
 
 export interface PocketPayPurposeProps {
-  onClick?: () => void
+  onClick: (value: string) => void
   style?: React.CSSProperties
 }
 
@@ -57,7 +57,7 @@ const PocketPayPurpose = (props: PocketPayPurposeProps) => {
         <ButtonWrapper>
           <CustomButton
             variant="contained"
-            onClick={props.onClick}
+            onClick={() => props.onClick(value)}
             disabled={!value}
           >
             {RECIPIENT_DETAILS_CONTINUE}

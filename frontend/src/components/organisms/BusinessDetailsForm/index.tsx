@@ -22,6 +22,7 @@ export interface BusinessDetailsProps extends BoxProps {
     email: string
     accountNumber: string
     accountType: string
+    ifsc?: string
   }) => void
 }
 

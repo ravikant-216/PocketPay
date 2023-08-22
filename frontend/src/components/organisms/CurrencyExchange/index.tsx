@@ -42,6 +42,7 @@ interface Data {
 }
 
 export interface CurrencyExchangeProps {
+  data: Data
   style?: React.CSSProperties
   onClick: (data: Data) => void
 }
@@ -126,7 +127,13 @@ const CurrencyExchange = (props: CurrencyExchangeProps) => {
   }
 
   const [senderCurrencyCard, setSenderCurrencyCard] =
-    useState<CurrencyCardProps>(DEFAULT_SENDER.props)
+    useState<CurrencyCardProps>(() => {
+      if (props.data.senderCountry === '') return DEFAULT_SENDER.props
+      else
+        return SELECT_CURRENCY_ARRAY.find(
+          (item) => item.props.countryCurrencyCode === props.data.senderCountry
+        )?.props
+    })
 
   const [receiverCurrencyCard, setReceiverCurrencyCard] =
     useState<CurrencyCardProps>(SELECT_CURRENCY_ARRAY[3].props)
@@ -163,7 +170,7 @@ const CurrencyExchange = (props: CurrencyExchangeProps) => {
     setOpen(!open)
   }
 
-  const [input, setInput] = useState('')
+  const [input, setInput] = useState(props.data.senderAmount)
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.trim()
     setInput(value)

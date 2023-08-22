@@ -37,6 +37,7 @@ interface PaymentProps {
     event: React.ChangeEvent<HTMLInputElement>,
     value: string
   ) => void
+  onComplete: () => void
 }
 
 const transferOptions = [
@@ -151,13 +152,14 @@ const Wrapper = styled(Box)(({ theme }) => ({
 const Payment: React.FC<PaymentProps> = ({
   userCurrentScreen,
   onTransferOptionSelected,
+  onComplete,
 }) => {
   const TransferTypeSelection = (
     <Stack className="transfer-type">
       <Typography variant="h1" color="text.highEmphasis">
         {CHOOSE_TRANSFER_TYPE_TITLE}
       </Typography>
-      <RadioGroup defaultValue={'bank'} onChange={onTransferOptionSelected}>
+      <RadioGroup defaultValue={'debit'} onChange={onTransferOptionSelected}>
         <Stack className="transfer-options">
           <Typography variant="caption" color="text.mediumEmphasis">
             {FEATURE_DESCRIPTION_LABEL_1}
@@ -181,26 +183,22 @@ const Payment: React.FC<PaymentProps> = ({
     </Stack>
   )
 
-  const [selectedCardLastFourDigits, setSelectedCardLastFourDigits] =
-    useState<number>(cardPaymentOptions[0].lastFourDigitsOfCardNumber)
+  const [selectedCard, setSelectedCard] = useState<string>(
+    cardPaymentOptions[0].value.toString()
+  )
 
   const onCardSelect: (
     event: React.ChangeEvent<HTMLInputElement>,
     value: string
   ) => void = (e, value) => {
-    setSelectedCardLastFourDigits(
-      cardPaymentOptions[Number(value)].lastFourDigitsOfCardNumber
-    )
+    setSelectedCard(value)
   }
 
   const tabs = [
     {
       label: 'SAVED CARDS',
       content: (
-        <RadioGroup
-          defaultValue={selectedCardLastFourDigits}
-          onChange={onCardSelect}
-        >
+        <RadioGroup defaultValue={selectedCard} onChange={onCardSelect}>
           <BankCardDetailsRadio {...cardPaymentOptions[0]} />
           <BankCardDetailsRadio {...cardPaymentOptions[1]} />
         </RadioGroup>
@@ -240,7 +238,10 @@ const Payment: React.FC<PaymentProps> = ({
           </Typography>
           {ENDING_CARD_LABEL}
           <Typography variant="caption" color="text.highEmphasis">
-            {selectedCardLastFourDigits}
+            {
+              cardPaymentOptions[Number(selectedCard)]
+                .lastFourDigitsOfCardNumber
+            }
           </Typography>
         </Typography>
         <Typography variant="caption" color="text.mediumEmphasis">
@@ -249,7 +250,7 @@ const Payment: React.FC<PaymentProps> = ({
         <Typography variant="caption" color="text.mediumEmphasis">
           {PAYMENT_CONFIRMATION_STEP_2}
         </Typography>
-        <Button className="button" variant="contained">
+        <Button className="button" variant="contained" onClick={onComplete}>
           {COMPLETE_BUTTON_LABEL}
         </Button>
       </Stack>

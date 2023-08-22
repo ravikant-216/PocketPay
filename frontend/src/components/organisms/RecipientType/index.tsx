@@ -23,6 +23,7 @@ export interface RecipientTypeProps {
   style?: React.CSSProperties
 }
 const StyledContainer = styled(Box)({
+  width: theme.spacing(129),
   display: 'flex',
   flexDirection: 'column',
   gap: theme.spacing(10),
@@ -38,11 +39,15 @@ const RecipientType: React.FC<RecipientTypeProps> = (
       {
         icon: MyBusiness,
         option: 'My business',
-        onClick: props.onClickBusinessCharityHandler,
         title: '',
       },
       { icon: Someonelse, option: 'Someone else', title: '' },
-      { icon: BusinessOrCharity, option: 'Business or Charity', title: '' },
+      {
+        icon: BusinessOrCharity,
+        option: 'Business or Charity',
+        title: '',
+        onClick: props.onClickBusinessCharityHandler,
+      },
     ],
     default: [
       {

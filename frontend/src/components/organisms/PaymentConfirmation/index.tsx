@@ -172,7 +172,9 @@ export default function PaymentConfirmation({
             <CustomButton variant="contained" onClick={onClick}>
               Continue
             </CustomButton>
-            <CustomButton variant="outlined">Cancel this transfer</CustomButton>
+            <CustomButton variant="outlined" onClick={onClick}>
+              Cancel this transfer
+            </CustomButton>
           </ButtonBox>
         </Stack>
       </OuterStyledBox>

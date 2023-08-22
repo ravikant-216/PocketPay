@@ -13,8 +13,14 @@ import Button from '../../atoms/Button'
 import { useState } from 'react'
 import InputField from '../../atoms/InputField'
 
+export interface Business {
+  name: string
+  registrationNumber: string
+  registeredAddress: string
+}
+
 interface BusinessDetailsProps {
-  onConfirm: () => void
+  onConfirm: (data: Business) => void
 }
 
 const BUSINESS_DETAILS = {
@@ -77,7 +83,7 @@ const BusinessDetails: React.FC<BusinessDetailsProps> = (props) => {
       setDetails(updatedDetails)
       setEdit(false)
     } else {
-      props.onConfirm()
+      props.onConfirm(details)
     }
   }
 

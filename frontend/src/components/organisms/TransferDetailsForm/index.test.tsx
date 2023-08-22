@@ -17,6 +17,7 @@ describe('TransferDetailsForm', () => {
         fee="10"
         amountRate="990"
         guaranteedRate="1.5"
+        senderCountryCode={''}
       />
     )
 
@@ -39,6 +40,7 @@ describe('TransferDetailsForm', () => {
         amountRate="990"
         guaranteedRate="1.5"
         saveOnClick={saveOnClick}
+        senderCountryCode={''}
       />
     )
 
@@ -61,6 +63,7 @@ describe('TransferDetailsForm', () => {
         amountRate="990"
         guaranteedRate="1.5"
         saveOnClick={saveOnClick}
+        senderCountryCode={''}
       />
     )
 

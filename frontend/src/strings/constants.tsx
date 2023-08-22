@@ -365,7 +365,6 @@ export const TRANSACTION_DETAIL_CANCEL_SUBHEADING =
 export const TRANSFER_NUMBER = 'Transfer number:'
 export const GENERAL = 'General'
 export const SET_UP_BY = 'Set up by:'
-
 export const TRADING_ADDRESS_HEADING = 'Confirm trading address'
 export const TRADING_ADDRESS_SUBHEADING =
   'Your trading address is usually the place you work every day. If thebusiness has multiple trading addresses, add as many as possible'
@@ -378,7 +377,6 @@ export const TRADING_ADDRESS = [
 export const TRADING_ADDRESSES = 'Trading addresses'
 export const ADD_TRADING_ADDRESS = 'Add trading Address'
 export const ADD = 'Add'
-
 export type TransactionStatus = 'Sending' | 'Cancelled'
 export const DASHBOARD_HEADING_FIRST =
   ' This is where you’ll see your activity and transactions.'
@@ -406,3 +404,6 @@ export const ACCOUNT_LABEL = [
   '2-factor-authentication',
   'Password',
 ]
+export const CONTINUE_TO_PAY_BUTTON = 'Continue to pay'
+export const CANCEL_THIS_TRANSFER = 'Cancel this transfer'
+export const WHAT_TO_DO_TITLE = 'What would you like to do today?'

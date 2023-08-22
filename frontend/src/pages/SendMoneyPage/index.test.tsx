@@ -1,0 +1,200 @@
+import '@testing-library/jest-dom'
+import { cleanup, fireEvent, render, screen } from '@testing-library/react/pure'
+import SendMoneyPage from '.'
+import { BrowserRouter } from 'react-router-dom'
+import { ThemeProvider } from '@mui/material'
+import theme from '../../theme'
+import {
+  CANCEL_TRANSFER,
+  CONFIRM_CONTINUE_LABEL,
+  CONTINUE,
+  CONTINUE_TO_PAY_BUTTON,
+  RECIPIENT_DETAILS_CONTINUE,
+} from '../../strings/constants'
+
+const testId = 'SendMoneyPage'
+const renderWithThemeAndRouter = (T: React.ReactNode) =>
+  render(
+    <BrowserRouter>
+      <ThemeProvider theme={theme}>{T}</ThemeProvider>
+    </BrowserRouter>
+  )
+
+test('Should render', () => {
+  renderWithThemeAndRouter(<SendMoneyPage />)
+  expect(screen.getByTestId(testId)).toBeInTheDocument()
+})
+
+const input = {
+  email: 'test@example.com',
+  account: '123456789012',
+  firstName: 'Johny',
+  lastName: 'Michael',
+  ifsc: 'ABCD1234567',
+}
+
+describe('Testing whole flow of the page', () => {
+  afterAll(() => {
+    cleanup()
+  })
+
+  test('Going back', () => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    fireEvent.click(document.querySelector('.back-icon')!)
+  })
+
+  test('OnClicking Send Money option it navigates to currency Exchange', () => {
+    renderWithThemeAndRouter(<SendMoneyPage />)
+    fireEvent.click(screen.getAllByText('Send money')[0])
+    screen.getByTestId('currencyExchange')
+  })
+
+  test('Entering Currency to transfer information', () => {
+    const senderValue = 'INR'
+    fireEvent.click(screen.getByTestId('sender-arrow'))
+    const senderCountryDropdown = screen.getByTestId('country-dropdown')
+
+    fireEvent.select(senderCountryDropdown, senderValue)
+    screen.debug(senderCountryDropdown)
+
+    fireEvent.click(screen.getByTestId('select-currency-button'))
+    expect(screen.getByText('INR')).toBeInTheDocument()
+
+    const recipientValue = 'USD'
+    fireEvent.click(screen.getByTestId('receiver-arrow'))
+    const countryDropdown = screen.getByTestId('country-dropdown')
+    fireEvent.select(countryDropdown, recipientValue)
+    screen.debug(countryDropdown)
+
+    fireEvent.click(screen.getByTestId('select-currency-button'))
+    expect(screen.getByText('USD')).toBeInTheDocument()
+
+    const senderInput = screen.getByTestId('senderInput')
+    const input = senderInput.querySelector('.senderInput')
+    const continueButton = screen.getByText('Continue')
+    fireEvent.change(input as HTMLInputElement, { target: { value: 75 } })
+    fireEvent.click(continueButton)
+
+    fireEvent.click(screen.getByText(/OK/))
+    expect(
+      screen.getByText('What would you like to do today?')
+    ).toBeInTheDocument()
+  })
+
+  test('Choosing business or charity option for transfer', () => {
+    fireEvent.click(screen.getByText(/Business or Charity/))
+    expect(screen.getByTestId('recipientDetails')).toBeInTheDocument()
+  })
+
+  test('Entering recipient details', () => {
+    const emailInput = screen.getByLabelText('Email')
+    const accountInput = screen.getByLabelText('Account number')
+    const firstNameInput = screen.getByLabelText('First name')
+    const lastNameInput = screen.getByLabelText('Last name')
+    const ifscInput = screen.getByLabelText('IFSC code')
+    const continueButton = screen.getByText('Continue')
+
+    fireEvent.change(emailInput, {
+      target: { name: 'email', value: input.email },
+    })
+    fireEvent.change(accountInput, {
+      target: { name: 'account', value: input.account },
+    })
+    fireEvent.change(firstNameInput, {
+      target: { name: 'firstName', value: input.firstName },
+    })
+    fireEvent.change(lastNameInput, {
+      target: { name: 'lastName', value: input.lastName },
+    })
+    fireEvent.change(ifscInput, {
+      target: { name: 'ifsc', value: input.ifsc },
+    })
+
+    expect(emailInput.getAttribute('value')).toBe(input.email)
+    expect(accountInput.getAttribute('value')).toBe(input.account)
+    expect(firstNameInput.getAttribute('value')).toBe(input.firstName)
+    expect(lastNameInput.getAttribute('value')).toBe(input.lastName)
+    expect(ifscInput.getAttribute('value')).toBe(input.ifsc)
+    expect(continueButton).toBeEnabled()
+    fireEvent.click(continueButton)
+    expect(screen.getByTestId('pocketpayPurpose')).toBeInTheDocument()
+  })
+
+  test('Entering pocket pay purpose', () => {
+    const component = screen.getByTestId('pocketpayPurpose')
+    const dropdownButton = component.querySelectorAll('.MuiInputBase-root')[0]
+    const button = screen.getByText(RECIPIENT_DETAILS_CONTINUE)
+    expect(button).toBeDisabled()
+    fireEvent.click(dropdownButton)
+    fireEvent.click(
+      screen.getByText('Paying rent, utilities or property charges')
+    )
+    expect(button).toBeEnabled()
+    fireEvent.click(button)
+  })
+
+  test('Entering directors details', () => {
+    const firstNameInput = screen.getByPlaceholderText('First Name')
+    fireEvent.change(firstNameInput, { target: { value: 'John' } })
+
+    const lastNameInput = screen.getByPlaceholderText('Last Name')
+    fireEvent.change(lastNameInput, { target: { value: 'Doe' } })
+
+    const dobInput = screen.getByPlaceholderText('Date of birth')
+    fireEvent.change(dobInput, { target: { value: '1990-01-01' } })
+
+    const countryDropdown = screen.getAllByRole('button')[0]
+    fireEvent.mouseDown(countryDropdown)
+    fireEvent.click(screen.getByText('India'))
+
+    const button = screen.getByText('Continue')
+    fireEvent.click(button)
+  })
+
+  test('Entering Owners details', () => {
+    const firstNameInput = screen.getByPlaceholderText('First Name')
+    fireEvent.change(firstNameInput, { target: { value: 'John' } })
+
+    const lastNameInput = screen.getByPlaceholderText('Last Name')
+    fireEvent.change(lastNameInput, { target: { value: 'Doe' } })
+
+    const dobInput = screen.getByPlaceholderText('Date of birth')
+    fireEvent.change(dobInput, { target: { value: '1990-01-01' } })
+
+    const button = screen.getByText('Continue')
+    fireEvent.click(button)
+  })
+
+  test('Confirming the details', () => {
+    expect(screen.queryByText(input.email)).toBeInTheDocument()
+    fireEvent.click(screen.getByText(CONFIRM_CONTINUE_LABEL))
+  })
+
+  test('Choosing the bank option', () => {
+    fireEvent.click(screen.getByText('Transfer from your bank account'))
+    fireEvent.click(screen.getByText(CONTINUE_TO_PAY_BUTTON))
+  })
+
+  test('Choosing the bank', async () => {
+    expect(screen.getByTestId('ChooseBank')).toBeInTheDocument()
+    const lloydsBankCard = screen.findByText('LLOYDS')
+    fireEvent.click(screen.getByText(CANCEL_TRANSFER))
+    fireEvent.click(screen.getByText('Yes'))
+    fireEvent.click(screen.getByText('No'))
+    fireEvent.click(await lloydsBankCard)
+  })
+
+  test('Confirmation from Lloyds', () => {
+    expect(screen.getByTestId('LloydsConfirmation')).toBeInTheDocument()
+    fireEvent.click(screen.getByText(CONTINUE))
+  })
+
+  test('Clicking on continue', () => {
+    fireEvent.click(screen.getByText(/Continue/i))
+  })
+
+  test('Going back', () => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    fireEvent.click(document.querySelector('.back-icon')!)
+  })
+})

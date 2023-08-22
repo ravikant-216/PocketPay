@@ -16,6 +16,7 @@ export interface TransferDetailsProps extends BoxProps {
   amount: string
   fee: string
   amountRate: string
+  senderCountryCode: string
   guaranteedRate: string
   cancelOnClick?: () => void
   saveOnClick?: (values: {
@@ -35,15 +36,16 @@ const fillBuffer = (e: any) => {
     e.target.value + extraFiller
 }
 
-export default function TransferDetailsForm({
+const TransferDetailsForm: React.FC<TransferDetailsProps> = ({
   amount: initialAmount,
   fee,
   amountRate,
   guaranteedRate,
+  senderCountryCode,
   cancelOnClick,
   saveOnClick,
   ...props
-}: TransferDetailsProps) {
+}) => {
   const [amount, setAmount] = useState(initialAmount)
   const handleSaveClick = () => {
     if (saveOnClick) {
@@ -84,7 +86,7 @@ export default function TransferDetailsForm({
       endAdornment: (
         <div className={`suffix ${amount === '' && 'remove'}`}>
           <span className="filler">{amount}</span>
-          <span>GBP</span>
+          <span>{senderCountryCode}</span>
         </div>
       ),
       onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -163,3 +165,5 @@ export default function TransferDetailsForm({
     </Box>
   )
 }
+
+export default TransferDetailsForm

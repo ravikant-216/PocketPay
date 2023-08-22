@@ -1,4 +1,4 @@
-import { Box, Stack, styled } from '@mui/material'
+import { Box, Stack, StackProps, styled } from '@mui/material'
 import Typography from '../../atoms/Typography'
 import {
   CHANGE,
@@ -17,8 +17,33 @@ import { useState } from 'react'
 import TransferDetailsForm from '../TransferDetailsForm'
 import BusinessDetailsForm from '../BusinessDetailsForm'
 
-interface ReviewTransferDetailsProps {
-  onConfirmAndContinue: React.MouseEventHandler<HTMLButtonElement>
+export interface Transfer {
+  senderAmount: number
+  recipientAmount: number
+  senderCurrencyCode: string
+  recipientCurrencyCode: string
+  fee: number
+  conversionAmount: number
+  rate: number
+}
+
+export interface Recipient {
+  firstName?: string
+  lastName?: string
+  name: string
+  email: string
+  accountNumber: string
+  accountType: string
+  ifsc?: string
+}
+
+export interface ReviewTransferDetailsProps extends StackProps {
+  onConfirmAndContinue: (trasnfer: Transfer, recipient: Recipient) => void
+  data: {
+    transfer: Transfer
+    recipient: Recipient
+  }
+  editable: boolean
 }
 
 enum ScreenType {
@@ -39,7 +64,7 @@ StyledLabelValue.defaultProps = {
 }
 
 const StyledStack = styled(Stack)(({ theme }) => ({
-  width: theme.spacing(129),
+  width: '100%',
 
   // layout
   display: 'flex',
@@ -70,27 +95,21 @@ const StyledStack = styled(Stack)(({ theme }) => ({
 
 const ReviewTransferDetails: React.FC<ReviewTransferDetailsProps> = ({
   onConfirmAndContinue,
+  editable,
+  data,
+  ...rest
 }) => {
   const [userCurrentScreen, setUserCurrentScreen] = useState(
     ScreenType.REVIEW_DETAILS
   )
 
-  const [transferDetails, setTransferDetails] = useState({
-    amount: 100,
-    recievingAmount: 114,
-    senderCurrencyCode: 'GBP',
-    recieverCurrencyCode: 'EUR',
-    fee: 0.0,
-    conversionAmount: 77.44,
-    rate: 1.14,
-  })
+  const [transferDetails, setTransferDetails] = useState<Transfer>(
+    data.transfer
+  )
 
-  const [recipientDetails, setRecipientsDetails] = useState({
-    name: 'Mario Gabriel',
-    email: 'mario.gabriel@gmail.com',
-    accountNumber: '21363738391910',
-    accountType: 'Checking',
-  })
+  const [recipientDetails, setRecipientsDetails] = useState<Recipient>(
+    data.recipient
+  )
 
   const scheduleDetails = {
     sending: 'Now',
@@ -105,11 +124,11 @@ const ReviewTransferDetails: React.FC<ReviewTransferDetailsProps> = ({
     },
     {
       info: "Amount we'll convert:",
-      description: `${transferDetails.conversionAmount} ${transferDetails.recieverCurrencyCode}`,
+      description: `${transferDetails.conversionAmount} ${transferDetails.recipientCurrencyCode}`,
     },
     {
       info: 'Guranteed rate:',
-      description: `1 ${transferDetails.senderCurrencyCode} = ${transferDetails.rate} ${transferDetails.recieverCurrencyCode}`,
+      description: `1 ${transferDetails.senderCurrencyCode} = ${transferDetails.rate} ${transferDetails.recipientCurrencyCode}`,
     },
   ]
 
@@ -187,46 +206,54 @@ const ReviewTransferDetails: React.FC<ReviewTransferDetailsProps> = ({
   } else if (userCurrentScreen === ScreenType.TRANSFER_DETAILS_EDITING) {
     return (
       <TransferDetailsForm
-        amount={transferDetails.amount.toString()}
+        amount={transferDetails.senderAmount.toString()}
         fee={transferDetailsLabelvalues[0].description}
+        senderCountryCode={transferDetails.senderCurrencyCode}
         amountRate={transferDetailsLabelvalues[1].description}
         guaranteedRate={transferDetailsLabelvalues[2].description}
         cancelOnClick={onCancelEditing}
         saveOnClick={(data) => {
           setTransferDetails({
             ...transferDetails,
-            amount: Number(data.amount),
-            recievingAmount: Number(data.amount) * transferDetails.rate,
+            senderAmount: Number(data.amount),
+            recipientAmount: Number(data.amount) * transferDetails.rate,
           })
           onCancelEditing()
         }}
+        sx={{ width: '100%' }}
       />
     )
   }
 
   const senderAmountLabel =
-    transferDetails.amount.toFixed(2) + ' ' + transferDetails.senderCurrencyCode
-  const recieverAmountLabel =
-    transferDetails.recievingAmount.toFixed(2) +
+    transferDetails.senderAmount.toFixed(2) +
     ' ' +
-    transferDetails.recieverCurrencyCode
+    transferDetails.senderCurrencyCode
+  const recieverAmountLabel =
+    transferDetails.recipientAmount.toFixed(2) +
+    ' ' +
+    transferDetails.recipientCurrencyCode
 
   return (
-    <StyledStack data-testid="ReviewTransferDetails">
-      <Typography variant="h1">{REVIEW_TRANSFER_DETAILS_TITLE}</Typography>
+    <StyledStack data-testid="ReviewTransferDetails" {...rest}>
+      {editable && (
+        <Typography variant="h1">{REVIEW_TRANSFER_DETAILS_TITLE}</Typography>
+      )}
       <Stack className="details">
         <Stack className="options">
           <Typography variant="caption" color="text.lowEmphasis">
             {TRANSFER_DETAILS_LABEL}
           </Typography>
           <Box onClick={onClickEdit}>
-            <Typography
-              className="edit-or-change-typo"
-              variant="link"
-              color="primary.500"
-            >
-              {CHANGE}
-            </Typography>
+            {editable && (
+              <Typography
+                className="edit-or-change-typo"
+                variant="link"
+                color="primary.500"
+              >
+                {CHANGE}
+              </Typography>
+            )}
           </Box>
         </Stack>
         <Stack direction="row" gap={2}>
@@ -242,6 +269,26 @@ const ReviewTransferDetails: React.FC<ReviewTransferDetailsProps> = ({
             {RECIEPIENT_DETAILS_LABEL}
           </Typography>
           <Box onClick={onClickChange}>
+            {editable && (
+              <Typography
+                className="edit-or-change-typo"
+                variant="link"
+                color="primary.500"
+              >
+                {CHANGE}
+              </Typography>
+            )}
+          </Box>
+        </Stack>
+
+        {renderLabeValuesOf(recipientDetailsLabelvalues)}
+      </Stack>
+      {editable && (
+        <Stack className="details">
+          <Stack className="options">
+            <Typography variant="caption" color="text.lowEmphasis">
+              {SCHEDULE_DETAILS_LABEL}
+            </Typography>
             <Typography
               className="edit-or-change-typo"
               variant="link"
@@ -249,34 +296,25 @@ const ReviewTransferDetails: React.FC<ReviewTransferDetailsProps> = ({
             >
               {CHANGE}
             </Typography>
-          </Box>
+          </Stack>
+          {renderLabeValuesOf(scheduleDetailsLabelvalues)}
         </Stack>
-
-        {renderLabeValuesOf(recipientDetailsLabelvalues)}
-      </Stack>
-      <Stack className="details">
-        <Stack className="options">
-          <Typography variant="caption" color="text.lowEmphasis">
-            {SCHEDULE_DETAILS_LABEL}
+      )}
+      {editable && (
+        <Stack className="footer">
+          <Typography variant="body3" color="text.lowEmphasis">
+            {TERMS_AND_CONDITIONS_LABEL}
           </Typography>
-          <Typography
-            className="edit-or-change-typo"
-            variant="link"
-            color="primary.500"
+          <Button
+            variant="contained"
+            onClick={() =>
+              onConfirmAndContinue(transferDetails, recipientDetails)
+            }
           >
-            {CHANGE}
-          </Typography>
+            {CONFIRM_CONTINUE_LABEL}
+          </Button>
         </Stack>
-        {renderLabeValuesOf(scheduleDetailsLabelvalues)}
-      </Stack>
-      <Stack className="footer">
-        <Typography variant="body3" color="text.lowEmphasis">
-          {TERMS_AND_CONDITIONS_LABEL}
-        </Typography>
-        <Button variant="contained" onClick={onConfirmAndContinue}>
-          {CONFIRM_CONTINUE_LABEL}
-        </Button>
-      </Stack>
+      )}
     </StyledStack>
   )
 }

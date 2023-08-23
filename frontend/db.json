@@ -1,0 +1,68 @@
+{
+  "user": [],
+  "country": [
+    {
+      "id": 1,
+      "name": "Andorra",
+      "currencyCode": "EUR",
+      "countryCode": "+376",
+      "currencyRate": 90.27
+    },
+    {
+      "id": 2,
+      "name": "United Kingdom",
+      "currencyCode": "GBP",
+      "countryCode": "+44",
+      "currencyRate": 105.73
+    },
+    {
+      "id": 3,
+      "name": "Austria",
+      "currencyCode": "EUR",
+      "countryCode": "+43",
+      "currencyRate": 90.06
+    },
+    {
+      "id": 4,
+      "name": "India",
+      "currencyCode": "INR",
+      "countryCode": "+91",
+      "currencyRate": 91
+    },
+    {
+      "id": 5,
+      "name": "United States",
+      "currencyCode": "USD",
+      "countryCode": "+1",
+      "currencyRate": 83
+    }
+  ],
+  "businessCategory": [
+    {
+      "id": 1,
+      "name": "Design, marketing or communication"
+    },
+    {
+      "id": 2,
+      "name": "Health, sports or personal care"
+    },
+    {
+      "id": 3,
+      "name": "Real estate or construction"
+    },
+    {
+      "id": 4,
+      "name": "Education or learning"
+    },
+    {
+      "id": 4,
+      "name": "Others"
+    }
+  ],
+  "address": [],
+
+  "transaction": [],
+
+  "beneficiary": [],
+  "business": []
+}

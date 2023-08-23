@@ -6,35 +6,40 @@
       "name": "Andorra",
       "currencyCode": "EUR",
       "countryCode": "+376",
-      "currencyRate": 90.27
+      "currencyRate": 90.27,
+      "countryImageUrl": "/static/media/public/assets/icons/andorra.svg"
     },
     {
       "id": 2,
       "name": "United Kingdom",
       "currencyCode": "GBP",
       "countryCode": "+44",
-      "currencyRate": 105.73
+      "currencyRate": 105.73,
+      "countryImageUrl": "/static/media/public/assets/icons/UK.svg"
     },
     {
       "id": 3,
       "name": "Austria",
       "currencyCode": "EUR",
       "countryCode": "+43",
-      "currencyRate": 90.06
+      "currencyRate": 90.06,
+      "countryImageUrl": "/static/media/public/assets/icons/austria.svg"
     },
     {
       "id": 4,
       "name": "India",
       "currencyCode": "INR",
       "countryCode": "+91",
-      "currencyRate": 91
+      "currencyRate": 91,
+      "countryImageUrl": "/static/media/public/assets/icons/india.svg"
     },
     {
       "id": 5,
       "name": "United States",
       "currencyCode": "USD",
       "countryCode": "+1",
-      "currencyRate": 83
+      "currencyRate": 83,
+      "countryImageUrl": "/static/media/public/assets/icons/US.svg"
     }
   ],
   "businessCategory": [

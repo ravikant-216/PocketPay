@@ -412,3 +412,4 @@ export const DETAILS_LABEL_ARRAY = [
   'Business activity',
   'Your details',
 ]
+export const baseURL = ' http://localhost:3000'

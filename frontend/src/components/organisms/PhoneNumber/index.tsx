@@ -101,15 +101,8 @@ export default function PhoneNumber({
   }
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        alignItems: 'flex-end',
-        ...props.sx,
-      }}
-      {...props}
-    >
-      <Box sx={{ width: '100%', minHeight: theme.spacing(131) }}>
+    <Box {...props}>
+      <Box sx={{ width: '100%', minHeight: theme.spacing(117) }}>
         {showCountrySelect ? (
           <CountrySelect
             inputVariant="country"
@@ -285,18 +278,20 @@ export default function PhoneNumber({
         )}
       </Box>
       {!showCountrySelect && step !== 3 && (
-        <Box>
-          <CustomButton
-            variant="contained"
-            disabled={
-              (step === 1 && phoneNumber.length !== 10) ||
-              (step === 2 && otp.length !== 6)
-            }
-            onClick={handleContinueClick}
-          >
-            {step === 2 ? SUBMIT : CONTINUE_BUTTON}
-          </CustomButton>
-        </Box>
+        <CustomButton
+          variant="contained"
+          sx={{
+            bottom: '0%',
+            left: props.width,
+          }}
+          disabled={
+            (step === 1 && phoneNumber.length !== 10) ||
+            (step === 2 && otp.length !== 6)
+          }
+          onClick={handleContinueClick}
+        >
+          {step === 2 ? SUBMIT : CONTINUE_BUTTON}
+        </CustomButton>
       )}
     </Box>
   )

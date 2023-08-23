@@ -407,3 +407,8 @@ export const ACCOUNT_LABEL = [
 export const CONTINUE_TO_PAY_BUTTON = 'Continue to pay'
 export const CANCEL_THIS_TRANSFER = 'Cancel this transfer'
 export const WHAT_TO_DO_TITLE = 'What would you like to do today?'
+export const DETAILS_LABEL_ARRAY = [
+  'Your business',
+  'Business activity',
+  'Your details',
+]

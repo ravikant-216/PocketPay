@@ -18,7 +18,7 @@ export interface AccountVerificationProps {
 }
 const ContentWrapper = styled(Box)({
   display: 'flex',
-  height: theme.spacing(180),
+  height: 'auto',
 })
 const TextWrapper = styled(Box)({
   display: 'flex',

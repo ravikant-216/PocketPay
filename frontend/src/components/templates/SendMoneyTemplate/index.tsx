@@ -25,7 +25,7 @@ const BackButtonBox = styled(Box)({
   justifyContent: 'flex-start',
   flexGrow: 1,
   marginBottom: theme.spacing(7.25),
-  marginLeft: '-24%',
+  marginLeft: theme.spacing(6),
   width: 'fit-content',
 })
 

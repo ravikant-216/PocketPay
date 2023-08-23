@@ -7,6 +7,7 @@ import { ACCOUNT_LABEL } from '../../strings/constants'
 import { useState } from 'react'
 import PhoneNumber from '../../components/organisms/PhoneNumber'
 import RecipientType from '../../components/organisms/RecipientType'
+import theme from '../../theme'
 
 export interface AccountSetupPageProps {
   onClick: () => void
@@ -34,7 +35,10 @@ export const AccountSetupPage = (props: AccountSetupPageProps) => {
         <CountrySelect
           inputVariant={'country'}
           country={country}
-          sx={{ minWidth: '90%' }}
+          sx={{
+            width: theme.spacing(162.75),
+            marginRight: theme.spacing(-33.75),
+          }}
           onChange={handleChange}
         ></CountrySelect>
       )
@@ -42,7 +46,7 @@ export const AccountSetupPage = (props: AccountSetupPageProps) => {
     case 3:
       content = (
         <PhoneNumber
-          style={{ minWidth: '90%' }}
+          width={theme.spacing(129)}
           stepProp={phoneStep}
           handlePhoneStep={(value: number) => {
             setPhoneStep(value)
@@ -61,7 +65,10 @@ export const AccountSetupPage = (props: AccountSetupPageProps) => {
       content = (
         <CountrySelect
           inputVariant={'password'}
-          sx={{ minWidth: '90%' }}
+          sx={{
+            width: theme.spacing(162.75),
+            marginRight: theme.spacing(-33.75),
+          }}
           onChange={handleChange}
         ></CountrySelect>
       )

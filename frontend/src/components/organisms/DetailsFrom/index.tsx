@@ -12,39 +12,34 @@ import {
   ACCOUNT_OPEN,
 } from '../../../strings/constants'
 import CountryDropdown from '../CountryDropdown'
+
+export type formData = {
+  firstName: string
+  lastName: string
+  dob: string
+  country: string
+  address: string
+}
 export interface DetailsFormProps extends StackProps {
-  buttonOnClick: (formData: {
-    firstName: string
-    lastName: string
-    dob: string
-    country: string
-    address: string
-  }) => void
+  buttonOnClick: (formData: formData) => void
   buttonWidth?: string
+  initialData?: formData
 }
 
 export default function DetailsForm({
   buttonOnClick,
-  ...props
-}: DetailsFormProps) {
-  const [formData, setFormData] = useState<{
-    firstName: string
-    lastName: string
-    dob: string
-    country: string
-    address: string
-  }>({
+  initialData = {
     firstName: '',
     lastName: '',
     dob: '',
     country: '',
     address: '',
-  })
+  },
+  ...props
+}: DetailsFormProps) {
+  const [formData, setFormData] = useState<formData>(initialData)
 
-  const handleInputChange = (
-    field: 'firstName' | 'lastName' | 'dob' | 'country' | 'address',
-    value: string
-  ) => {
+  const handleInputChange = (field: FieldName, value: string) => {
     setFormData((prevFormData) => {
       return { ...prevFormData, [field]: value }
     })
@@ -69,7 +64,12 @@ export default function DetailsForm({
       placeholder: 'Last Name',
       type: 'text',
     },
-    { name: 'dob', label: DOB, placeholder: DOB, type: 'date' },
+    {
+      name: 'dob',
+      label: DOB,
+      placeholder: DOB,
+      type: 'date',
+    },
   ]
 
   return (
@@ -93,6 +93,7 @@ export default function DetailsForm({
           <InputField
             key={field.name}
             type={field.type}
+            value={formData[field.name]}
             variant="outlined"
             label={field.label}
             placeholder={field.placeholder}
@@ -104,12 +105,14 @@ export default function DetailsForm({
         ))}
         <CountryDropdown
           names={COUNTRY_ARRAY}
+          country={formData.country}
           label={COUNTRY_RESIDENCE}
           placeHolder={COUNTRY_RESIDENCE}
           onChange={(value) => handleInputChange('country', value)}
         ></CountryDropdown>
         <InputField
           type="text"
+          value={formData.address}
           variant="outlined"
           sx={{ width: 'auto' }}
           label="Home Address"

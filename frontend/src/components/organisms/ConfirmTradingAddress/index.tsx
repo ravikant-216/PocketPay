@@ -49,6 +49,7 @@ const ModalContent = (props: ModalContentProps) => {
         </Typography>
         <InputField
           variant="outlined"
+          multiline
           label={`trading address`}
           value={props.addressList[props.selectedValue].address}
         />

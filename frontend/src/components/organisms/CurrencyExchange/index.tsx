@@ -53,20 +53,17 @@ const CommonStyles: React.CSSProperties = {
 const OuterWrapper = styled(Box)({
   ...CommonStyles,
   gap: theme.spacing(13),
-  width: '516px',
+
+  position: 'relative',
+  '& .float-button': {
+    bottom: 0,
+    right: theme.spacing(-35),
+  },
 })
 
 const OuterBoxWrapper = styled(Box)({
   display: 'flex',
-})
-const ContentWrapper = styled(Box)({
-  ...CommonStyles,
-  justifyContent: 'center',
-  gap: theme.spacing(5.5),
-  padding: `${theme.spacing(0)} ${theme.spacing(7.5)} ${theme.spacing(
-    7.5
-  )} ${theme.spacing(7.5)}`,
-  paddingTop: '-40px',
+  justifyContent: 'flex-end',
 })
 
 const ContentBox = styled(Box)({
@@ -129,10 +126,16 @@ const CurrencyExchange = (props: CurrencyExchangeProps) => {
   const [senderCurrencyCard, setSenderCurrencyCard] =
     useState<CurrencyCardProps>(() => {
       if (props.data.senderCountry === '') return DEFAULT_SENDER.props
-      else
-        return SELECT_CURRENCY_ARRAY.find(
+      else {
+        const value = SELECT_CURRENCY_ARRAY.find(
           (item) => item.props.countryCurrencyCode === props.data.senderCountry
-        )?.props
+        )
+        if (value !== undefined) {
+          return value.props
+        } else {
+          return DEFAULT_SENDER.props
+        }
+      }
     })
 
   const [receiverCurrencyCard, setReceiverCurrencyCard] =
@@ -251,7 +254,7 @@ const CurrencyExchange = (props: CurrencyExchangeProps) => {
                     </Stack>
                   }
                   onChange={handleInput}
-                  value={input}
+                  value={input === '0' ? '' : input}
                   data-testid="senderInput"
                   type="number"
                   inputProps={{ className: 'senderInput' }}
@@ -276,58 +279,60 @@ const CurrencyExchange = (props: CurrencyExchangeProps) => {
                     </Stack>
                   }
                   disabled
-                  value={input ? String(reciverCurrencyValue) : ''}
+                  value={
+                    (input === '0' ? '' : input)
+                      ? String(reciverCurrencyValue)
+                      : ''
+                  }
                   data-testid="recieverInput"
                   type="number"
                 />
-                <ContentWrapper>
-                  <ContentBox>
+                <ContentBox>
+                  <Typography variant="body3" color="text.lowEmphasis">
+                    {LOW_COST_TRANSFER}
+                  </Typography>
+                  <Divider variant="middle" sx={{ flex: 1 }} />
+                  <IconBox>
                     <Typography variant="body3" color="text.lowEmphasis">
-                      {LOW_COST_TRANSFER}
+                      {TRANSFER_FEE}
                     </Typography>
-                    <Divider variant="middle" sx={{ flex: 1 }} />
-                    <IconBox>
-                      <Typography variant="body3" color="text.lowEmphasis">
-                        {TRANSFER_FEE}
-                      </Typography>
-                      <Image src={info} alt="" />
-                    </IconBox>
-                  </ContentBox>
-                  <ContentBox>
+                    <Image src={info} alt="" />
+                  </IconBox>
+                </ContentBox>
+                <ContentBox>
+                  <Typography variant="body3" color="text.lowEmphasis">
+                    {GURANTEED_RATE}
+                  </Typography>
+                  <Divider variant="middle" sx={{ flex: 1 }} />
+                  <IconBox>
+                    <Typography variant="body3" color="primary.500">
+                      {GURANTEED_RATE_VALUE}
+                    </Typography>
+                    <Image src={depreciate} alt="" />
+                  </IconBox>
+                </ContentBox>
+                <ContentBox>
+                  <Typography variant="body3" color="text.lowEmphasis">
+                    {TOTAL_AMOUNT}
+                  </Typography>
+                  <Divider variant="middle" sx={{ flex: 1 }} />
+                  <IconBox>
                     <Typography variant="body3" color="text.lowEmphasis">
-                      {GURANTEED_RATE}
+                      {TOTAL_AMOUNT_VALUE}
                     </Typography>
-                    <Divider variant="middle" sx={{ flex: 1 }} />
-                    <IconBox>
-                      <Typography variant="body3" color="primary.500">
-                        {GURANTEED_RATE_VALUE}
-                      </Typography>
-                      <Image src={depreciate} alt="" />
-                    </IconBox>
-                  </ContentBox>
-                  <ContentBox>
-                    <Typography variant="body3" color="text.lowEmphasis">
-                      {TOTAL_AMOUNT}
-                    </Typography>
-                    <Divider variant="middle" sx={{ flex: 1 }} />
-                    <IconBox>
-                      <Typography variant="body3" color="text.lowEmphasis">
-                        {TOTAL_AMOUNT_VALUE}
-                      </Typography>
-                      <Image src={info} alt="" />
-                    </IconBox>
-                  </ContentBox>
-                </ContentWrapper>
+                    <Image src={info} alt="" />
+                  </IconBox>
+                </ContentBox>
               </StyledWrapper>
             </>
           )}
         </OuterWrapper>
-        <ButtonWrapper>
+        <ButtonWrapper className="float-button">
           <CustomButton
             variant="contained"
             onClick={dropdown ? handleSelectCurrency : handleModalOpen}
             data-testid={dropdown ? 'select-currency-button' : 'button'}
-            disabled={dropdown ? false : !input}
+            disabled={dropdown ? false : input === '0' || input === ''}
           >
             {CURRENCY_EXCHANGE_CONTINUE}
           </CustomButton>

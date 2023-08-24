@@ -28,17 +28,9 @@ const StyledStack = styled(Stack)(({ theme }) => ({
 
   // layout
   display: 'flex',
-  flexFlow: 'column nowrap',
   justifyContent: 'flex-start',
   alignItems: 'center',
   gap: theme.spacing(6),
-
-  '& > .content': {
-    overflow: 'scroll',
-    '&::-webkit-scrollbar': {
-      display: 'none',
-    },
-  },
 
   '& .back-icon': {
     alignSelf: 'flex-start',
@@ -164,6 +156,9 @@ const SendMoneyPage: React.FC = () => {
         transfer.current.senderCurrencyCode = String(data.senderCountry)
         navigateToRecipientTypeOfSendMoney()
       }}
+      style={{
+        marginRight: theme.spacing(-33.75),
+      }}
     />
   )
 
@@ -182,7 +177,10 @@ const SendMoneyPage: React.FC = () => {
         account: recipient.current.accountNumber,
         ifsc: recipient.current.ifsc ?? '',
       }}
-      style={{ width: theme.spacing(163) }}
+      style={{
+        width: theme.spacing(162.75),
+        marginRight: theme.spacing(-33.75),
+      }}
       onClick={(data) => {
         recipient.current.accountNumber = data.account
         recipient.current.email = data.email
@@ -198,11 +196,21 @@ const SendMoneyPage: React.FC = () => {
   const purpose = useRef<string>('')
 
   const pocketpayPurpose = (
-    <PocketPayPurpose onClick={navigateToBusinessDirectors} />
+    <PocketPayPurpose
+      onClick={navigateToBusinessDirectors}
+      style={{
+        width: theme.spacing(162.75),
+        marginRight: theme.spacing(-33.75),
+      }}
+    />
   )
 
   const directors = (
     <DirectorInputField
+      sx={{
+        width: theme.spacing(162.75),
+        marginRight: theme.spacing(-33.75),
+      }}
       buttonOnClick={navigateBusinessOwners}
       variant="director"
     />
@@ -210,7 +218,10 @@ const SendMoneyPage: React.FC = () => {
 
   const owners = (
     <DirectorInputField
-      sx={{ width: theme.spacing(202) }}
+      sx={{
+        width: theme.spacing(162.75),
+        marginRight: theme.spacing(-33.75),
+      }}
       buttonOnClick={navigateToBusinessDetails}
       variant="owner"
     />
@@ -218,6 +229,7 @@ const SendMoneyPage: React.FC = () => {
 
   const reviewTransferDetails = (
     <ReviewTransferDetails
+      style={{ width: theme.spacing(129) }}
       data={{ transfer: transfer.current, recipient: recipient.current }}
       onConfirmAndContinue={(t, r) => {
         transfer.current = t
@@ -230,6 +242,7 @@ const SendMoneyPage: React.FC = () => {
 
   const component9 = (
     <ChooseBank
+      style={{ width: theme.spacing(129) }}
       onClickHandler={() => navigateToComponent(10)}
       onCancelHandler={() => {
         console.log('open')
@@ -250,6 +263,7 @@ const SendMoneyPage: React.FC = () => {
 
   const lloydsConfirmation = (
     <LloydsConfirmation
+      style={{ width: theme.spacing(129) }}
       amount={transfer.current.conversionAmount}
       currency={transfer.current.senderCurrencyCode.toString()}
       onPayHandler={() => {
@@ -260,6 +274,7 @@ const SendMoneyPage: React.FC = () => {
 
   const paymentConfirmation = (
     <PaymentConfirmation
+      style={{ width: theme.spacing(129) }}
       payeeName={recipient.current.name}
       reference={'8437658465'}
       amount={transfer.current.conversionAmount.toString()}

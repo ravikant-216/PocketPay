@@ -190,4 +190,19 @@ describe('CurrencyExchange', () => {
     fireEvent.click(overlay)
     expect(screen.queryByTestId('modalContent')).not.toBeInTheDocument()
   })
+
+  it('should initialize senderCurrencyCard with selected country value when senderCountry is provided with values', () => {
+    const Data = {
+      senderAmount: '',
+      senderCountry: 'US',
+    }
+
+    render(
+      <ThemeProvider theme={theme}>
+        <CurrencyExchange onClick={mockOnClick} data={Data} />
+      </ThemeProvider>
+    )
+    const countryCode = screen.getAllByTestId('Typography')[1]
+    expect(countryCode).toBeInTheDocument()
+  })
 })

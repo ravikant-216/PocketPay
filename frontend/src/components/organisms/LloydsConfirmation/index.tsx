@@ -32,11 +32,6 @@ const CommonStyles: React.CSSProperties = {
 const OuterBox = styled(Box)({
   ...CommonStyles,
   gap: theme.spacing(10),
-  width: '100%',
-  paddingRight: theme.spacing(6),
-  paddingLeft: theme.spacing(4),
-  minWidth: `${theme.spacing(134.25)}`,
-  maxWidth: `${theme.spacing(189)}`,
 })
 
 const StyledBox = styled(Box)({

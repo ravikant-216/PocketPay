@@ -14,4 +14,6 @@ const template: Story<CurrencyExchangeProps> = (args) => (
 
 export const CurrencyExchangeStory = template.bind({})
 
-CurrencyExchangeStory.args = {}
+CurrencyExchangeStory.args = {
+  data: { senderCountry: 'INR', senderAmount: '0' },
+}

@@ -19,4 +19,11 @@ RecipientDetailsStory.args = {
   style: {
     width: theme.spacing(129),
   },
+  data: {
+    email: 'jinan@gmail.com',
+    firstName: 'jinan',
+    lastName: 'khan',
+    account: '123456789012',
+    ifsc: '12345678901',
+  },
 }

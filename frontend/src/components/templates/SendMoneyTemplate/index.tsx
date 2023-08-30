@@ -32,8 +32,9 @@ const BackButtonBox = styled(Box)({
 const HeaderGrid = styled(Grid)({
   alignItems: 'center',
   justifyContent: 'space-between',
-  padding: `0 ${theme.spacing(10)} 0 ${theme.spacing(10)}`,
-  height: '80px',
+  padding: `${theme.spacing(2)} ${theme.spacing(16)} ${theme.spacing(
+    7.5
+  )} ${theme.spacing(16)}`,
 })
 
 const StepperGrid = styled(Grid)({})
@@ -41,7 +42,7 @@ const StepperGrid = styled(Grid)({})
 const SendMoneyTemplate = (props: SendMoneyTemplateProps) => {
   return (
     <>
-      <HeaderGrid container>
+      <HeaderGrid container data-tesid="sendMoney">
         <Grid item sm={1}>
           <Image src={logo} alt="pocketPayLogo" />
         </Grid>
@@ -60,7 +61,7 @@ const SendMoneyTemplate = (props: SendMoneyTemplateProps) => {
         >
           {props.avatar && (
             <>
-              <Avatar src={avatar} alt="Avatar" />
+              <Avatar src={avatar} alt="Avatar" data-testid="avatar" />
               <Divider orientation="vertical" />
             </>
           )}

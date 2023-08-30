@@ -23,4 +23,5 @@ TransactionDetailsStory.args = {
   sendingAmount: '100',
   recievingAmount: '114.89',
   transferNumber: '3227627272',
+  time: new Date(),
 }

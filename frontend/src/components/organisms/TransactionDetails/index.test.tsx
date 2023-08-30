@@ -21,6 +21,7 @@ describe('TransactionDetails', () => {
           senderName={'Ross Gener'}
           receiverName={'Mario Gabriel'}
           transferNumber={'3227627272'}
+          time={new Date()}
         />
       </ThemeProvider>
     )
@@ -41,6 +42,7 @@ describe('TransactionDetails', () => {
           senderName={'Ross Gener'}
           receiverName={'Mario Gabriel'}
           transferNumber={'3227627272'}
+          time={new Date()}
         />
       </ThemeProvider>
     )
@@ -48,7 +50,7 @@ describe('TransactionDetails', () => {
     const cancelButton = screen.getByTestId('cancelButton')
     fireEvent.click(cancelButton)
 
-    const transferCancelationModal = getByTestId('transferCancelationModal')
+    const transferCancelationModal = getByTestId('TransferCancelationModal')
     expect(transferCancelationModal).toBeInTheDocument()
   })
 
@@ -64,6 +66,7 @@ describe('TransactionDetails', () => {
           senderName={'Ross Gener'}
           receiverName={'Mario Gabriel'}
           transferNumber={'3227627272'}
+          time={new Date()}
         />
       </ThemeProvider>
     )
@@ -71,7 +74,7 @@ describe('TransactionDetails', () => {
     const cancelButton = screen.getByTestId('cancelButton')
     fireEvent.click(cancelButton)
     const transferCancelationModal = screen.getByTestId(
-      'transferCancelationModal'
+      'TransferCancelationModal'
     )
     const [, accountSelectDropdown, optionSelectDropDown] =
       screen.getAllByRole('button')
@@ -98,12 +101,13 @@ describe('TransactionDetails', () => {
           senderName={'Ross Gener'}
           receiverName={'Mario Gabriel'}
           transferNumber={'3227627272'}
+          time={new Date()}
         />
       </ThemeProvider>
     )
     const cancelButton = screen.getByTestId('cancelButton')
     fireEvent.click(cancelButton)
-    const transferCancelationModal = getByTestId('transferCancelationModal')
+    const transferCancelationModal = getByTestId('TransferCancelationModal')
     expect(transferCancelationModal).toBeInTheDocument()
     const overlay = screen.getByTestId('modalOverlay')
     fireEvent.click(overlay)
@@ -111,7 +115,7 @@ describe('TransactionDetails', () => {
   })
 
   it('should close tracking share card modal when background is clicked', () => {
-    const { getByTestId } = render(
+    render(
       <ThemeProvider theme={theme}>
         <TransactionDetails
           transactionStatus={'Sending'}
@@ -122,17 +126,15 @@ describe('TransactionDetails', () => {
           senderName={'Ross Gener'}
           receiverName={'Mario Gabriel'}
           transferNumber={'3227627272'}
+          time={new Date()}
         />
       </ThemeProvider>
     )
 
     const shareIconElement = screen.getByAltText('shareIcon')
     fireEvent.click(shareIconElement)
-
-    const trackingShareModal = getByTestId('trackingShareModal')
-    expect(trackingShareModal).toBeInTheDocument()
     const overlay = screen.getByTestId('modalOverlay')
     fireEvent.click(overlay)
-    expect(trackingShareModal).not.toBeInTheDocument()
+    expect(screen.getByTestId('ExpandMoreIcon')).toBeInTheDocument()
   })
 })

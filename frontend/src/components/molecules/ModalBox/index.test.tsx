@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import ModalBox, { ModalBoxProps } from '.'
 import '@testing-library/jest-dom/extend-expect'
 
@@ -30,5 +30,15 @@ describe('ModalBox', () => {
     render(<ModalBox {...mockProps} open={false} />)
     const modalContent = screen.queryByText('Modal Content')
     expect(modalContent).not.toBeInTheDocument()
+  })
+
+  it('closes the modal box when overlay is clicked', () => {
+    const mockOnClose = jest.fn()
+    render(<ModalBox {...mockProps} open={true} onClose={mockOnClose} />)
+
+    const overlay = screen.getByTestId('modalOverlay')
+    fireEvent.click(overlay)
+    fireEvent.click(screen.getByTestId('modal'))
+    expect(mockOnClose).toHaveBeenCalledTimes(1)
   })
 })

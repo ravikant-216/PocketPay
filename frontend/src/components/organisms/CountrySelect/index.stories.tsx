@@ -2,6 +2,7 @@ import React from 'react'
 import { Meta, Story } from '@storybook/react'
 import CountrySelect, { Props } from '.'
 import theme from '../../../theme'
+import { CountryArray } from '../../../strings/constants'
 
 export default {
   title: 'organisms/CountrySelect',
@@ -13,7 +14,9 @@ export default {
   },
 } as Meta
 
-const Template: Story<Props> = (args) => <CountrySelect {...args} />
+const Template: Story<Props> = (args) => (
+  <CountrySelect {...args} countryList={CountryArray} />
+)
 
 export const Primary = Template.bind({})
 Primary.args = {

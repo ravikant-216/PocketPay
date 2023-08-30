@@ -16,7 +16,6 @@ import {
   TRANSFER_NUMBER,
   TRANSFER_SHARE_MODAL_HEADING,
   TRANSFER_SHARE_MODAL_SUBHEADING,
-  steps,
 } from '../../../strings/constants'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { useState } from 'react'
@@ -43,6 +42,7 @@ export interface TransactionDetailProps {
   senderName: string
   receiverName: string
   transferNumber: string
+  time: Date
   style?: React.CSSProperties
 }
 
@@ -56,7 +56,7 @@ const CustomAccordion = styled(Accordion)({
     boxShadow: '0px 1px 5px 0px rgba(0, 0, 0, 0.15)',
   },
 
-  '& .MuiAccordionSummary-root': { paddingRight: '20px' },
+  '& .MuiAccordionSummary-root': { paddingRight: theme.spacing(5) },
 })
 
 const GeneralWidgetWrapper = styled(Box)({
@@ -95,6 +95,59 @@ const TransactionDetails = (props: TransactionDetailProps) => {
     props.transactionStatus
   )
 
+  const addTimeStamps = (baseTime: Date, minutes: number, hours: number) => {
+    const newTime = new Date(baseTime)
+    newTime.setMinutes(newTime.getMinutes() + minutes)
+    newTime.setHours(newTime.getHours() + hours)
+    return newTime
+  }
+
+  const steps = [
+    {
+      time: `Today at ${addTimeStamps(props.time, 0, 0).toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit',
+      })}`,
+      label: 'You set up your transfer',
+    },
+    {
+      time: `Today at ${addTimeStamps(props.time, 0, 2).toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit',
+      })}`,
+      label: 'We recieved your GBP',
+    },
+    {
+      time: `Today at  ${addTimeStamps(props.time, 0, 4).toLocaleTimeString(
+        [],
+        {
+          hour: '2-digit',
+          minute: '2-digit',
+        }
+      )}`,
+      label: 'Your money’s being processed',
+    },
+    {
+      time: `Tomorrow at ${addTimeStamps(props.time, 0, 6).toLocaleTimeString(
+        [],
+        {
+          hour: '2-digit',
+          minute: '2-digit',
+        }
+      )}`,
+      label: 'We pay out your EUR',
+    },
+    {
+      time: `Tomorrow at ${addTimeStamps(props.time, 0, 8).toLocaleTimeString(
+        [],
+        {
+          hour: '2-digit',
+          minute: '2-digit',
+        }
+      )}`,
+      label: 'George max recieves your EUR',
+    },
+  ]
   const TABS = [
     {
       label: 'Updates',
@@ -137,7 +190,7 @@ const TransactionDetails = (props: TransactionDetailProps) => {
                   direction={'row'}
                   infoColor={theme.palette.text.mediumEmphasis}
                   descColor={theme.palette.text.highEmphasis}
-                  gap={theme.spacing(44.5)}
+                  gap={theme.spacing(35)}
                 />
               </Box>
 

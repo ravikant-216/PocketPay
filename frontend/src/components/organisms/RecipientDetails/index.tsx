@@ -9,9 +9,10 @@ import {
   Email_REGEX,
   RECIPIENT_DETAILS,
   RECIPIENT_DETAILS_CONTINUE,
-  USER_DETAIL,
+  baseURL,
 } from '../../../strings/constants'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 
 interface UserDetails {
   email: string
@@ -45,11 +46,13 @@ const ButtonWrapper = styled(Box)({
   flexDirection: 'column',
 })
 
-interface UserDetails {
+interface Beneficiary {
   account: string
   firstName: string
   lastName: string
   ifsc: string
+  email: string
+  id: number
 }
 const ACCOUNT_NUMBER_LENGTH = 12
 const IFSC_CODE_LENGTH = 11
@@ -66,7 +69,7 @@ const RecipientDetails = (props: RecipientDetailsProps) => {
   }
 
   const [values, setValues] = useState(props.data)
-
+  const [userDetails, setUserDetails] = useState<Beneficiary[]>([])
   const [accountError, setAccountError] = useState('')
   const [ifscError, setIfscError] = useState('')
   const [emailError, setEmailError] = useState('')
@@ -85,7 +88,7 @@ const RecipientDetails = (props: RecipientDetailsProps) => {
     if (name === 'email') {
       const isEmailValid = new RegExp(Email_REGEX).test(value)
       setEmailError(isEmailValid ? '' : 'Invalid email address')
-      const data = USER_DETAIL.find((item) => item.email === value)
+      const data = userDetails.find((item) => item.email === value)
       if (data) {
         setValues(data)
         setDisabled(true)
@@ -109,6 +112,17 @@ const RecipientDetails = (props: RecipientDetailsProps) => {
     )
   }
 
+  const fetchBeneficiaryList = async () => {
+    const response = await axios.get(`${baseURL}/beneficiary`)
+    console.log(response.data)
+    const data: Beneficiary[] = response.data
+    setUserDetails(data)
+  }
+
+  useEffect(() => {
+    fetchBeneficiaryList()
+  }, [])
+
   return (
     <OuterContainer style={props.style} data-testid="recipientDetails">
       <StyledContainer>
@@ -123,7 +137,6 @@ const RecipientDetails = (props: RecipientDetailsProps) => {
           label="Email"
           sx={{ width: '100%' }}
           name="email"
-          disabled={disabled}
           onChange={handleChange}
           value={values.email}
           error={Boolean(emailError)}

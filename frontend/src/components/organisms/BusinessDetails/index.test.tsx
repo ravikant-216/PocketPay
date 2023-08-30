@@ -11,19 +11,34 @@ const renderWithTheme = (T: React.ReactNode) =>
   render(<ThemeProvider theme={theme}>{T}</ThemeProvider>)
 
 test('Should render', () => {
-  renderWithTheme(<BusinessDetails onConfirm={onConfirmMock} />)
+  renderWithTheme(
+    <BusinessDetails
+      onConfirm={onConfirmMock}
+      name="Zentech solutions pvt ltd"
+    />
+  )
   expect(screen.getByTestId(testId)).toBeInTheDocument()
 })
 
 test('Should call onConfirmMock on clicking Confirm button', () => {
-  renderWithTheme(<BusinessDetails onConfirm={onConfirmMock} />)
+  renderWithTheme(
+    <BusinessDetails
+      onConfirm={onConfirmMock}
+      name="Zentech solutions pvt ltd"
+    />
+  )
   fireEvent.click(screen.getByText('Confirm'))
   expect(onConfirmMock).toBeCalledTimes(1)
 })
 
 describe('Editing business details', () => {
   test('Should display input fields to edit on clicking edit button', () => {
-    renderWithTheme(<BusinessDetails onConfirm={onConfirmMock} />)
+    renderWithTheme(
+      <BusinessDetails
+        onConfirm={onConfirmMock}
+        name="Zentech solutions pvt ltd"
+      />
+    )
     const component = screen.getByTestId(testId)
     expect(component.querySelectorAll('textarea[placeholder=""]')).toHaveLength(
       0
@@ -37,7 +52,12 @@ describe('Editing business details', () => {
   })
 
   test('Should not display updated details on clicking cancel button', () => {
-    renderWithTheme(<BusinessDetails onConfirm={onConfirmMock} />)
+    renderWithTheme(
+      <BusinessDetails
+        onConfirm={onConfirmMock}
+        name="Zentech solutions pvt ltd"
+      />
+    )
     const component = screen.getByTestId(testId)
     expect(component.querySelectorAll('textarea[placeholder=""]')).toHaveLength(
       0
@@ -58,7 +78,12 @@ describe('Editing business details', () => {
     expect(screen.queryByText('Hyderabad')).not.toBeInTheDocument()
   })
   test('Should display updated details on clicking cancel button', () => {
-    renderWithTheme(<BusinessDetails onConfirm={onConfirmMock} />)
+    renderWithTheme(
+      <BusinessDetails
+        onConfirm={onConfirmMock}
+        name="Zentech solutions pvt ltd"
+      />
+    )
     const component = screen.getByTestId(testId)
     expect(component.querySelectorAll('textarea[placeholder=""]')).toHaveLength(
       0

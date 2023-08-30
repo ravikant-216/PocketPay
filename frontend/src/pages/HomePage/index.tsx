@@ -12,9 +12,12 @@ import {
   SEND_MONEY,
   DASHBOARD_HEADING_FIRST,
   DASHBOARD_HEADING_SECOND,
+  baseURL,
 } from '../../strings/constants'
 import theme from '../../theme'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
+import { useLocation, useNavigate } from 'react-router'
 
 const NoTransactionContainer = styled(Box)({
   display: 'flex',
@@ -36,10 +39,38 @@ interface TransactionProps {
   transferNumber: string
   key: number
 }
+
 export interface TransactionList {
   transactionList: TransactionProps[]
 }
 
+interface TransactionDetails {
+  status: string
+  sendingAmount: string
+  recievingAmount: string
+  sendingCurrencyCode: string
+  recievingCurrencyCode: string
+  senderName: string
+  receiverName: string
+  referenceNumber: string
+  time: Date
+  index: number
+  userId: number
+  recipientId: number
+}
+
+interface Beneficiary {
+  id: 1
+  firstName: string
+  lastName: string
+  userId: number
+}
+
+interface User {
+  first_name: string
+  last_name: string
+  id: number
+}
 const HomeGrid = styled(Grid)({
   paddingTop: theme.spacing(9.25),
   paddingBottom: theme.spacing(6.25),
@@ -60,10 +91,59 @@ const StyledPaper = styled(Paper)({
     boxShadow: '0px 1px 5px 0px rgba(0, 0, 0, 0.15)',
   },
 })
-const HomePage = (props: TransactionList) => {
+
+const HomePage = () => {
+  const [transactionList, setTransactionList] = useState<TransactionDetails[]>(
+    []
+  )
+
+  const location = useLocation()
+
+  const id = location.state.id
+
+  const [senderName, setSenderName] = useState('')
+  const [recieverName, setReceiverName] = useState<Beneficiary[]>([])
   const [showBalances, setShowBalances] = useState(false)
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await axios.get(`${baseURL}/transaction`)
+      const data: TransactionDetails[] = response.data
+
+      const transactionWithMatchingUserId: TransactionDetails[] = data.filter(
+        (item) => item.userId === Number(id)
+      )
+      setTransactionList(transactionWithMatchingUserId)
+
+      const senderResponse = await axios.get(`${baseURL}/user`)
+      const senderData: User[] = senderResponse.data
+      const user = senderData.find((item) => item.id === Number(id))
+      if (user) {
+        setSenderName(user.first_name + ' ' + user.last_name)
+      }
+
+      const recieverResponse = await axios.get(`${baseURL}/beneficiary`)
+      const recieverData: Beneficiary[] = recieverResponse.data
+      const reciever: Beneficiary[] = recieverData.filter(
+        (item) => item.userId === Number(id)
+      )
+      if (reciever) {
+        setReceiverName(reciever)
+        setShowBalances(true)
+      }
+    }
+
+    fetchData()
+  }, [transactionList.length, id])
+
+  const navigate = useNavigate()
+
+  const reciever = (id: number) => {
+    const name = recieverName.find((reciever) => reciever.id === id)
+
+    return name?.firstName + ' ' + name?.lastName
+  }
+
   const DashboardContent = () => {
-    setShowBalances(props.transactionList.length > 0)
     return (
       <>
         <HomeGrid container>
@@ -73,10 +153,16 @@ const HomePage = (props: TransactionList) => {
             </Typography>
           </Grid>
           <Grid item sm={6} justifyContent={'flex-end'} display={'flex'}>
-            <CustomButton variant="contained">{SEND_MONEY}</CustomButton>
+            <CustomButton
+              variant="contained"
+              onClick={() => navigate(`/sendMoney`, { state: { id: id } })}
+              data-testid="sendMoneyButton"
+            >
+              {SEND_MONEY}
+            </CustomButton>
           </Grid>
         </HomeGrid>
-        {props.transactionList.length === 0 && (
+        {transactionList.length === 0 && (
           <StyledPaper>
             <NoTransactionContainer>
               <Image
@@ -97,25 +183,29 @@ const HomePage = (props: TransactionList) => {
             </NoTransactionContainer>
           </StyledPaper>
         )}
-        {props.transactionList.length > 0 &&
-          props.transactionList.map((item: TransactionProps) => (
+
+        {transactionList.map((item) => {
+          return (
             <TransactionDetails
+              data-testid="transactionDetails"
               sendingAmount={item.sendingAmount}
-              transactionStatus={item.transactionStatus as TransactionStatus}
+              transactionStatus={item.status as TransactionStatus}
               recievingAmount={item.recievingAmount}
-              sendingCurrency={item.sendingCurrency}
-              recievingCurrency={item.recievingCurrency}
-              senderName={item.senderName}
-              receiverName={item.receiverName}
-              transferNumber={item.transferNumber}
-              key={item.key}
+              sendingCurrency={item.sendingCurrencyCode}
+              recievingCurrency={item.recievingCurrencyCode}
+              senderName={senderName}
+              receiverName={reciever(item.recipientId)}
+              transferNumber={item.referenceNumber}
+              key={item.referenceNumber}
               style={{
                 marginBottom: theme.spacing(5),
                 marginLeft: theme.spacing(8),
                 marginRight: theme.spacing(8),
               }}
+              time={item.time}
             />
-          ))}
+          )
+        })}
       </>
     )
   }

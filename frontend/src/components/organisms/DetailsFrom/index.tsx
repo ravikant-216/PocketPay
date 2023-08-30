@@ -3,9 +3,9 @@ import InputField from '../../atoms/InputField'
 import { Stack, Box, StackProps } from '@mui/material'
 import theme from '../../../theme'
 import { useState } from 'react'
+import { IconLabelPropType } from '../../atoms/IconLabel'
 import CustomButton from '../../atoms/Button'
 import {
-  COUNTRY_ARRAY,
   DOB,
   COUNTRY_RESIDENCE,
   FILL_DETAIL,
@@ -24,10 +24,12 @@ export interface DetailsFormProps extends StackProps {
   buttonOnClick: (formData: formData) => void
   buttonWidth?: string
   initialData?: formData
+  countryList: IconLabelPropType[]
 }
 
 export default function DetailsForm({
   buttonOnClick,
+  countryList,
   initialData = {
     firstName: '',
     lastName: '',
@@ -104,11 +106,11 @@ export default function DetailsForm({
           />
         ))}
         <CountryDropdown
-          names={COUNTRY_ARRAY}
           country={formData.country}
           label={COUNTRY_RESIDENCE}
           placeHolder={COUNTRY_RESIDENCE}
           onChange={(value) => handleInputChange('country', value)}
+          countryList={countryList}
         ></CountryDropdown>
         <InputField
           type="text"

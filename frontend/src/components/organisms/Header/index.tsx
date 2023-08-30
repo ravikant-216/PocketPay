@@ -7,6 +7,7 @@ import USER_AVATAR from '../../../../public/assets/icons/user_avatar.svg'
 import BellIcon from '../../../../public/assets/icons/bell.svg'
 import ProfileMenu from '../../molecules/ProfileMenu'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const StyledStack = styled(Stack)(({ theme }) => ({
   width: '100%',
@@ -45,13 +46,13 @@ const Header: React.FC<StackProps> = () => {
   const onAvatarClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
   }
-
+  const navigate = useNavigate()
   const onClose = () => {
     setAnchorEl(undefined)
   }
 
   const onLogout = () => {
-    // navigates to home page - should be implemented at routing of pages
+    navigate('/')
   }
 
   return (

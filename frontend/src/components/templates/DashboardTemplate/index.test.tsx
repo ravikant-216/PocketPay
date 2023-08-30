@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react'
 import DashboardTemplate from '.'
 import { ThemeProvider } from '@mui/material'
 import theme from '../../../theme'
+import { BrowserRouter } from 'react-router-dom'
 
 const testId = 'DashboardTemplate'
 const renderWithTheme = (T: React.ReactNode) =>
@@ -10,7 +11,9 @@ const renderWithTheme = (T: React.ReactNode) =>
 
 test('Should render', () => {
   renderWithTheme(
-    <DashboardTemplate Content={<div>Content</div>} newUser={false} />
+    <BrowserRouter>
+      <DashboardTemplate Content={<div>Content</div>} newUser={false} />
+    </BrowserRouter>
   )
   expect(screen.getByTestId(testId)).toBeInTheDocument()
   expect(screen.getByText('Content')).toBeInTheDocument()

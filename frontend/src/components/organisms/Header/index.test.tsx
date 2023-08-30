@@ -3,10 +3,15 @@ import { act, fireEvent, render, screen } from '@testing-library/react'
 import Header from '.'
 import { ThemeProvider } from '@mui/material'
 import theme from '../../../theme'
+import { BrowserRouter } from 'react-router-dom'
 
 const testId = 'Header'
 const renderWithTheme = (T: React.ReactNode) =>
-  render(<ThemeProvider theme={theme}>{T}</ThemeProvider>)
+  render(
+    <BrowserRouter>
+      <ThemeProvider theme={theme}>{T}</ThemeProvider>
+    </BrowserRouter>
+  )
 
 test('Should render', () => {
   renderWithTheme(<Header />)

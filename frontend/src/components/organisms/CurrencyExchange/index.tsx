@@ -5,40 +5,50 @@ import info from '../../../../public/assets/icons/info.svg'
 import depreciate from '../../../../public/assets/icons/depreciate.svg'
 import Image from '../../atoms/Image'
 import styled from '@emotion/styled'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import CountryDropdown from '../CountryDropdown'
 import {
   AGREE,
   CURRENCY_EXCHANGE_CONTINUE,
   CURRENCY_EXCHANGE_TRANSFER,
-  DEFAULT_SENDER,
   GURANTEED_RATE,
   GURANTEED_RATE_VALUE,
   LOW_COST_TRANSFER,
   MODAL_CONTENT,
-  SELECT_CURRENCY_ARRAY,
   TOTAL_AMOUNT,
   TOTAL_AMOUNT_VALUE,
   TRANSFER_FEE,
+  baseURL,
 } from '../../../strings/constants'
 import CustomButton from '../../atoms/Button'
 import { KeyboardArrowDown } from '@mui/icons-material'
 import theme from '../../../theme'
 import ModalBox from '../../molecules/ModalBox'
 
-interface CurrencyCardProps {
-  countryName?: string
-  iconTitle?: string
-  countryImageSrc?: string
-  countryImageAlt?: string
-  countryCurrencyCode?: string
+import axios from 'axios'
+
+export interface CurrencyCardProps {
+  key: string
   currencyValue: number
+  iconTitle: string
+  src: string
+  alt: string
+  countryCurrencyCode: string
 }
 interface Data {
   senderAmount?: string
   recipientAmount?: string
   senderCountry?: string
   recipientCountry?: string
+}
+
+export interface CardProps {
+  id: number
+  name: string
+  currencyCode: string
+  countryCode: string
+  currencyRate: number
+  countryImageUrl: string
 }
 
 export interface CurrencyExchangeProps {
@@ -63,7 +73,6 @@ const OuterWrapper = styled(Box)({
 
 const OuterBoxWrapper = styled(Box)({
   display: 'flex',
-  justifyContent: 'flex-end',
 })
 
 const ContentBox = styled(Box)({
@@ -113,7 +122,65 @@ const TextContainer = styled(Box)({
   )} ${theme.spacing(7.5)}`,
 })
 const CurrencyExchange = (props: CurrencyExchangeProps) => {
+  const [input, setInput] = useState(props.data.senderAmount)
   const [dropdown, setDropdown] = useState(false)
+  const [open, setOpen] = useState(false)
+  const [countryArray, setCountryArray] = useState<CurrencyCardProps[]>([])
+  const [senderCurrencyCard, setSenderCurrencyCard] =
+    useState<CurrencyCardProps>({
+      key: '',
+      currencyValue: 0,
+      iconTitle: '',
+      src: '',
+      alt: '',
+      countryCurrencyCode: '',
+    })
+
+  const [receiverCurrencyCard, setReceiverCurrencyCard] =
+    useState<CurrencyCardProps>({
+      key: '',
+      currencyValue: 0,
+      iconTitle: '',
+      src: '',
+      alt: '',
+      countryCurrencyCode: '',
+    })
+  const [receiver, setReceiver] = useState(false)
+
+  const setCurrencyCardProps = (data: CardProps) => {
+    return {
+      key: data.name,
+      iconTitle: data.name,
+      src: data.countryImageUrl,
+      alt: data.name,
+      countryCurrencyCode: data.currencyCode,
+      currencyValue: data.currencyRate,
+    }
+  }
+  useEffect(() => {
+    const fetchCountryList = async () => {
+      const response = await axios.get(`${baseURL}/country`)
+      const countryListData: CardProps[] = response.data
+
+      setCountryArray(() =>
+        countryListData.map((item: CardProps) => setCurrencyCardProps(item))
+      )
+
+      setReceiverCurrencyCard(setCurrencyCardProps(countryListData[0]))
+      const senderCard = countryListData.find((item: CardProps) => {
+        return item.countryCode === props.data.senderCountry
+      })
+
+      setSenderCurrencyCard(
+        senderCard
+          ? setCurrencyCardProps(senderCard)
+          : setCurrencyCardProps(countryListData[3])
+      )
+    }
+
+    fetchCountryList()
+  }, [props.data.senderCountry])
+
   const handleSenderClick = () => {
     setDropdown(true)
   }
@@ -123,39 +190,21 @@ const CurrencyExchange = (props: CurrencyExchangeProps) => {
     setReceiver(true)
   }
 
-  const [senderCurrencyCard, setSenderCurrencyCard] =
-    useState<CurrencyCardProps>(() => {
-      if (props.data.senderCountry === '') return DEFAULT_SENDER.props
-      else {
-        const value = SELECT_CURRENCY_ARRAY.find(
-          (item) => item.props.countryCurrencyCode === props.data.senderCountry
-        )
-        if (value !== undefined) {
-          return value.props
-        } else {
-          return DEFAULT_SENDER.props
-        }
-      }
-    })
-
-  const [receiverCurrencyCard, setReceiverCurrencyCard] =
-    useState<CurrencyCardProps>(SELECT_CURRENCY_ARRAY[3].props)
-
-  const [receiver, setReceiver] = useState(false)
-
   const handleChange = (selectedValue: string) => {
-    const card = SELECT_CURRENCY_ARRAY.find(
-      (item) => item.key === selectedValue
-    )
+    const card = countryArray.find((item) => {
+      return item.alt === selectedValue
+    })
 
     if (card) {
       const updatedCard = {
-        iconTitle: card.props.iconTitle,
-        countryImageSrc: card.props.countryImageSrc,
-        countryImageAlt: card.props.countryImageAlt,
-        countryCurrencyCode: card.props.countryCurrencyCode,
-        currencyValue: card.props.currencyValue,
+        key: card.iconTitle,
+        currencyValue: card.currencyValue,
+        iconTitle: card.iconTitle,
+        src: card.src,
+        alt: card.alt,
+        countryCurrencyCode: card.countryCurrencyCode,
       }
+
       if (!receiver) {
         setSenderCurrencyCard(updatedCard)
       } else {
@@ -168,12 +217,10 @@ const CurrencyExchange = (props: CurrencyExchangeProps) => {
     setReceiver(false)
   }
 
-  const [open, setOpen] = useState(false)
   const handleModalOpen = () => {
     setOpen(!open)
   }
 
-  const [input, setInput] = useState(props.data.senderAmount)
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.trim()
     setInput(value)
@@ -222,7 +269,7 @@ const CurrencyExchange = (props: CurrencyExchangeProps) => {
           {dropdown === true ? (
             <>
               <CountryDropdown
-                names={SELECT_CURRENCY_ARRAY}
+                countryList={countryArray}
                 placeholder="select country"
                 onChange={handleChange}
                 data-testid="country-dropdown"
@@ -236,10 +283,7 @@ const CurrencyExchange = (props: CurrencyExchangeProps) => {
                   variant="outlined"
                   endAdornment={
                     <Stack direction={'row'} sx={{ gap: theme.spacing(2.5) }}>
-                      <Image
-                        src={senderCurrencyCard.countryImageSrc}
-                        alt="image"
-                      />
+                      <Image src={senderCurrencyCard.src} alt="image" />
                       <Typography
                         variant="caption"
                         data-testid="sender-country-code"
@@ -264,10 +308,7 @@ const CurrencyExchange = (props: CurrencyExchangeProps) => {
                   variant="outlined"
                   endAdornment={
                     <Stack direction={'row'} sx={{ gap: theme.spacing(2.5) }}>
-                      <Image
-                        src={receiverCurrencyCard.countryImageSrc}
-                        alt="image"
-                      />
+                      <Image src={receiverCurrencyCard.src} alt="image" />
                       <Typography variant="caption">
                         {receiverCurrencyCard.countryCurrencyCode}
                       </Typography>

@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   ACCOUNT_VERIFICATION_CATEGORY,
   ACCOUNT_VERIFICATION_HEADING,
   ACCOUNT_VERIFICATION_SUBHEADING,
   CONTINUE_BUTTON,
+  baseURL,
 } from '../../../strings/constants'
 import Typography from '../../atoms/Typography'
 import SearchDropdown from '../../molecules/SearchDropDown'
@@ -11,10 +12,14 @@ import CustomButton from '../../atoms/Button'
 import styled from '@emotion/styled'
 import { Box, Stack } from '@mui/material'
 import theme from '../../../theme'
-
+import axios from 'axios'
 export interface AccountVerificationProps {
   onClick?: () => void
   style?: React.CSSProperties
+}
+
+interface Category {
+  name: string
 }
 const ContentWrapper = styled(Box)({
   display: 'flex',
@@ -40,7 +45,7 @@ const AccountVerification = (props: AccountVerificationProps) => {
   }
 
   const [value, setValue] = useState(accountVerificationData)
-
+  const [categoryList, setCategoryList] = useState<string[]>([])
   const handleChange = (field: string, selectedValue: string) => {
     setValue((previousValue) => ({
       ...previousValue,
@@ -54,7 +59,21 @@ const AccountVerification = (props: AccountVerificationProps) => {
     value.subcategory
   )
 
-  console.log(value.businessSize)
+  const fetchCategory = async () => {
+    const response = await axios.get(`${baseURL}/businessCategory`)
+    const data: Category[] = response.data
+
+    setCategoryList(() =>
+      data.map((item) => {
+        return item.name
+      })
+    )
+  }
+
+  useEffect(() => {
+    fetchCategory()
+  }, [])
+
   return (
     <>
       <ContentWrapper data-testid="accountVerification" style={props.style}>
@@ -73,7 +92,7 @@ const AccountVerification = (props: AccountVerificationProps) => {
               onValueChange={(selectedValue) =>
                 handleChange('category', selectedValue)
               }
-              options={ACCOUNT_VERIFICATION_CATEGORY.category}
+              options={categoryList}
               placeholder="Category"
               label="Category"
               data-testid="category"

@@ -18,8 +18,8 @@ export interface RecipientTypeProps {
   type: 'sendMoney' | 'default' | 'accountType'
   onClickSendMoneyHandler?: () => void
   onClickBusinessCharityHandler?: () => void
-  onClickPersonalAccountHandler?: () => void
-  onClickBusinessAccountHandler?: () => void
+  onClickPersonalAccountHandler?: (accountType: string) => void
+  onClickBusinessAccountHandler?: (accountType: string) => void
   style?: React.CSSProperties
 }
 const StyledContainer = styled(Box)({
@@ -67,13 +67,17 @@ const RecipientType: React.FC<RecipientTypeProps> = (
         icon: Someonelse,
         option: 'Personal Account',
         title: 'Send, spend, and receive around the world for less.',
-        onClick: props.onClickPersonalAccountHandler,
+        onClick: () =>
+          props.onClickPersonalAccountHandler &&
+          props.onClickPersonalAccountHandler('Personal Account'),
       },
       {
         icon: MyBusiness,
         option: 'Business Account',
         title: 'Do business or freelance work internationally.',
-        onClick: props.onClickBusinessAccountHandler,
+        onClick: () =>
+          props.onClickBusinessAccountHandler &&
+          props.onClickBusinessAccountHandler('Business Account'),
       },
     ],
   }

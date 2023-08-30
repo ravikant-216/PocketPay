@@ -2,10 +2,10 @@ import { Box, Stack, styled } from '@mui/material'
 import Image from '../../components/atoms/Image'
 import LeftArrowIcon from '../../../public/assets/icons/left-arrow.svg'
 import CrossIcon from '../../../public/assets/icons/crossIcon.svg'
-import { useRef, useState } from 'react'
-import CurrencyExchange from '../../components/organisms/CurrencyExchange'
+import { useEffect, useRef, useState } from 'react'
+
 import RecipientType from '../../components/organisms/RecipientType'
-import RecipientDetails from '../../components/organisms/RecipientDetails'
+
 import PocketPayPurpose from '../../components/organisms/PocketPayPurpose'
 import DirectorInputField from '../../components/organisms/DirectorInputField'
 import ReviewTransferDetails, {
@@ -14,13 +14,21 @@ import ReviewTransferDetails, {
 } from '../../components/organisms/ReviewTransferDetails'
 import ReviewTransfer from '../../components/organisms/ReviewTransfer'
 import ChooseBank from '../../components/organisms/ChooseBank'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import LloydsConfirmation from '../../components/organisms/LloydsConfirmation'
 import PaymentConfirmation from '../../components/organisms/PaymentConfirmation'
 import CancelTransferModal from '../../components/organisms/CancelTransferModal'
-import SendMoneyTemplate from '../../components/templates/SendMoneyTemplate'
+
 import Stepper from '../../components/molecules/Stepper'
 import theme from '../../theme'
+import axios from 'axios'
+import CurrencyExchange, {
+  CurrencyCardProps,
+  CardProps,
+} from '../../components/organisms/CurrencyExchange'
+import RecipientDetails from '../../components/organisms/RecipientDetails'
+import SendMoneyTemplate from '../../components/templates/SendMoneyTemplate'
+import { baseURL } from '../../strings/constants'
 
 const StyledStack = styled(Stack)(({ theme }) => ({
   width: '100%',
@@ -28,9 +36,16 @@ const StyledStack = styled(Stack)(({ theme }) => ({
 
   // layout
   display: 'flex',
+  flexFlow: 'column nowrap',
   justifyContent: 'flex-start',
   alignItems: 'center',
   gap: theme.spacing(6),
+
+  '& > .content': {
+    '&::-webkit-scrollbar': {
+      display: 'none',
+    },
+  },
 
   '& .back-icon': {
     alignSelf: 'flex-start',
@@ -47,22 +62,9 @@ const stepperLabels = [
 ]
 
 const SendMoneyPage: React.FC = () => {
-  const paymentData = useRef({
-    senderAmount: '',
-    recipientAmount: '',
-    senderCountry: '',
-    recipientCountry: '',
-    recipientDetails: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      ifsc: '',
-      account: '',
-    },
-    directors: [{}],
-    owners: [{}],
-  })
+  const location = useLocation()
 
+  const id = location.state.id
   const [currentComponentIdx, setCurrentComponentIdx] = useState<number>(0)
   const [openCancelModal, setOpenCancelModal] = useState<boolean>(false)
 
@@ -115,7 +117,7 @@ const SendMoneyPage: React.FC = () => {
   }
 
   const navigateToDashboard = () => {
-    navigate('/')
+    navigate(`/dashboard`, { state: { id: id } })
   }
 
   const transfer = useRef<Transfer>({
@@ -133,6 +135,54 @@ const SendMoneyPage: React.FC = () => {
     accountNumber: '',
     accountType: 'Checking',
   })
+
+  const { v4: uuidv4 } = require('uuid')
+  function generateCustomUUID() {
+    const uuid = uuidv4()
+    return `${uuid.substring(0, 11)}`
+  }
+
+  const customUUID = generateCustomUUID()
+  const createTransaction = async () => {
+    let recipientId = 0
+    const { data } = await axios.get(
+      `${baseURL}/beneficiary?email=${recipient.current.email}`
+    )
+    if (data.length === 0) {
+      try {
+        const response = await axios.post(`${baseURL}/beneficiary`, {
+          firstName: recipient.current.firstName,
+          lastName: recipient.current.lastName,
+          email: recipient.current.email,
+          account: recipient.current.accountNumber,
+          accountType: recipient.current.accountType,
+          ifsc: recipient.current.ifsc,
+          userId: Number(id),
+        })
+
+        recipientId = response.data.id
+      } catch (err) {
+        console.error(err)
+      }
+    } else {
+      recipientId = data[0].id
+    }
+    try {
+      await axios.post(`${baseURL}/transaction`, {
+        referenceNumber: customUUID,
+        status: 'PENDING',
+        time: new Date(),
+        sendingAmount: transfer.current.senderAmount,
+        recievingAmount: transfer.current.recipientAmount,
+        sendingCurrencyCode: transfer.current.senderCurrencyCode,
+        recievingCurrencyCode: transfer.current.recipientCurrencyCode,
+        userId: Number(id),
+        recipientId: recipientId,
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  }
 
   const recipientType = (
     <RecipientType
@@ -184,7 +234,7 @@ const SendMoneyPage: React.FC = () => {
       onClick={(data) => {
         recipient.current.accountNumber = data.account
         recipient.current.email = data.email
-        recipient.current.name = data.firstName + data.lastName
+        recipient.current.name = data.firstName + ' ' + data.lastName
         recipient.current.lastName = data.lastName
         recipient.current.firstName = data.firstName
         recipient.current.ifsc = data.ifsc
@@ -192,6 +242,11 @@ const SendMoneyPage: React.FC = () => {
       }}
     />
   )
+
+  const completeTransaction = () => {
+    createTransaction()
+    navigateToDashboard()
+  }
 
   const purpose = useRef<string>('')
 
@@ -205,35 +260,58 @@ const SendMoneyPage: React.FC = () => {
     />
   )
 
+  const [countryList, setCountryList] = useState<CurrencyCardProps[]>([])
+  const FetchCountryList = async () => {
+    const response = await axios.get(`${baseURL}/country`)
+    const data: CardProps[] = response.data
+
+    setCountryList(
+      data.map((item) => {
+        return {
+          key: item.name,
+          currencyValue: item.currencyRate,
+          iconTitle: item.name,
+          src: item.countryImageUrl,
+          alt: item.name,
+          countryCurrencyCode: item.currencyCode,
+        }
+      })
+    )
+  }
+  useEffect(() => {
+    FetchCountryList()
+  }, [])
+
   const directors = (
     <DirectorInputField
+      buttonOnClick={navigateBusinessOwners}
+      variant="director"
+      countryList={countryList}
       sx={{
         width: theme.spacing(162.75),
         marginRight: theme.spacing(-33.75),
       }}
-      buttonOnClick={navigateBusinessOwners}
-      variant="director"
     />
   )
 
   const owners = (
     <DirectorInputField
+      buttonOnClick={navigateToBusinessDetails}
+      variant="owner"
+      countryList={countryList}
       sx={{
         width: theme.spacing(162.75),
         marginRight: theme.spacing(-33.75),
       }}
-      buttonOnClick={navigateToBusinessDetails}
-      variant="owner"
     />
   )
 
   const reviewTransferDetails = (
     <ReviewTransferDetails
-      style={{ width: theme.spacing(129) }}
       data={{ transfer: transfer.current, recipient: recipient.current }}
       onConfirmAndContinue={(t, r) => {
-        transfer.current = t
-        recipient.current = r
+        transfer.current = { ...t }
+        recipient.current = { ...r }
         navigateToComponent(8)
       }}
       editable={true}
@@ -242,10 +320,8 @@ const SendMoneyPage: React.FC = () => {
 
   const component9 = (
     <ChooseBank
-      style={{ width: theme.spacing(129) }}
       onClickHandler={() => navigateToComponent(10)}
       onCancelHandler={() => {
-        console.log('open')
         setOpenCancelModal(true)
       }}
     />
@@ -257,13 +333,12 @@ const SendMoneyPage: React.FC = () => {
         data: { transfer: transfer.current, recipient: recipient.current },
       }}
       onChooseBankTransfer={navigateToChooseBank}
-      onCompleteCardTransfer={navigateToDashboard}
+      onCompleteCardTransfer={completeTransaction}
     />
   )
 
   const lloydsConfirmation = (
     <LloydsConfirmation
-      style={{ width: theme.spacing(129) }}
       amount={transfer.current.conversionAmount}
       currency={transfer.current.senderCurrencyCode.toString()}
       onPayHandler={() => {
@@ -274,14 +349,13 @@ const SendMoneyPage: React.FC = () => {
 
   const paymentConfirmation = (
     <PaymentConfirmation
-      style={{ width: theme.spacing(129) }}
       payeeName={recipient.current.name}
       reference={'8437658465'}
       amount={transfer.current.conversionAmount.toString()}
       code="24-14-70"
-      accountNumber={paymentData.current.recipientDetails.account}
+      accountNumber={recipient.current.accountNumber}
       address={'PocketPay 56 Shordech High Street London E16JJ United Knigdom'}
-      onClick={navigateToDashboard}
+      onClick={completeTransaction}
     />
   )
 
@@ -328,9 +402,7 @@ const SendMoneyPage: React.FC = () => {
           </Box>
           <CancelTransferModal
             open={openCancelModal}
-            onPositiveAction={() => {
-              navigate('/home')
-            }}
+            onPositiveAction={navigateToDashboard}
             onNegativeAction={() => {
               setOpenCancelModal(false)
             }}

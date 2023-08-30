@@ -1,17 +1,29 @@
+import { ThemeProvider } from '@emotion/react'
+import '@testing-library/jest-dom'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { AccountSetupPage } from '.'
-import '@testing-library/jest-dom'
-import { ThemeProvider } from '@emotion/react'
 import theme from '../../theme'
 
 const renderWithTheme = (T: React.ReactNode) =>
   render(<ThemeProvider theme={theme}>{T}</ThemeProvider>)
 
 describe('AccountSetupPage', () => {
+  const names = [
+    {
+      key: 'India',
+      iconTitle: 'India',
+      src: '/path/to/india/flag/image',
+      alt: 'India Flag',
+    },
+  ]
   const mockFunction = jest.fn()
   it('renders the RecipientType component by default', () => {
     renderWithTheme(
-      <AccountSetupPage onClick={mockFunction} onBackClick={mockFunction} />
+      <AccountSetupPage
+        onClick={mockFunction}
+        onBackClick={mockFunction}
+        countryList={[]}
+      />
     )
     expect(screen.getByText('Personal Account')).toBeInTheDocument()
     expect(screen.getByText('Business Account')).toBeInTheDocument()
@@ -19,7 +31,11 @@ describe('AccountSetupPage', () => {
 
   it('renders the PhoneNumber component when the value is 3', () => {
     const { getAllByRole } = renderWithTheme(
-      <AccountSetupPage onClick={mockFunction} onBackClick={mockFunction} />
+      <AccountSetupPage
+        onClick={mockFunction}
+        onBackClick={mockFunction}
+        countryList={names}
+      />
     )
     fireEvent.click(screen.getByText('Personal Account'))
 
@@ -35,7 +51,11 @@ describe('AccountSetupPage', () => {
     const onClick = jest.fn()
     const mockFunction1 = jest.fn()
     const { getAllByRole } = renderWithTheme(
-      <AccountSetupPage onClick={onClick} onBackClick={mockFunction1} />
+      <AccountSetupPage
+        onClick={onClick}
+        onBackClick={mockFunction1}
+        countryList={names}
+      />
     )
     fireEvent.click(screen.getByText('Personal Account'))
 
@@ -51,7 +71,7 @@ describe('AccountSetupPage', () => {
     const countryDropdown2 = screen.getAllByRole('button')[0]
     const countryDropdownButton2 = screen.getAllByRole('button')[1]
     fireEvent.mouseDown(countryDropdown2)
-    fireEvent.click(screen.getAllByTestId('Typography')[3])
+    fireEvent.click(screen.getAllByTestId('Typography')[0])
     fireEvent.click(countryDropdownButton2)
 
     //
@@ -79,18 +99,29 @@ describe('AccountSetupPage', () => {
   it('calls the onBackClick prop when the back button is clicked on the first step', () => {
     const onBackClick = jest.fn()
     renderWithTheme(
-      <AccountSetupPage onClick={mockFunction} onBackClick={onBackClick} />
+      <AccountSetupPage
+        onClick={mockFunction}
+        onBackClick={onBackClick}
+        countryList={names}
+      />
     )
     fireEvent.click(screen.getByAltText('back'))
     expect(onBackClick).toHaveBeenCalled()
   })
   it('renders the CountrySelect component when the value is 4', () => {
+    const accountType = jest.fn()
     renderWithTheme(
-      <AccountSetupPage onClick={mockFunction} onBackClick={mockFunction} />
+      <AccountSetupPage
+        onClick={mockFunction}
+        onBackClick={mockFunction}
+        accountType={accountType}
+        countryList={[]}
+      />
     )
     fireEvent.click(screen.getByText('Business Account'))
+    expect(accountType).toHaveBeenCalledTimes(1)
     fireEvent.click(screen.getByAltText('back'))
-    expect(screen.getByText('Personal Account')).toBeInTheDocument()
-    expect(screen.getByText('Business Account')).toBeInTheDocument()
+    fireEvent.click(screen.getByText('Personal Account'))
+    expect(accountType).toHaveBeenCalledTimes(2)
   })
 })

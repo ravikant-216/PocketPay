@@ -24,11 +24,13 @@ import {
 } from '../../../strings/constants'
 import BankCard from '../../molecules/BankCard'
 import CountrySelect from '../CountrySelect'
+import { IconLabelPropType } from '../../atoms/IconLabel'
 
 export interface PhoneNumberProps extends BoxProps {
   country?: string
   onSubmit?: () => void
   onCountrySelect?: () => void
+  countryList: IconLabelPropType[]
   handlePhoneStep?: (step: number) => void
   stepProp?: number
 }
@@ -38,6 +40,7 @@ export default function PhoneNumber({
   onSubmit,
   stepProp = 1,
   handlePhoneStep,
+  countryList,
   onCountrySelect,
   ...props
 }: PhoneNumberProps) {
@@ -101,11 +104,12 @@ export default function PhoneNumber({
   }
 
   return (
-    <Box {...props}>
+    <Box {...props} data-testid="phoneNumber">
       <Box sx={{ width: '100%', minHeight: theme.spacing(117) }}>
         {showCountrySelect ? (
           <CountrySelect
             inputVariant="country"
+            countryList={countryList}
             onChange={({ country }) => {
               const selectedCountry = COUNTRIES.find(
                 (item) => item.name.toLowerCase() === country.toLowerCase()

@@ -1,22 +1,28 @@
-import SendMoneyTemplate from '../../components/templates/SendMoneyTemplate'
-import SearchBusiness from '../../components/organisms/SearchOrganization'
-import Stepper from '../../components/molecules/Stepper'
-import { DETAILS_LABEL_ARRAY } from '../../strings/constants'
-import BusinessDetails from '../../components/organisms/BusinessDetails'
 import { useState } from 'react'
-import Image from '../../components/atoms/Image'
 import backArrow from '../../../public/assets/icons/backButton.svg'
+import { IconLabelPropType } from '../../components/atoms/IconLabel'
+import Image from '../../components/atoms/Image'
+import Stepper from '../../components/molecules/Stepper'
 import AccountVerification from '../../components/organisms/AccountVerification'
-import DetailsForm, { formData } from '../../components/organisms/DetailsFrom'
+import BusinessDetails from '../../components/organisms/BusinessDetails'
 import ConfirmTradingAddress from '../../components/organisms/ConfirmTradingAddress'
+import DetailsForm, { formData } from '../../components/organisms/DetailsFrom'
+import SearchBusiness from '../../components/organisms/SearchOrganization'
+import SendMoneyTemplate from '../../components/templates/SendMoneyTemplate'
+import { DETAILS_LABEL_ARRAY } from '../../strings/constants'
 import theme from '../../theme'
+import { useNavigate } from 'react-router'
 
 interface AccountDetailPageProps {
   buttonOnClick: (arg: formData) => void
+  countryList: IconLabelPropType[]
 }
 export const AccountDetailPage = ({
   buttonOnClick,
+  countryList,
 }: AccountDetailPageProps) => {
+  const navigate = useNavigate()
+  const [businessName, setBusinessName] = useState<string>('')
   const [value, setValue] = useState<number>(0)
   const [stepperValue, setStepperValue] = useState<number>(0)
   const [formData, setFormData] = useState<formData>({
@@ -46,7 +52,10 @@ export const AccountDetailPage = ({
     if (value === 0) {
       content = (
         <SearchBusiness
-          onValueChange={() => setValue(value + 1)}
+          onValueChange={(business: string) => {
+            setValue(value + 1)
+            setBusinessName(business)
+          }}
           style={{ width: theme.spacing(129) }}
         />
       )
@@ -54,6 +63,7 @@ export const AccountDetailPage = ({
     } else if (value === 1) {
       content = (
         <BusinessDetails
+          name={businessName}
           onConfirm={() => {
             setValue(value + 1)
           }}
@@ -89,10 +99,12 @@ export const AccountDetailPage = ({
   } else if (stepperValue === 2) {
     content = (
       <DetailsForm
+        countryList={countryList}
         initialData={formData}
         buttonOnClick={(formData) => {
           setFormData(formData)
           buttonOnClick(formData)
+          navigate('/dashboard')
         }}
         sx={{
           width: theme.spacing(162.75),

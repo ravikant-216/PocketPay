@@ -1,5 +1,28 @@
 {
-  "user": [],
+  "user": [
+    {
+      "first_name": "Ross",
+      "last_name": "Gener",
+      "country": "Andorra",
+      "address": "122-Baker street",
+      "email": "ross.gener@gmail.com",
+      "dob": "2023-08-03",
+      "account_type": "Personal Account",
+      "password": "12345678",
+      "id": 1
+    },
+    {
+      "first_name": "Ross",
+      "last_name": "Gener",
+      "country": "Andorra",
+      "address": "122-Baker street",
+      "email": "gener@gmail.com",
+      "dob": "2023-08-03",
+      "account_type": "Personal Account",
+      "password": "12345678",
+      "id": 2
+    }
+  ],
   "country": [
     {
       "id": 1,
@@ -30,7 +53,7 @@
       "name": "India",
       "currencyCode": "INR",
       "countryCode": "+91",
-      "currencyRate": 91,
+      "currencyRate": 1,
       "countryImageUrl": "/static/media/public/assets/icons/india.svg"
     },
     {
@@ -60,14 +83,107 @@
       "name": "Education or learning"
     },
     {
-      "id": 4,
+      "id": 5,
       "name": "Others"
     }
   ],
-  "address": [],
-
-  "transaction": [],
-
-  "beneficiary": [],
+  "address": [
+    {
+      "id": 1,
+      "name": "#2097, Triveni Main Rd, Gokula 1st Stage, Nanjappa Reddy Colony, Yeswanthpur, Bengaluru, Karnataka 560054"
+    }
+  ],
+  "transaction": [
+    {
+      "referenceNumber": "78436875346",
+      "status": "PENDING",
+      "time": "2023-08-28T09:33:21.086Z",
+      "sendingAmount": 11,
+      "recievingAmount": 12.884,
+      "sendingCurrencyCode": "GBP",
+      "recievingCurrencyCode": "EUR",
+      "userId": 1,
+      "recipientId": 1,
+      "id": 1
+    },
+    {
+      "referenceNumber": "78436875346",
+      "status": "PENDING",
+      "time": "2023-08-28T09:33:21.086Z",
+      "sendingAmount": 11,
+      "recievingAmount": 12.884,
+      "sendingCurrencyCode": "GBP",
+      "recievingCurrencyCode": "EUR",
+      "userId": 2,
+      "recipientId": 2,
+      "id": 2
+    },
+    {
+      "referenceNumber": "dd0c8557-94",
+      "status": "PENDING",
+      "time": "2023-08-29T04:24:11.686Z",
+      "sendingAmount": 22,
+      "recievingAmount": 0.244,
+      "sendingCurrencyCode": "INR",
+      "recievingCurrencyCode": "EUR",
+      "userId": 2,
+      "recipientId": 1,
+      "id": 3
+    },
+    {
+      "referenceNumber": "8fa6eb13-4b",
+      "status": "PENDING",
+      "time": "2023-08-29T10:08:01.763Z",
+      "sendingAmount": 33,
+      "recievingAmount": 0.366,
+      "sendingCurrencyCode": "INR",
+      "recievingCurrencyCode": "EUR",
+      "userId": 2,
+      "recipientId": 3,
+      "id": 4
+    },
+    {
+      "referenceNumber": "efc9b1aa-3a",
+      "status": "PENDING",
+      "time": "2023-08-29T13:31:18.863Z",
+      "sendingAmount": 111,
+      "recievingAmount": 111.898,
+      "sendingCurrencyCode": "INR",
+      "recievingCurrencyCode": "EUR",
+      "userId": 1,
+      "recipientId": 3,
+      "id": 5
+    }
+  ],
+  "beneficiary": [
+    {
+      "id": 1,
+      "email": "mario.gabriel@gmail.com",
+      "account": "123456885865",
+      "firstName": "Mario",
+      "lastName": "Gabriel",
+      "ifsc": "ABFJ12929GH",
+      "userId": 2
+    },
+    {
+      "id": 2,
+      "email": "happy.gabriel@gmail.com",
+      "account": "123456885865",
+      "firstName": "Happy",
+      "lastName": "Gabriel",
+      "ifsc": "ABFJ12929GH",
+      "userId": 2
+    },
+    {
+      "firstName": "ravi",
+      "lastName": "kant",
+      "email": "ravi@gmail.com",
+      "account": "123456789999",
+      "accountType": "Checking",
+      "ifsc": "12346678899",
+      "userId": 1,
+      "id": 3
+    }
+  ],
   "business": []
 }

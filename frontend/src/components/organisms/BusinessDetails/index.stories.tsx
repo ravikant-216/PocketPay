@@ -12,5 +12,5 @@ type Story = StoryObj<typeof meta>
 
 export const BusinessDetailsStory: Story = {
   name: 'BusinessDetails',
-  args: {},
+  args: { name: 'Zentech solutions pvt ltd' },
 }

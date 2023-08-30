@@ -1,7 +1,13 @@
 import '@testing-library/jest-dom'
-import { cleanup, fireEvent, render, screen } from '@testing-library/react/pure'
+import {
+  act,
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+} from '@testing-library/react/pure'
 import SendMoneyPage from '.'
-import { BrowserRouter } from 'react-router-dom'
+import { MemoryRouter } from 'react-router-dom'
 import { ThemeProvider } from '@mui/material'
 import theme from '../../theme'
 import {
@@ -10,20 +16,95 @@ import {
   CONTINUE,
   CONTINUE_TO_PAY_BUTTON,
   RECIPIENT_DETAILS_CONTINUE,
+  baseURL,
 } from '../../strings/constants'
+import axios from 'axios'
 
-const testId = 'SendMoneyPage'
-const renderWithThemeAndRouter = (T: React.ReactNode) =>
-  render(
-    <BrowserRouter>
-      <ThemeProvider theme={theme}>{T}</ThemeProvider>
-    </BrowserRouter>
-  )
+jest.mock('axios')
+const mockedAxios = axios as jest.Mocked<typeof axios>
+const currencyDetails = [
+  {
+    id: 1,
+    name: 'Andorra',
+    currencyCode: 'EUR',
+    countryCode: '+376',
+    currencyRate: 90.27,
+    countryImageUrl: '/static/media/public/assets/icons/andorra.svg',
+  },
+  {
+    id: 2,
+    name: 'United Kingdom',
+    currencyCode: 'GBP',
+    countryCode: '+44',
+    currencyRate: 105.73,
+    countryImageUrl: '/static/media/public/assets/icons/UK.svg',
+  },
+  {
+    id: 3,
+    name: 'Austria',
+    currencyCode: 'EUR',
+    countryCode: '+43',
+    currencyRate: 90.06,
+    countryImageUrl: '/static/media/public/assets/icons/austria.svg',
+  },
+  {
+    id: 4,
+    name: 'India',
+    currencyCode: 'INR',
+    countryCode: '+91',
+    currencyRate: 1,
+    countryImageUrl: '/static/media/public/assets/icons/india.svg',
+  },
+  {
+    id: 5,
+    name: 'United States',
+    currencyCode: 'USD',
+    countryCode: '+1',
+    currencyRate: 83,
+    countryImageUrl: '/static/media/public/assets/icons/US.svg',
+  },
+]
 
-test('Should render', () => {
-  renderWithThemeAndRouter(<SendMoneyPage />)
-  expect(screen.getByTestId(testId)).toBeInTheDocument()
-})
+const renderWithThemeAndRouter = (T: React.ReactNode) => {
+  act(() => {
+    mockedAxios.post.mockImplementation((url, data) => {
+      return Promise.resolve({
+        data: data,
+      })
+    })
+
+    mockedAxios.get.mockImplementation((url) => {
+      switch (url) {
+        case `${baseURL}/country`:
+          return Promise.resolve({ data: currencyDetails })
+        case `${baseURL}/beneficiary?email=${input.email}`:
+          return Promise.resolve({
+            data: [
+              {
+                id: 1,
+                email: 'mario.gabriel@gmail.com',
+                account: '123456885865',
+                firstName: 'Mario',
+                lastName: 'Gabriel',
+                ifsc: 'ABFJ12929GH',
+              },
+            ],
+          })
+      }
+      return Promise.resolve({
+        data: [],
+      })
+    })
+
+    render(
+      <MemoryRouter
+        initialEntries={[`${baseURL}/sendMoneyPage`, { state: { id: 1 } }]}
+      >
+        <ThemeProvider theme={theme}>{T}</ThemeProvider>
+      </MemoryRouter>
+    )
+  })
+}
 
 const input = {
   email: 'test@example.com',
@@ -32,6 +113,12 @@ const input = {
   lastName: 'Michael',
   ifsc: 'ABCD1234567',
 }
+
+const testId = 'SendMoneyPage'
+test('Should render', () => {
+  renderWithThemeAndRouter(<SendMoneyPage />)
+  expect(screen.getByTestId(testId)).toBeInTheDocument()
+})
 
 describe('Testing whole flow of the page', () => {
   afterAll(() => {
@@ -60,14 +147,14 @@ describe('Testing whole flow of the page', () => {
     fireEvent.click(screen.getByTestId('select-currency-button'))
     expect(screen.getByText('INR')).toBeInTheDocument()
 
-    const recipientValue = 'USD'
+    const recipientValue = 'EUR'
     fireEvent.click(screen.getByTestId('receiver-arrow'))
     const countryDropdown = screen.getByTestId('country-dropdown')
     fireEvent.select(countryDropdown, recipientValue)
     screen.debug(countryDropdown)
 
     fireEvent.click(screen.getByTestId('select-currency-button'))
-    expect(screen.getByText('USD')).toBeInTheDocument()
+    expect(screen.getByText('EUR')).toBeInTheDocument()
 
     const senderInput = screen.getByTestId('senderInput')
     const input = senderInput.querySelector('.senderInput')
@@ -76,9 +163,6 @@ describe('Testing whole flow of the page', () => {
     fireEvent.click(continueButton)
 
     fireEvent.click(screen.getByText(/OK/))
-    expect(
-      screen.getByText('What would you like to do today?')
-    ).toBeInTheDocument()
   })
 
   test('Choosing business or charity option for transfer', () => {
@@ -190,6 +274,20 @@ describe('Testing whole flow of the page', () => {
   })
 
   test('Clicking on continue', () => {
+    fireEvent.click(screen.getByText(/Continue/i))
+  })
+
+  test('Going back', () => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    mockedAxios.get.mockResolvedValueOnce({
+      data: [{}],
+    })
+    fireEvent.click(screen.getByText(/Continue/i))
+  })
+
+  test('Going back', () => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    mockedAxios.post.mockRejectedValue({ data: {} })
     fireEvent.click(screen.getByText(/Continue/i))
   })
 

@@ -37,4 +37,18 @@ describe('SendMoneyTemplate', () => {
     expect(screen.getByText(labels[1])).toBeInTheDocument()
     expect(screen.getByText(labels[2])).toBeInTheDocument()
   })
+
+  it('should render the avatar', () => {
+    render(
+      <ThemeProvider theme={theme}>
+        <SendMoneyTemplate
+          content={<AccountVerification />}
+          backButton={<Image src={backButton} alt="backIcon" />}
+          stepperComponent={<Stepper value={0} labels={labels} />}
+          avatar
+        />
+      </ThemeProvider>
+    )
+    expect(screen.getByTestId('avatar')).toBeInTheDocument()
+  })
 })

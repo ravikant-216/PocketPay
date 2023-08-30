@@ -1,26 +1,40 @@
-import { fireEvent, render, screen } from '@testing-library/react'
+import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
 import AccountVerification from '.'
 import { ThemeProvider } from '@emotion/react'
 import theme from '../../../theme'
 import '@testing-library/jest-dom/extend-expect'
+import axios from 'axios'
+
+jest.mock('axios')
+afterEach(cleanup)
+const axiosMock = axios as jest.Mocked<typeof axios>
 describe('AccountVerification', () => {
   it('should render the component', () => {
-    const { getByTestId } = render(
-      <ThemeProvider theme={theme}>
-        <AccountVerification />
-      </ThemeProvider>
-    )
-
-    const component = getByTestId('accountVerification')
+    act(() => {
+      axiosMock.get.mockResolvedValue({
+        data: [{ id: 1, name: 'Design, marketing or communication' }],
+      })
+      render(
+        <ThemeProvider theme={theme}>
+          <AccountVerification />
+        </ThemeProvider>
+      )
+    })
+    const component = screen.getByTestId('accountVerification')
     expect(component).toBeInTheDocument()
   })
 
-  it('should enable the button when all the dropdowns are selected', () => {
-    render(
-      <ThemeProvider theme={theme}>
-        <AccountVerification />
-      </ThemeProvider>
-    )
+  it('should enable the button when all the dropdowns are selected', async () => {
+    act(() => {
+      axiosMock.get.mockResolvedValue({
+        data: [{ id: 1, name: 'Design, marketing or communication' }],
+      })
+      render(
+        <ThemeProvider theme={theme}>
+          <AccountVerification />
+        </ThemeProvider>
+      )
+    })
     const component = screen.getByTestId('accountVerification')
     const categoryDropdown = component.querySelectorAll('.MuiInputBase-root')[0]
     const subcategoryDropdown =
@@ -30,7 +44,9 @@ describe('AccountVerification', () => {
     const button = screen.getByTestId('continue')
     expect(button).toBeDisabled()
     fireEvent.click(categoryDropdown)
-    fireEvent.click(screen.getByText('Design, marketing or communication'))
+    fireEvent.click(
+      await screen.findByText('Design, marketing or communication')
+    )
     fireEvent.click(subcategoryDropdown)
     fireEvent.click(
       screen.getByText('Real estate sale, purchase and management')

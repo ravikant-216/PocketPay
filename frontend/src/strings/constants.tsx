@@ -1,10 +1,38 @@
-import IconLabel from '../components/atoms/IconLabel'
 import india from '../../public/assets/icons/india.svg'
 import US from '../../public/assets/icons/US.svg'
 import GBP from '../../public/assets/icons/GBP.svg'
 import austria from '../../public/assets/icons/austria.svg'
 import andorra from '../../public/assets/icons/andorra.svg'
-import CountryCurrencyCard from '../components/molecules/CountryCurrencyCard'
+export const CountryArray = [
+  {
+    key: 'India',
+    iconTitle: 'India',
+    src: 'static/media/public/assets/icons/india.svg',
+    alt: 'India Flag',
+    currencyValue: 1,
+  },
+  {
+    key: 'Andorra',
+    iconTitle: 'Andorra',
+    src: 'static/media/public/assets/icons/andorra.svg',
+    alt: 'Andorra Flag',
+    currencyValue: 90,
+  },
+  {
+    key: 'USA',
+    iconTitle: 'United State',
+    src: 'static/media/public/assets/icons/US.svg',
+    alt: 'USA Flag',
+    currencyValue: 86,
+  },
+  {
+    key: 'Austria',
+    iconTitle: 'Austria',
+    src: 'static/media/public/assets/icons/GBP.svg',
+    alt: 'Austria Flag',
+    currencyValue: 96,
+  },
+]
 export const USER_NAME = 'Ross Gener'
 export const USER_ID = 'P44561754'
 export const DETAILS_LABEL = 'Your details'
@@ -59,33 +87,7 @@ export const ACCOUNT_NUMBER_1 = 4656
 export const DEBIT_CARD_1_LABEL = 'Ending in ' + ACCOUNT_NUMBER_1
 export const ACCOUNT_NUMBER_2 = 4252
 export const DEBIT_CARD_2_LABEL = 'Ending in ' + ACCOUNT_NUMBER_2
-export const COUNTRY_ARRAY = [
-  <IconLabel
-    key="United States"
-    iconTitle="United States"
-    src={US}
-    alt="US Flag"
-  />,
-  <IconLabel
-    key="United Kingdom"
-    iconTitle="United Kingdom"
-    src={GBP}
-    alt="UK Flag"
-  />,
-  <IconLabel key="India" iconTitle="India" src={india} alt="India Flag" />,
-  <IconLabel
-    key="Andorra"
-    iconTitle="Andorra"
-    src={andorra}
-    alt="Andorra Flag"
-  />,
-  <IconLabel
-    key="Austria"
-    iconTitle="Austria"
-    src={austria}
-    alt="Austria Flag"
-  />,
-]
+
 export const SELECT_COUNTRY = 'Select  Your  Country'
 export const CREATE_PASSWORD = 'Create your password'
 export const ENTER_PASSWORD = 'Enter your password'
@@ -117,17 +119,17 @@ export const OWNERS_MESSAGE =
 export const CONFIRM_BUSINESS = 'Confirm your business'
 export const FOUR_DIGIT_LABEL = 'Last four digit '
 export const EXPIRATION_LABEL = ' Expiry date '
-export const ADDRESSES = [
-  '1234, Street Name, Mumbai, Maharashtra, 400001',
-  '5678, Avenue Road, Delhi, Delhi, 110001',
-  '9876, Park Street, Kolkata, West Bengal, 700001',
-  '4321, Main Road, Chennai, Tamil Nadu, 600001',
-  '2468, Market Area, Bangalore, Karnataka, 560001',
-  '1357, Lane No. 9, Hyderabad, Telangana, 500001',
-  '8642, Gandhi Nagar, Ahmedabad, Gujarat, 380001',
-  '9753, MG Road, Pune, Maharashtra, 411001',
-  '7912, New Colony, Jaipur, Rajasthan, 302001',
-  '4319, Beach Road, Surat, Gujarat, 395003',
+export const BUSINESSES = [
+  'Zemoso technology pvt ltd',
+  'Zentech solutions pvt ltd',
+  'ZedeX info tech pvt ltd',
+  'ZedeX info tech pvt ltd',
+  'Zeswe solutions pvt ltd',
+  'Zephyr technologies pvt ltd',
+  'Zentronix innovations pvt ltd',
+  'Zenithix ventures pvt ltd',
+  'Zebrix systems pvt ltd',
+  'Zephyrus dynamics pvt ltd',
 ]
 export const BUSINESS_NOT_MESSAGE = 'Can’t find your business?'
 export const ENTER_DETAIL = 'Enter your details'
@@ -217,59 +219,27 @@ export const CALL_CODE = 'Send code by voice call'
 export const ANOTHER_PHONE = 'Use a different phone number'
 export const SUBMIT = 'Submit'
 export const CONTINUE_BUTTON = 'Continue'
-
-export const steps = [
-  { time: 'Today at 6:43 pm', label: 'You set up your transfer' },
-  { time: 'Today at 6:44 pm', label: 'We recieved your GBP' },
-  { time: 'Today at 6:50 pm', label: 'Your money’s being processed' },
-  { time: 'Tomorrow at 12:00 am', label: 'We pay out your EUR' },
-  { time: 'Tomorrow at 6:00 am', label: 'George max recieves your EUR' },
-]
 export const CURRENCY_EXCHANGE_TRANSFER = 'How much would you like to transfer?'
-import UK from '../../public/assets/icons/uk.svg'
-export const SELECT_CURRENCY_ARRAY = [
-  <CountryCurrencyCard
-    key="Andorra"
-    countryName="Andorra"
-    iconTitle="Andorra"
-    countryImageSrc={andorra}
-    countryImageAlt="Andorra Flag"
-    countryCurrencyCode="EUR"
-    sx={{ width: '100%' }}
-    currencyValue={90.27}
-  />,
-  <CountryCurrencyCard
-    key="India"
-    countryName="India"
-    iconTitle="India"
-    countryImageSrc={india}
-    countryImageAlt="India Flag"
-    countryCurrencyCode="INR"
-    sx={{ width: '100%' }}
-    currencyValue={1}
-  />,
-  <CountryCurrencyCard
-    key="United Kingdom"
-    countryName="United Kingdom"
-    iconTitle="United Kingdom"
-    countryImageSrc={UK}
-    countryImageAlt="Uk Flag"
-    countryCurrencyCode="GBP"
-    sx={{ width: '100%' }}
-    currencyValue={105}
-  />,
-  <CountryCurrencyCard
-    key="United States"
-    iconTitle="United States"
-    countryName="United States"
-    countryImageSrc={US}
-    countryImageAlt="US Flag"
-    countryCurrencyCode="USD"
-    sx={{ width: '100%' }}
-    currencyValue={83}
-  />,
+export const CountryArrayList = [
+  {
+    key: 'India',
+    iconTitle: 'India',
+    src: 'static/media/public/assets/icons/india.svg',
+    alt: 'India Flag',
+    countryCurrencyCode: 'INR',
+    currencyValue: 1,
+  },
+  {
+    key: 'Andorra',
+    iconTitle: 'Andorra',
+    src: 'static/media/public/assets/icons/andorra.svg',
+    alt: 'Andorra Flag',
+    countryCurrencyCode: 'EUR',
+    currencyValue: 90,
+  },
 ]
-export const DEFAULT_SENDER = SELECT_CURRENCY_ARRAY[1]
+
+export const DEFAULT_SENDER = CountryArrayList[0]
 export const LOW_COST_TRANSFER = 'Low cost transfer fee:'
 export const TRANSFER_FEE = 'From 3.69GBP'
 export const GURANTEED_RATE = 'Guaranteed rate (24 hrs):'
@@ -310,14 +280,6 @@ export const POCKEY_PAY_PURPOSE_SUB_HEADING =
 export const POCKEY_PAY_PURPOSE_PLACEHOLDER =
   'Tell us what you’re using PocketPay for'
 export const ACCOUNT_VERIFICATION_CATEGORY = {
-  category: [
-    'Design, marketing or communication',
-    'Health, sports or personal care',
-    'Real estate or construction',
-    'Education or learning',
-    'Others',
-  ],
-
   subcategory: [
     'Real estate sale, purchase and management',
     'Healthcare services',
@@ -407,9 +369,17 @@ export const ACCOUNT_LABEL = [
 export const CONTINUE_TO_PAY_BUTTON = 'Continue to pay'
 export const CANCEL_THIS_TRANSFER = 'Cancel this transfer'
 export const WHAT_TO_DO_TITLE = 'What would you like to do today?'
+
 export const DETAILS_LABEL_ARRAY = [
   'Your business',
   'Business activity',
   'Your details',
 ]
-export const baseURL = ' http://localhost:3000'
+export const baseURL = 'https://bc107ms.spcluster.tk'
+export const steps = [
+  { time: 'Today at 6:43 pm', label: 'You set up your transfer' },
+  { time: 'Today at 6:44 pm', label: 'We recieved your GBP' },
+  { time: 'Today at 6:50 pm', label: 'Your money’s being processed' },
+  { time: 'Tomorrow at 12:00 am', label: 'We pay out your EUR' },
+  { time: 'Tomorrow at 6:00 am', label: 'George max recieves your EUR' },
+]

@@ -2,6 +2,7 @@ import React from 'react'
 import { Story, Meta } from '@storybook/react'
 import PhoneNumber, { PhoneNumberProps } from '.'
 import theme from '../../../theme'
+import { CountryArray } from '../../../strings/constants'
 
 export default {
   title: 'organisms/PhoneNumber',
@@ -17,12 +18,15 @@ export default {
   },
 } as Meta
 
-const Template: Story<PhoneNumberProps> = (args) => <PhoneNumber {...args} />
+const Template: Story<PhoneNumberProps> = (args) => (
+  <PhoneNumber
+    {...args}
+    width={theme.spacing(129)}
+    countryList={CountryArray}
+  />
+)
 
 export const India = Template.bind({})
 India.args = {
   country: 'India',
-  style: {
-    width: theme.spacing(129),
-  },
 }

@@ -28,7 +28,7 @@ describe('OptionCard', () => {
 
   it('calls onclick when clicked', () => {
     const onClickMock = jest.fn()
-    render(<OptionCard {...defaultProps} onclick={onClickMock} />)
+    render(<OptionCard {...defaultProps} onClick={onClickMock} />)
 
     const customBox = screen.getByTestId('custom-box')
     fireEvent.click(customBox)

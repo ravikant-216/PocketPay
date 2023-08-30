@@ -25,7 +25,7 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
   // removed arrows for input type = number
   '& input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button':
     {
-      '-webkit-appearance': 'none',
+      webkitAppearance: 'none',
       margin: 0,
     },
 

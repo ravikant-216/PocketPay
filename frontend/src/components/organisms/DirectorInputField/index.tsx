@@ -2,7 +2,7 @@ import Typography from '../../atoms/Typography'
 import InputField from '../../atoms/InputField'
 import { Stack, Box, StackProps } from '@mui/material'
 import theme from '../../../theme'
-import IconLabel from '../../atoms/IconLabel'
+import IconLabel, { IconLabelPropType } from '../../atoms/IconLabel'
 import plusIcon from '../../../../public/assets/icons/plusIcon.svg'
 import { useState, useEffect } from 'react'
 import CustomButton from '../../atoms/Button'
@@ -10,7 +10,6 @@ import CustomButton from '../../atoms/Button'
 import {
   DIRECTOR_MESSAGE,
   OWNERS_MESSAGE,
-  COUNTRY_ARRAY,
   DOB,
   COUNTRY_RESIDENCE,
   CONFIRM_BUSINESS,
@@ -28,11 +27,13 @@ export interface DirectorInputFieldProps extends StackProps {
   ) => void
   variant: 'director' | 'owner'
   buttonWidth?: string
+  countryList: IconLabelPropType[]
 }
 
 export default function DirectorInputField({
   buttonOnClick,
   variant,
+  countryList,
   ...props
 }: DirectorInputFieldProps) {
   const [formCount, setFormCount] = useState(1)
@@ -130,7 +131,7 @@ export default function DirectorInputField({
         />
       ))}
       <CountryDropdown
-        names={COUNTRY_ARRAY}
+        countryList={countryList}
         label={COUNTRY_RESIDENCE}
         placeHolder={COUNTRY_RESIDENCE}
         onChange={(value) => handleInputChange(index - 1, 'country', value)}

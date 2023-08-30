@@ -21,10 +21,11 @@ export interface Business {
 
 interface BusinessDetailsProps {
   onConfirm: (data: Business) => void
+  name: string
 }
 
 const BUSINESS_DETAILS = {
-  name: 'Zentech Solutions Pvt Ltd',
+  name: '',
   registrationNumber: '2020ZEN5367GJ',
   registeredAddress:
     '#2097, Triveni Main Rd, Gokula 1st Stage, Nanjappa Reddy Colony, Yeswanthpur, Bengaluru, Karnataka 560054',
@@ -76,6 +77,7 @@ const StyledStack = styled(Stack)(({ theme }) => ({
 }))
 
 const BusinessDetails: React.FC<BusinessDetailsProps> = (props) => {
+  BUSINESS_DETAILS.name = props.name
   const [edit, setEdit] = useState<boolean>(false)
 
   const onPositiveButtonClick = () => {
@@ -120,7 +122,7 @@ const BusinessDetails: React.FC<BusinessDetailsProps> = (props) => {
       defaultValue: updatedDetails.registrationNumber,
     },
     {
-      label: 'Registration number',
+      label: 'Registration address',
       onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
         setUpdatedDetails((state) => {
           state.registeredAddress = e.currentTarget.value

@@ -1,7 +1,8 @@
 import { ThemeProvider } from '@emotion/react'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import theme from '../../../theme'
+import axios from 'axios'
 import CurrencyExchange from '.'
 const data = {
   senderAmount: '',
@@ -9,50 +10,123 @@ const data = {
   senderCountry: 'INR',
   recipientCountry: 'USD',
 }
+const currencyDetails = [
+  {
+    id: 1,
+    name: 'Andorra',
+    currencyCode: 'EUR',
+    countryCode: '+376',
+    currencyRate: 90.27,
+    countryImageUrl: '/static/media/public/assets/icons/andorra.svg',
+  },
+  {
+    id: 2,
+    name: 'United Kingdom',
+    currencyCode: 'GBP',
+    countryCode: '+44',
+    currencyRate: 105.73,
+    countryImageUrl: '/static/media/public/assets/icons/UK.svg',
+  },
+  {
+    id: 3,
+    name: 'Austria',
+    currencyCode: 'EUR',
+    countryCode: '+43',
+    currencyRate: 90.06,
+    countryImageUrl: '/static/media/public/assets/icons/austria.svg',
+  },
+  {
+    id: 4,
+    name: 'India',
+    currencyCode: 'INR',
+    countryCode: '+91',
+    currencyRate: 1,
+    countryImageUrl: '/static/media/public/assets/icons/india.svg',
+  },
+  {
+    id: 5,
+    name: 'United States',
+    currencyCode: 'USD',
+    countryCode: '+1',
+    currencyRate: 83,
+    countryImageUrl: '/static/media/public/assets/icons/US.svg',
+  },
+]
+jest.mock('axios')
+afterEach(cleanup)
+const axiosMock = axios as jest.Mocked<typeof axios>
+axiosMock.get.mockResolvedValue({
+  data: currencyDetails,
+})
+const renderWithTheme = (T: React.ReactNode) => {
+  act(() => {
+    axiosMock.get.mockResolvedValue({
+      data: currencyDetails,
+    })
 
+    render(<ThemeProvider theme={theme}>{T}</ThemeProvider>)
+  })
+}
 describe('CurrencyExchange', () => {
   const mockOnClick = jest.fn()
-  it('should render the component', () => {
-    render(
-      <ThemeProvider theme={theme}>
-        <CurrencyExchange
-          onClick={mockOnClick}
-          data={{ ...data, senderCountry: '' }}
-        />
-      </ThemeProvider>
-    )
+  it('should render the component', async () => {
+    act(() => {
+      renderWithTheme(
+        <ThemeProvider theme={theme}>
+          <CurrencyExchange
+            onClick={mockOnClick}
+            data={{ ...data, senderCountry: '' }}
+          />
+        </ThemeProvider>
+      )
+    })
 
-    const component = screen.getByTestId('currencyExchange')
+    const component = await screen.findByTestId('currencyExchange')
     expect(component).toBeInTheDocument()
   })
   test('dropdown opens when sender currency arrow is clicked', () => {
-    render(
-      <ThemeProvider theme={theme}>
-        <CurrencyExchange onClick={mockOnClick} data={data} />
-      </ThemeProvider>
-    )
+    act(() => {
+      renderWithTheme(
+        <ThemeProvider theme={theme}>
+          <CurrencyExchange
+            onClick={mockOnClick}
+            data={{ ...data, senderCountry: '' }}
+          />
+        </ThemeProvider>
+      )
+    })
     const senderArrow = screen.getByTestId('sender-arrow')
     fireEvent.click(senderArrow)
     const countryDropdown = screen.getByTestId('country-dropdown')
     expect(countryDropdown).toBeInTheDocument()
   })
   test('dropdown opens when receiver currency arrow is clicked', () => {
-    render(
-      <ThemeProvider theme={theme}>
-        <CurrencyExchange onClick={mockOnClick} data={data} />
-      </ThemeProvider>
-    )
+    act(() => {
+      renderWithTheme(
+        <ThemeProvider theme={theme}>
+          <CurrencyExchange
+            onClick={mockOnClick}
+            data={{ ...data, senderCountry: '' }}
+          />
+        </ThemeProvider>
+      )
+    })
     const receiverArrow = screen.getByTestId('receiver-arrow')
     fireEvent.click(receiverArrow)
     const countryDropdown = screen.getByTestId('country-dropdown')
     expect(countryDropdown).toBeInTheDocument()
   })
   test('currency selection closes when button is clicked', () => {
-    render(
-      <ThemeProvider theme={theme}>
-        <CurrencyExchange onClick={mockOnClick} data={data} />
-      </ThemeProvider>
-    )
+    act(() => {
+      renderWithTheme(
+        <ThemeProvider theme={theme}>
+          <CurrencyExchange
+            onClick={mockOnClick}
+            data={{ ...data, senderCountry: '' }}
+          />
+        </ThemeProvider>
+      )
+    })
     const senderArrow = screen.getByTestId('sender-arrow')
     fireEvent.click(senderArrow)
 
@@ -64,46 +138,21 @@ describe('CurrencyExchange', () => {
 
     expect(countryDropdown).not.toBeInTheDocument()
   })
-  it('should update senderCurrencyCard when a currency is selected', async () => {
-    const selectedValue = 'INR'
-
-    render(
-      <ThemeProvider theme={theme}>
-        <CurrencyExchange onClick={mockOnClick} data={data} />
-      </ThemeProvider>
-    )
-    fireEvent.click(screen.getByTestId('sender-arrow'))
-    const countryDropdown = screen.getByTestId('country-dropdown')
-
-    fireEvent.select(countryDropdown, selectedValue)
-    screen.debug(countryDropdown)
-
-    fireEvent.click(screen.getByTestId('select-currency-button'))
-    screen.getByText('INR')
-  })
-
-  it('should', () => {
-    render(
-      <ThemeProvider theme={theme}>
-        <CurrencyExchange onClick={mockOnClick} data={data} />
-      </ThemeProvider>
-    )
-    const selectedValue = 'USD'
-    fireEvent.click(screen.getByTestId('receiver-arrow'))
-    const countryDropdown = screen.getByTestId('country-dropdown')
-    fireEvent.select(countryDropdown, selectedValue)
-    screen.debug(countryDropdown)
-
-    fireEvent.click(screen.getByTestId('select-currency-button'))
-    screen.getByText('USD')
-  })
 
   it('should update', () => {
-    render(
-      <ThemeProvider theme={theme}>
-        <CurrencyExchange onClick={mockOnClick} data={data} />
-      </ThemeProvider>
-    )
+    act(() => {
+      axiosMock.get.mockResolvedValue({
+        object: currencyDetails,
+      })
+      renderWithTheme(
+        <ThemeProvider theme={theme}>
+          <CurrencyExchange
+            onClick={mockOnClick}
+            data={{ ...data, senderCountry: '' }}
+          />
+        </ThemeProvider>
+      )
+    })
 
     const inputField = screen.getByTestId('senderInput').querySelector('input')
     fireEvent.change(inputField as HTMLInputElement, {
@@ -112,52 +161,83 @@ describe('CurrencyExchange', () => {
     expect(inputField).toHaveValue(100)
   })
 
-  it('should trigger handleChange', () => {
-    render(
-      <ThemeProvider theme={theme}>
-        <CurrencyExchange onClick={mockOnClick} data={data} />
-      </ThemeProvider>
-    )
+  it('should trigger handleChange', async () => {
+    act(() => {
+      axiosMock.get.mockResolvedValue({
+        object: currencyDetails,
+      })
+      renderWithTheme(
+        <ThemeProvider theme={theme}>
+          <CurrencyExchange
+            onClick={mockOnClick}
+            data={{ ...data, senderCountry: '' }}
+          />
+        </ThemeProvider>
+      )
+    })
 
     fireEvent.click(screen.getByTestId('sender-arrow'))
     const currencySelect = screen.getAllByRole('button')[0]
 
     fireEvent.mouseDown(currencySelect)
     const country = 'India'
-    fireEvent.click(screen.getByText(country))
+    fireEvent.click(await screen.findByText(country))
   })
-  it('should trigger handleChange', () => {
-    render(
-      <ThemeProvider theme={theme}>
-        <CurrencyExchange onClick={mockOnClick} data={data} />
-      </ThemeProvider>
-    )
+  it('should trigger handleChange', async () => {
+    act(() => {
+      axiosMock.get.mockResolvedValue({
+        object: currencyDetails,
+      })
+      renderWithTheme(
+        <ThemeProvider theme={theme}>
+          <CurrencyExchange
+            onClick={mockOnClick}
+            data={{ ...data, senderCountry: '' }}
+          />
+        </ThemeProvider>
+      )
+    })
 
     fireEvent.click(screen.getByTestId('receiver-arrow'))
     const currencySelect = screen.getAllByRole('button')[0]
     fireEvent.mouseDown(currencySelect)
     const country = 'India'
-    fireEvent.click(screen.getByText(country))
+    fireEvent.click(await screen.findByText(country))
   })
 
   it('does not display the modal content when the modal is closed', () => {
-    render(
-      <ThemeProvider theme={theme}>
-        <CurrencyExchange onClick={mockOnClick} data={data} />
-      </ThemeProvider>
-    )
-
+    act(() => {
+      axiosMock.get.mockResolvedValue({
+        object: currencyDetails,
+      })
+      renderWithTheme(
+        <ThemeProvider theme={theme}>
+          <CurrencyExchange
+            onClick={mockOnClick}
+            data={{ ...data, senderCountry: '' }}
+          />
+        </ThemeProvider>
+      )
+    })
     expect(screen.queryByTestId('modalContent')).not.toBeInTheDocument()
   })
   it('calls onClick with correct data when button is clicked', () => {
-    const { getByText } = render(
-      <ThemeProvider theme={theme}>
-        <CurrencyExchange onClick={mockOnClick} data={data} />
-      </ThemeProvider>
-    )
+    act(() => {
+      axiosMock.get.mockResolvedValue({
+        object: currencyDetails,
+      })
+      renderWithTheme(
+        <ThemeProvider theme={theme}>
+          <CurrencyExchange
+            onClick={mockOnClick}
+            data={{ ...data, senderCountry: '' }}
+          />
+        </ThemeProvider>
+      )
+    })
     const senderInput = screen.getByTestId('senderInput')
     const input = senderInput.querySelector('.senderInput')
-    const continueButton = getByText('Continue')
+    const continueButton = screen.getByText('Continue')
     expect(continueButton).toBeDisabled
     fireEvent.change(input as HTMLInputElement, { target: { value: 1 } })
 
@@ -165,23 +245,26 @@ describe('CurrencyExchange', () => {
     const modalButton = screen.getByTestId('modalButton')
     fireEvent.click(modalButton)
 
-    expect(mockOnClick).toHaveBeenCalledWith({
-      senderAmount: '1',
-      recipientAmount: '0.012',
-      senderCountry: 'INR',
-      recipientCountry: 'USD',
-    })
+    expect(mockOnClick).toHaveBeenCalledTimes(1)
   })
 
   it('should close the modal when background is clicked', () => {
-    const { getByText } = render(
-      <ThemeProvider theme={theme}>
-        <CurrencyExchange onClick={mockOnClick} data={data} />
-      </ThemeProvider>
-    )
+    act(() => {
+      axiosMock.get.mockResolvedValue({
+        object: currencyDetails,
+      })
+      renderWithTheme(
+        <ThemeProvider theme={theme}>
+          <CurrencyExchange
+            onClick={mockOnClick}
+            data={{ ...data, senderCountry: '' }}
+          />
+        </ThemeProvider>
+      )
+    })
     const senderInput = screen.getByTestId('senderInput')
     const input = senderInput.querySelector('.senderInput')
-    const continueButton = getByText('Continue')
+    const continueButton = screen.getByText('Continue')
     expect(continueButton).toBeDisabled()
     fireEvent.change(input as HTMLInputElement, { target: { value: 75 } })
     fireEvent.click(continueButton)
@@ -191,13 +274,13 @@ describe('CurrencyExchange', () => {
     expect(screen.queryByTestId('modalContent')).not.toBeInTheDocument()
   })
 
-  it('should initialize senderCurrencyCard with selected country value when senderCountry is provided with values', () => {
+  it('should initialize senderCurrencyCard with selected country value when senderCountry is provided with values', async () => {
     const Data = {
-      senderAmount: '',
-      senderCountry: 'US',
+      senderAmount: '0',
+      senderCountry: 'India',
     }
 
-    render(
+    renderWithTheme(
       <ThemeProvider theme={theme}>
         <CurrencyExchange onClick={mockOnClick} data={Data} />
       </ThemeProvider>

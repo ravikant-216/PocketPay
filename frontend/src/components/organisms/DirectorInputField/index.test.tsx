@@ -9,10 +9,22 @@ const renderWithTheme = (T: React.ReactNode) =>
   render(<ThemeProvider theme={theme}>{T}</ThemeProvider>)
 
 describe('DirectorInputField', () => {
+  const names = [
+    {
+      key: 'India',
+      iconTitle: 'India',
+      src: '/path/to/india/flag/image',
+      alt: 'India Flag',
+    },
+  ]
   it('renders correctly', () => {
     const mockOnClick = jest.fn()
     const { getByText } = renderWithTheme(
-      <DirectorInputField variant="director" buttonOnClick={mockOnClick} />
+      <DirectorInputField
+        variant="director"
+        buttonOnClick={mockOnClick}
+        countryList={names}
+      />
     )
     expect(getByText('Confirm your business directors')).toBeInTheDocument()
   })
@@ -20,7 +32,11 @@ describe('DirectorInputField', () => {
   it('handles input change', () => {
     const mockOnClick = jest.fn()
     const { getByPlaceholderText } = renderWithTheme(
-      <DirectorInputField variant="director" buttonOnClick={mockOnClick} />
+      <DirectorInputField
+        variant="director"
+        buttonOnClick={mockOnClick}
+        countryList={names}
+      />
     )
     const input = getByPlaceholderText('First Name') as HTMLInputElement
     fireEvent.change(input, { target: { value: 'John' } })
@@ -30,7 +46,11 @@ describe('DirectorInputField', () => {
   it('adds another form on icon click', () => {
     const mockOnClick = jest.fn()
     const { getByText, getAllByText } = renderWithTheme(
-      <DirectorInputField variant="director" buttonOnClick={mockOnClick} />
+      <DirectorInputField
+        variant="director"
+        buttonOnClick={mockOnClick}
+        countryList={names}
+      />
     )
     const icon = getByText('Add another director')
     fireEvent.click(icon)
@@ -42,7 +62,11 @@ describe('DirectorInputField', () => {
   it('adds another form on icon click', () => {
     const mockOnClick = jest.fn()
     const { getByText, getAllByText } = renderWithTheme(
-      <DirectorInputField variant="owner" buttonOnClick={mockOnClick} />
+      <DirectorInputField
+        variant="owner"
+        buttonOnClick={mockOnClick}
+        countryList={names}
+      />
     )
     const icon = getByText('Add another owner')
     fireEvent.click(icon)
@@ -54,7 +78,11 @@ describe('DirectorInputField', () => {
   it('handles last name input change', () => {
     const mockOnClick = jest.fn()
     const { getByPlaceholderText } = renderWithTheme(
-      <DirectorInputField variant="director" buttonOnClick={mockOnClick} />
+      <DirectorInputField
+        variant="director"
+        buttonOnClick={mockOnClick}
+        countryList={names}
+      />
     )
     const input = getByPlaceholderText('Last Name') as HTMLInputElement
     fireEvent.change(input, { target: { value: 'Doe' } })
@@ -64,7 +92,11 @@ describe('DirectorInputField', () => {
   it('calls buttonOnClick with correct data', () => {
     const mockOnClick = jest.fn()
     const { getByText, getAllByRole, getByPlaceholderText } = renderWithTheme(
-      <DirectorInputField variant="director" buttonOnClick={mockOnClick} />
+      <DirectorInputField
+        variant="director"
+        buttonOnClick={mockOnClick}
+        countryList={names}
+      />
     )
     const firstNameInput = getByPlaceholderText(
       'First Name'
@@ -96,7 +128,11 @@ describe('DirectorInputField', () => {
   it('renders director text when variant is director', () => {
     const mockOnClick = jest.fn()
     const { getByText } = renderWithTheme(
-      <DirectorInputField variant="director" buttonOnClick={mockOnClick} />
+      <DirectorInputField
+        variant="director"
+        buttonOnClick={mockOnClick}
+        countryList={names}
+      />
     )
     expect(getByText('Confirm your business directors')).toBeInTheDocument()
     expect(getByText('Director 1')).toBeInTheDocument()
@@ -105,7 +141,11 @@ describe('DirectorInputField', () => {
   it('renders shareholder text when variant is owner', () => {
     const mockOnClick = jest.fn()
     const { getByText } = renderWithTheme(
-      <DirectorInputField variant="owner" buttonOnClick={mockOnClick} />
+      <DirectorInputField
+        variant="owner"
+        buttonOnClick={mockOnClick}
+        countryList={names}
+      />
     )
     expect(getByText('Confirm your business owners')).toBeInTheDocument()
     expect(getByText('Shareholder 1')).toBeInTheDocument()

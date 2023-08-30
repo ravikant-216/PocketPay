@@ -6,27 +6,31 @@ import theme from '../../../theme'
 import TextField from '../../atoms/InputField'
 import {
   PASSWORD_REGEX,
-  COUNTRY_ARRAY,
   CREATE_PASSWORD,
   COUNTRY_REG,
   ENTER_PASSWORD,
+  CountryArrayList,
   INVALID_PASSWORD,
 } from '../../../strings/constants'
 import Typography from '../../atoms/Typography'
 import CustomButton from '../../atoms/Button'
 import CountryDropdown from '../CountryDropdown'
+import { IconLabelPropType } from '../../atoms/IconLabel'
 
 export interface Props extends Omit<BoxProps, 'onChange'> {
   width?: string
   country?: string
+  countryList?: IconLabelPropType[]
   onChange: (selectedValue: { country: string; password: string }) => void
   menuMaxHeight?: string
   inputVariant: 'password' | 'country'
   size?: 'small' | 'medium'
 }
+
 const CountrySelect = ({
   onChange,
   country = '',
+  countryList = CountryArrayList,
   menuMaxHeight,
   inputVariant,
   ...props
@@ -35,6 +39,7 @@ const CountrySelect = ({
   const [password, setPassword] = useState('')
   const [passwordError, setPasswordError] = useState<string | null>(null)
   const [showPassword, setShowPassword] = useState(false)
+
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value
     setPassword(value)
@@ -60,8 +65,8 @@ const CountrySelect = ({
           <CountryDropdown
             data-testid="country-button"
             onChange={setCountryName}
+            countryList={countryList}
             country={countryName}
-            names={COUNTRY_ARRAY}
             size={props.size}
             role="option"
             menuMaxHeight={menuMaxHeight}

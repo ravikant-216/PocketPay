@@ -43,7 +43,12 @@ const ModalBox = (props: ModalBoxProps) => {
     <>
       {props.open && (
         <ModalOverlay onClick={props.onClose} data-testid="modalOverlay">
-          <Modal {...props} sx={props.style} onClick={handleClick}>
+          <Modal
+            {...props}
+            sx={props.style}
+            onClick={handleClick}
+            data-testid="modal"
+          >
             {props.children}
           </Modal>
         </ModalOverlay>

@@ -20,9 +20,11 @@ import Typography from '../../atoms/Typography'
 import styled from '@emotion/styled'
 import { Box, Divider, Stack } from '@mui/material'
 import theme from '../../../theme'
+import { useNavigate } from 'react-router'
 
 export interface SignUpWrapperProps {
   style?: React.CSSProperties
+  onSubmit?: (email: string) => void
 }
 
 const SignUpFromWrapper = styled(Box)({
@@ -57,11 +59,14 @@ const TextWrapper = styled(Stack)({
 
 const SignUpForm = (props: SignUpWrapperProps) => {
   const [disabled, setDisabled] = useState(true)
+  const [email, setEmail] = useState<string>('')
+
+  const navigate = useNavigate()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.trim()
     const regex = new RegExp(Email_REGEX)
-
+    setEmail(value)
     setDisabled(value === '' || !regex.test(value))
   }
 
@@ -86,7 +91,13 @@ const SignUpForm = (props: SignUpWrapperProps) => {
             data-testid="email-input"
           />
 
-          <CustomButton variant="contained" disabled={disabled}>
+          <CustomButton
+            variant="contained"
+            disabled={disabled}
+            onClick={() => {
+              if (props.onSubmit) props.onSubmit(email)
+            }}
+          >
             {NEXT}
           </CustomButton>
         </InnerWrapper>
@@ -131,12 +142,18 @@ const SignUpForm = (props: SignUpWrapperProps) => {
           variant="caption"
           sx={{ color: theme.palette.text.mediumEmphasis }}
         >
-          {ALREADY_HAVE_AN_ACCOUNT}{' '}
+          {ALREADY_HAVE_AN_ACCOUNT}
           <Typography
             variant="link"
             sx={{ color: theme.palette.primary[500], cursor: 'pointer' }}
           >
-            {LOGIN}
+            <Box
+              display={'inline'}
+              onClick={() => navigate('/login')}
+              data-testid="login"
+            >
+              {LOGIN}
+            </Box>
           </Typography>
         </Typography>
       </SignUpFromWrapper>

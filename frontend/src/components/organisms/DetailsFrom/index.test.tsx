@@ -9,10 +9,19 @@ const renderWithTheme = (T: React.ReactNode) =>
   render(<ThemeProvider theme={theme}>{T}</ThemeProvider>)
 
 describe('DetailsForm', () => {
+  const names = [
+    {
+      key: 'India',
+      iconTitle: 'India',
+      src: '/path/to/india/flag/image',
+      alt: 'India Flag',
+    },
+  ]
+
   it('renders correctly', () => {
     const mockOnClick = jest.fn()
     const { getByText } = renderWithTheme(
-      <DetailsForm buttonOnClick={mockOnClick} />
+      <DetailsForm buttonOnClick={mockOnClick} countryList={names} />
     )
     expect(getByText('Fill in your details')).toBeInTheDocument()
     expect(
@@ -25,7 +34,7 @@ describe('DetailsForm', () => {
   it('calls buttonOnClick with form data on button click', () => {
     const mockOnClick = jest.fn()
     const { getByText, getAllByRole, getByLabelText } = renderWithTheme(
-      <DetailsForm buttonOnClick={mockOnClick} />
+      <DetailsForm buttonOnClick={mockOnClick} countryList={names} />
     )
     fireEvent.change(getByLabelText('First Name'), {
       target: { value: 'Ravi' },

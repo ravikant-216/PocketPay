@@ -38,10 +38,12 @@ describe('IconLabel', () => {
         src="test-icon.png"
         alt="Test Icon"
         color="primary"
+        countryCurrencyCode="INR"
       />
     )
 
     const icon = screen.getByAltText('Test Icon')
     expect(icon).toHaveAttribute('src', 'test-icon.png')
+    expect(screen.getByText('INR')).toBeInTheDocument()
   })
 })

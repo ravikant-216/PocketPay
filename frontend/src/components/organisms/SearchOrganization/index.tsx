@@ -2,7 +2,7 @@ import SearchDropdown from '../../molecules/SearchDropDown'
 import Typography from '../../atoms/Typography'
 import { Box } from '@mui/material'
 import {
-  ADDRESSES,
+  BUSINESSES,
   SEARCH_BUSINESS,
   SELECT_BUSINESS,
   SOLO_TRADER,
@@ -26,7 +26,7 @@ export default function SearchBusiness(props: SearchBusinessProps) {
       <SearchDropdown
         onValueChange={props.onValueChange}
         sx={{ paddingTop: theme.spacing(8) }}
-        options={ADDRESSES}
+        options={BUSINESSES}
         placeholder={SELECT_BUSINESS}
         variant="footer"
         type="search"

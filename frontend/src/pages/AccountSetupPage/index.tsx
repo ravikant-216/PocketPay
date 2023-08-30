@@ -1,16 +1,19 @@
-import SendMoneyTemplate from '../../components/templates/SendMoneyTemplate'
+import { useState } from 'react'
 import backArrow from '../../../public/assets/icons/backButton.svg'
-import CountrySelect from '../../components/organisms/CountrySelect'
+import { IconLabelPropType } from '../../components/atoms/IconLabel'
 import Image from '../../components/atoms/Image'
 import Stepper from '../../components/molecules/Stepper'
-import { ACCOUNT_LABEL } from '../../strings/constants'
-import { useState } from 'react'
+import CountrySelect from '../../components/organisms/CountrySelect'
 import PhoneNumber from '../../components/organisms/PhoneNumber'
 import RecipientType from '../../components/organisms/RecipientType'
+import SendMoneyTemplate from '../../components/templates/SendMoneyTemplate'
+import { ACCOUNT_LABEL } from '../../strings/constants'
 import theme from '../../theme'
 
 export interface AccountSetupPageProps {
-  onClick: () => void
+  onClick: (password: string) => void
+  accountType?: (value: string) => void
+  countryList: IconLabelPropType[]
   onBackClick: () => void
 }
 export const AccountSetupPage = (props: AccountSetupPageProps) => {
@@ -21,7 +24,7 @@ export const AccountSetupPage = (props: AccountSetupPageProps) => {
     country: string
     password: string
   }) => {
-    if (value === 4) props.onClick()
+    if (value === 4) props.onClick(selectedValue.password)
     else {
       setCountry(selectedValue.country)
       setValue(value + 1)
@@ -40,12 +43,14 @@ export const AccountSetupPage = (props: AccountSetupPageProps) => {
             marginRight: theme.spacing(-33.75),
           }}
           onChange={handleChange}
+          countryList={props.countryList}
         ></CountrySelect>
       )
       break
     case 3:
       content = (
         <PhoneNumber
+          countryList={props.countryList}
           width={theme.spacing(129)}
           stepProp={phoneStep}
           handlePhoneStep={(value: number) => {
@@ -77,10 +82,12 @@ export const AccountSetupPage = (props: AccountSetupPageProps) => {
       content = (
         <RecipientType
           type={'accountType'}
-          onClickBusinessAccountHandler={() => {
+          onClickBusinessAccountHandler={(type: string) => {
+            if (props.accountType) props.accountType(type)
             setValue(value + 1)
           }}
-          onClickPersonalAccountHandler={() => {
+          onClickPersonalAccountHandler={(type: string) => {
+            if (props.accountType) props.accountType(type)
             setValue(value + 1)
           }}
         />

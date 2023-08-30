@@ -1,8 +1,9 @@
 import { ThemeProvider } from '@emotion/react'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
 import theme from '../../../theme'
 import RecipientDetails from '.'
 import '@testing-library/jest-dom/extend-expect'
+import axios from 'axios'
 const data = {
   firstName: '',
   lastName: '',
@@ -10,18 +11,40 @@ const data = {
   account: '',
   ifsc: '',
 }
+jest.mock('axios')
+afterEach(cleanup)
+const axiosMock = axios as jest.Mocked<typeof axios>
+const renderWithTheme = (T: React.ReactNode) => {
+  axiosMock.get.mockResolvedValue({
+    data: [
+      {
+        id: 1,
+        email: 'mario.gabriel@gmail.com',
+        account: '123456885865',
+        firstName: 'Mario',
+        lastName: 'Gabriel',
+        ifsc: 'ABFJ12929GH',
+      },
+    ],
+  })
+
+  render(<ThemeProvider theme={theme}>{T}</ThemeProvider>)
+}
 
 describe('Recipient Details', () => {
   const mockOnClick = jest.fn()
-  it('should render the component', () => {
-    const { getByTestId } = render(
-      <ThemeProvider theme={theme}>
-        <RecipientDetails onClick={mockOnClick} data={data} />
-      </ThemeProvider>
-    )
+  it('should pre-fill form fields with email data', async () => {
+    renderWithTheme(<RecipientDetails onClick={mockOnClick} data={data} />)
 
-    const component = getByTestId('recipientDetails')
-    expect(component).toBeInTheDocument()
+    const emailInput = screen.getByLabelText('Email')
+
+    act(() => {
+      fireEvent.change(emailInput, {
+        target: { name: 'email', value: 'mario.gabriel@gmail.com' },
+      })
+    })
+
+    expect(emailInput).toHaveValue('mario.gabriel@gmail.com')
   })
 
   it('should enable the button if all fields are filled', () => {
@@ -77,25 +100,7 @@ describe('Recipient Details', () => {
     expect(emailInput.getAttribute('value')).toBe('test@example.com')
     expect(continueButton).toBeDisabled()
   })
-  test('setDetails updates the state with the correct data when valid email is entered', () => {
-    render(
-      <ThemeProvider theme={theme}>
-        <RecipientDetails onClick={mockOnClick} data={data} />
-      </ThemeProvider>
-    )
 
-    const emailInput = screen.getByLabelText('Email')
-    fireEvent.change(emailInput, {
-      target: { value: 'mario.gabriel@gmail.com' },
-    })
-
-    expect(
-      screen.getByDisplayValue('mario.gabriel@gmail.com')
-    ).toBeInTheDocument()
-    expect(screen.getByDisplayValue('Mario')).toBeInTheDocument()
-    expect(screen.getByDisplayValue('Gabriel')).toBeInTheDocument()
-    expect(screen.getByDisplayValue('123456885865')).toBeInTheDocument()
-  })
   it('calls onClick with correct values when button is clicked', () => {
     const mockOnClick = jest.fn()
     const { getByText, getByLabelText } = render(

@@ -1,33 +1,97 @@
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent, cleanup } from '@testing-library/react'
 import { AccountDetailPage } from '.'
 import theme from '../../theme'
 import '@testing-library/jest-dom'
 import { ThemeProvider } from '@emotion/react'
-import { DOB } from '../../strings/constants'
+import { BUSINESSES, DOB, baseURL } from '../../strings/constants'
+import axios from 'axios'
+import { act } from 'react-dom/test-utils'
+import { BrowserRouter } from 'react-router-dom'
 
-const renderWithTheme = (T: React.ReactNode) =>
-  render(<ThemeProvider theme={theme}>{T}</ThemeProvider>)
+jest.mock('axios')
+afterEach(cleanup)
+const axiosMock = axios as jest.Mocked<typeof axios>
 
 describe('AccountDetailPage', () => {
+  const names = [
+    {
+      key: 'India',
+      iconTitle: 'India',
+      src: '/path/to/india/flag/image',
+      alt: 'India Flag',
+    },
+  ]
   const mockFunction = jest.fn()
-  test('renders AccountVerification component after clicking on ConfirmTradingAddress', () => {
-    renderWithTheme(<AccountDetailPage buttonOnClick={mockFunction} />)
+  test('renders AccountVerification component after clicking on ConfirmTradingAddress', async () => {
+    act(() => {
+      axiosMock.get.mockImplementation((url) => {
+        switch (url) {
+          case `${baseURL}/businessCategory`:
+            return Promise.resolve({
+              data: [
+                {
+                  id: 1,
+                  name: 'Design, marketing or communication',
+                },
+                {
+                  id: 2,
+                  name: 'Health, sports or personal care',
+                },
+                {
+                  id: 3,
+                  name: 'Real estate or construction',
+                },
+                {
+                  id: 4,
+                  name: 'Education or learning',
+                },
+                {
+                  id: 5,
+                  name: 'Others',
+                },
+              ],
+            })
+
+          case `${baseURL}/address`:
+            return Promise.resolve({
+              data: [
+                {
+                  id: 1,
+                  name: '#2097, Triveni Main Rd, Gokula 1st Stage, Nanjappa Reddy Colony, Yeswanthpur, Bengaluru, Karnataka 560054',
+                },
+              ],
+            })
+
+          default:
+            return Promise.resolve({})
+        }
+      })
+      render(
+        <ThemeProvider theme={theme}>
+          <BrowserRouter>
+            <AccountDetailPage
+              buttonOnClick={mockFunction}
+              countryList={names}
+            />
+          </BrowserRouter>
+        </ThemeProvider>
+      )
+    })
+
     fireEvent.mouseDown(screen.getByPlaceholderText('Select your business'))
-    fireEvent.click(
-      screen.getByText('7912, New Colony, Jaipur, Rajasthan, 302001')
-    )
+    fireEvent.click(screen.getByText(BUSINESSES[1]))
     expect(
       screen.getByText('Confirm your business details')
     ).toBeInTheDocument()
     fireEvent.click(screen.getByAltText('back'))
     fireEvent.mouseDown(screen.getByPlaceholderText('Select your business'))
-    fireEvent.click(
-      screen.getByText('7912, New Colony, Jaipur, Rajasthan, 302001')
-    )
+    fireEvent.click(screen.getByText(BUSINESSES[1]))
     expect(
       screen.getByText('Confirm your business details')
     ).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button'))
+    const component = await screen.findByTestId('TradingAddress')
+    expect(component).toBeInTheDocument()
     expect(screen.getByText('Confirm trading address')).toBeInTheDocument()
     fireEvent.click(screen.getByTestId('confirmButton'))
     expect(screen.getByTestId('addTradingAddressButton')).toBeInTheDocument()
@@ -35,6 +99,7 @@ describe('AccountDetailPage', () => {
     expect(
       screen.getByText('Help us verify your account faster')
     ).toBeInTheDocument()
+    expect(await screen.findByTestId('accountVerification')).toBeInTheDocument()
     fireEvent.mouseDown(screen.getByPlaceholderText('Category'))
     fireEvent.click(screen.getByText('Health, sports or personal care'))
     fireEvent.mouseDown(screen.getByPlaceholderText('Subcategory'))

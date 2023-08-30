@@ -4,7 +4,7 @@ import Typography from '../../atoms/Typography'
 import RadioButton from '../../atoms/RadioButton'
 import CustomButton from '../../atoms/Button'
 import { Grid, RadioGroup } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import InputField from '../../atoms/InputField'
 import {
@@ -14,12 +14,14 @@ import {
   CHANGE,
   CONFIRM_BUTTON_LABEL,
   SAVE,
-  TRADING_ADDRESS,
   TRADING_ADDRESSES,
   TRADING_ADDRESS_HEADING,
   TRADING_ADDRESS_SUBHEADING,
+  baseURL,
 } from '../../../strings/constants'
 import ModalBox from '../../molecules/ModalBox'
+
+import axios from 'axios'
 
 export interface TradingAddressProps {
   onClick: (address: string) => void
@@ -28,6 +30,11 @@ export interface TradingAddressProps {
 
 interface AddressList {
   address: string
+}
+
+interface Address {
+  id: 1
+  name: string
 }
 
 interface ModalContentProps {
@@ -68,19 +75,41 @@ const ModalContent = (props: ModalContentProps) => {
     </>
   )
 }
+
 const ConfirmTradingAddress = (props: TradingAddressProps) => {
   const [addAddress, setaddAddress] = useState(false)
   const [input, setInput] = useState('')
-  const [addressList, setAddressList] = useState<AddressList[]>(TRADING_ADDRESS)
+  const [addressList, setAddressList] = useState<AddressList[]>([])
   const [selectedValue, setSelectedValue] = useState<number>(0)
-  const [editedInput, setEditedInput] = useState<string>(
-    TRADING_ADDRESS[0].address
-  )
+  const [editedInput, setEditedInput] = useState<string>('')
+
   const [showModal, setShowModal] = useState(false)
   const [edit, setEdit] = useState(false)
   const addTradingAddress = () => {
     setaddAddress(true)
   }
+
+  const fetchTradingAddressList = async () => {
+    const response = await axios.get(`${baseURL}/address`)
+    const responseData: Address[] = response.data
+    const addressess: AddressList[] = responseData.map((item) => {
+      return { address: item.name }
+    })
+
+    setAddressList(addressess)
+    setEditedInput(addressess[0].address)
+  }
+  const addNewTradingAddress = () => {
+    setAddressList((prev) => [...prev, { address: input }])
+  }
+
+  const updateTradingAddress = () => {
+    addressList[selectedValue].address = editedInput
+  }
+
+  useEffect(() => {
+    fetchTradingAddressList()
+  }, [])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value.trim())
@@ -88,7 +117,7 @@ const ConfirmTradingAddress = (props: TradingAddressProps) => {
 
   const handleAddAddress = () => {
     if (input != '') {
-      setAddressList((previousValue) => [...previousValue, { address: input }])
+      addNewTradingAddress()
     }
 
     setInput('')
@@ -100,7 +129,7 @@ const ConfirmTradingAddress = (props: TradingAddressProps) => {
   }
 
   const handleEditAddress = () => {
-    addressList[selectedValue].address = editedInput
+    updateTradingAddress()
     setEdit(false)
   }
 

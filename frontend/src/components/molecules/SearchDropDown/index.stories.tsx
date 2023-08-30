@@ -1,8 +1,9 @@
 import * as React from 'react'
 import { Story, Meta } from '@storybook/react'
 import SearchDropdown, { SearchDropdownProps } from '.'
-import { ADDRESSES } from '../../../strings/constants'
+
 import theme from '../../../theme'
+import { BUSINESSES } from '../../../strings/constants'
 
 export default {
   title: 'Molecules/SearchDropdown',
@@ -21,7 +22,7 @@ WithFooter.args = {
   style: {
     width: theme.spacing(129),
   },
-  options: ADDRESSES,
+  options: BUSINESSES,
   label: 'Select Address',
   placeholder: 'Select Address',
   variant: 'footer',
@@ -33,7 +34,7 @@ WithoutFooter.args = {
   style: {
     width: theme.spacing(129),
   },
-  options: ADDRESSES,
+  options: BUSINESSES,
   label: 'Select Address',
   placeholder: 'Select Address',
   minHeight: theme.spacing(100),

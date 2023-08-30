@@ -22,6 +22,9 @@ import {
   TROUBLE_LOGIN,
 } from '../../../strings/constants'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
+import GoogleIcon from '../../../../public/assets/icons/google.svg'
+import FacebookIcon from '../../../../public/assets/icons/facebook.svg'
+import AppleIcon from '../../../../public/assets/icons/apple.svg'
 
 const ButtonStyles = styled(CustomButton)`
   color: ${theme.palette.structuralColors.white};
@@ -39,9 +42,14 @@ const ButtonStyles = styled(CustomButton)`
 
 export interface SignInProps extends Omit<BoxProps, 'onSubmit'> {
   onSubmit?: (email: string, password: string) => void
+  authenticated?: boolean
 }
 
-export default function SignIn({ onSubmit, ...props }: SignInProps) {
+export default function SignIn({
+  onSubmit,
+  authenticated = true,
+  ...props
+}: SignInProps) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [emailError, setEmailError] = useState('')
@@ -76,6 +84,9 @@ export default function SignIn({ onSubmit, ...props }: SignInProps) {
   const handleSubmit = () => {
     if (onSubmit) {
       onSubmit(email, password)
+    } else {
+      setPasswordError('Invalid password')
+      setEmailError('Invalid email')
     }
   }
 
@@ -95,8 +106,8 @@ export default function SignIn({ onSubmit, ...props }: SignInProps) {
           autoComplete="email"
           value={email}
           onChange={handleEmailChange}
-          error={Boolean(emailError)}
-          helperText={emailError}
+          error={Boolean(emailError) || !authenticated}
+          helperText={!authenticated ? 'User does not exist' : emailError}
         />
         <TextField
           margin="normal"
@@ -109,8 +120,8 @@ export default function SignIn({ onSubmit, ...props }: SignInProps) {
           autoComplete="current-password"
           value={password}
           onChange={handlePasswordChange}
-          error={Boolean(passwordError)}
-          helperText={passwordError}
+          error={Boolean(passwordError) || !authenticated}
+          helperText={!authenticated ? 'invalid password' : passwordError}
           endAdornment={
             <InputAdornment position="end">
               <IconButton
@@ -151,18 +162,18 @@ export default function SignIn({ onSubmit, ...props }: SignInProps) {
       </Box>
       <Stack direction={'row'} justifyContent="space-around">
         <Icon
-          icon="static/media/public/assets/icons/google.svg"
+          icon={GoogleIcon}
           height={theme.spacing(7)}
-          width={theme.spacing(7)}
-        ></Icon>
-        <Icon
-          height={theme.spacing(7)}
-          icon="static/media/public/assets/icons/facebook.svg"
           width={theme.spacing(7)}
         />
         <Icon
           height={theme.spacing(7)}
-          icon="static/media/public/assets/icons/apple.svg"
+          icon={FacebookIcon}
+          width={theme.spacing(7)}
+        />
+        <Icon
+          height={theme.spacing(7)}
+          icon={AppleIcon}
           width={theme.spacing(7)}
         />
       </Stack>

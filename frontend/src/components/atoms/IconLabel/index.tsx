@@ -6,19 +6,28 @@ import Image, { ImageProps } from '../Image'
 export interface IconLabelPropType extends ImageProps {
   iconTitle?: string
   color?: string
+  countryCurrencyCode?: string
   onClick?: () => void
 }
 
 const IconLabel = ({
   iconTitle,
   src,
+  countryCurrencyCode,
   alt,
   color,
   style,
   onClick,
 }: IconLabelPropType) => {
   return (
-    <Box>
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        width: '98%',
+        flexDirection: 'row',
+      }}
+    >
       <Stack
         direction="row"
         columnGap={theme.spacing(3)}
@@ -31,6 +40,11 @@ const IconLabel = ({
           {iconTitle}
         </Text>
       </Stack>
+      {countryCurrencyCode && (
+        <Text variant="body3" color="text.mediumEmphasis">
+          {countryCurrencyCode}
+        </Text>
+      )}
     </Box>
   )
 }

@@ -2,6 +2,7 @@ import React from 'react'
 import { Story, Meta } from '@storybook/react'
 import DirectorInputField, { DirectorInputFieldProps } from '.'
 import theme from '../../../theme'
+import { CountryArray } from '../../../strings/constants'
 
 export default {
   title: 'organisms/DirectorInputField',
@@ -17,7 +18,7 @@ export default {
 } as Meta
 
 const Template: Story<DirectorInputFieldProps> = (args) => (
-  <DirectorInputField {...args} />
+  <DirectorInputField {...args} countryList={CountryArray} />
 )
 
 export const Default = Template.bind({})

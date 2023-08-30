@@ -4,7 +4,7 @@ import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl, { FormControlProps } from '@mui/material/FormControl'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
-import { IconLabelPropType } from '../../atoms/IconLabel'
+import IconLabel, { IconLabelPropType } from '../../atoms/IconLabel'
 import { styled } from '@mui/material/styles'
 import theme from '../../../theme'
 import { SELECT_COUNTRY, COUNTRY_REG } from '../../../strings/constants'
@@ -13,11 +13,11 @@ import Image from '../../atoms/Image'
 import ExpandIcon from '../../../../public/assets/icons/expand.svg'
 
 export interface Props extends Omit<FormControlProps, 'onChange'> {
-  names: React.ReactElement<IconLabelPropType>[]
   width?: string
   placeHolder?: string
   country?: string
   label?: string
+  countryList: IconLabelPropType[]
   onChange?: (selectedValue: string) => void
   menuMaxHeight?: string
   menuWidth?: string
@@ -55,12 +55,12 @@ function Icon() {
 }
 
 export default function CountryDropdown({
-  names,
   onChange,
   placeHolder = SELECT_COUNTRY,
   label = COUNTRY_REG,
   menuMaxHeight,
   country = '',
+  countryList,
   menuWidth,
   ...props
 }: Props) {
@@ -118,12 +118,9 @@ export default function CountryDropdown({
         MenuProps={MenuProps}
         renderValue={(selected) => selected}
       >
-        {names.map((iconTitle) => (
-          <MenuItem
-            key={iconTitle.props.iconTitle}
-            value={iconTitle.props.iconTitle}
-          >
-            {iconTitle}
+        {countryList.map((iconTitle) => (
+          <MenuItem key={iconTitle.iconTitle} value={iconTitle.iconTitle}>
+            {<IconLabel {...iconTitle} />}
           </MenuItem>
         ))}
       </Select>

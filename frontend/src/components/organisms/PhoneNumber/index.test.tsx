@@ -8,8 +8,16 @@ const renderWithTheme = (T: React.ReactNode) =>
   render(<ThemeProvider theme={theme}>{T}</ThemeProvider>)
 
 describe('PhoneNumber', () => {
+  const names = [
+    {
+      key: 'India',
+      iconTitle: 'India',
+      src: '/path/to/india/flag/image',
+      alt: 'India Flag',
+    },
+  ]
   it('renders the first step correctly', () => {
-    renderWithTheme(<PhoneNumber />)
+    renderWithTheme(<PhoneNumber countryList={[]} />)
 
     expect(
       screen.getByText('Verify your phone number with a code')
@@ -21,7 +29,7 @@ describe('PhoneNumber', () => {
   })
 
   it('renders the second step correctly', () => {
-    renderWithTheme(<PhoneNumber />)
+    renderWithTheme(<PhoneNumber countryList={[]} />)
 
     fireEvent.change(screen.getByLabelText('Mobile Number'), {
       target: { value: '1234567890' },
@@ -34,7 +42,9 @@ describe('PhoneNumber', () => {
 
   it('renders the third step correctly', () => {
     const handlePhoneStep = jest.fn()
-    renderWithTheme(<PhoneNumber handlePhoneStep={handlePhoneStep} />)
+    renderWithTheme(
+      <PhoneNumber handlePhoneStep={handlePhoneStep} countryList={[]} />
+    )
 
     fireEvent.change(screen.getByLabelText('Mobile Number'), {
       target: { value: '1234567890' },
@@ -50,7 +60,7 @@ describe('PhoneNumber', () => {
 
   it('calls the onSubmit function when the submit button is clicked', () => {
     const onSubmit = jest.fn()
-    renderWithTheme(<PhoneNumber onSubmit={onSubmit} />)
+    renderWithTheme(<PhoneNumber onSubmit={onSubmit} countryList={[]} />)
 
     fireEvent.change(screen.getByLabelText('Mobile Number'), {
       target: { value: '1234567890' },
@@ -65,7 +75,9 @@ describe('PhoneNumber', () => {
   })
   it('updates the phone number input value correctly', () => {
     const handlePhoneStep = jest.fn()
-    renderWithTheme(<PhoneNumber handlePhoneStep={handlePhoneStep} />)
+    renderWithTheme(
+      <PhoneNumber handlePhoneStep={handlePhoneStep} countryList={[]} />
+    )
 
     const phoneNumberInput = screen.getByLabelText('Mobile Number')
 
@@ -85,7 +97,9 @@ describe('PhoneNumber', () => {
 
   it('updates the country code and flag when a country is selected', () => {
     const mockFunction = jest.fn()
-    renderWithTheme(<PhoneNumber onCountrySelect={mockFunction} />)
+    renderWithTheme(
+      <PhoneNumber onCountrySelect={mockFunction} countryList={names} />
+    )
 
     const countrySelect = screen.getAllByAltText('')
     fireEvent.click(countrySelect[0])

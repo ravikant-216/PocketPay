@@ -104,7 +104,7 @@ export const AccountDetailPage = ({
         buttonOnClick={(formData) => {
           setFormData(formData)
           buttonOnClick(formData)
-          navigate('/dashboard', { state: { id: 0 } })
+          navigate('/dashboard', { state: { id: -1, newUser: true } })
         }}
         sx={{
           width: theme.spacing(162.75),

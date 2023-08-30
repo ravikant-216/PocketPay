@@ -103,7 +103,6 @@ const HomePage = () => {
 
   const [senderName, setSenderName] = useState('')
   const [recieverName, setReceiverName] = useState<Beneficiary[]>([])
-  const [showBalances, setShowBalances] = useState(false)
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(`${baseURL}/transaction`)
@@ -128,7 +127,6 @@ const HomePage = () => {
       )
       if (reciever) {
         setReceiverName(reciever)
-        setShowBalances(true)
       }
     }
 
@@ -212,7 +210,7 @@ const HomePage = () => {
   return (
     <>
       <DashboardTemplate
-        newUser={!showBalances}
+        newUser={location.state.hasOwnProperty('newUser')}
         Content={<DashboardContent />}
       />
     </>

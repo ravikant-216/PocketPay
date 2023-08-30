@@ -94,7 +94,7 @@ describe('HomePage', () => {
           <MemoryRouter
             initialEntries={[
               'http://localhost:3001/dashboard',
-              { state: { id: 1 } },
+              { state: { id: 1, newUser: true } },
             ]}
           >
             <HomePage />

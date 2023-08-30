@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import CustomButton from '../../atoms/Button'
 import Checkbox from '../../atoms/Checkbox'
 import Typography from '../../atoms/Typography'
@@ -25,6 +25,9 @@ import { Visibility, VisibilityOff } from '@mui/icons-material'
 import GoogleIcon from '../../../../public/assets/icons/google.svg'
 import FacebookIcon from '../../../../public/assets/icons/facebook.svg'
 import AppleIcon from '../../../../public/assets/icons/apple.svg'
+import { User, useAuth0 } from '@auth0/auth0-react'
+import { useNavigate } from 'react-router-dom'
+import { loginWithGoogleAuth } from '../../../utils/auth/GoogleAuth'
 
 const ButtonStyles = styled(CustomButton)`
   color: ${theme.palette.structuralColors.white};
@@ -50,10 +53,23 @@ export default function SignIn({
   authenticated = true,
   ...props
 }: SignInProps) {
+  const { isAuthenticated, user, loginWithRedirect } = useAuth0()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [emailError, setEmailError] = useState('')
   const [passwordError, setPasswordError] = useState('')
+
+  const navigate = useNavigate()
+  const createUserWithGoogleAuth = async (user: User) => {
+    const userResponse = await loginWithGoogleAuth(user)
+    navigate('/dashboard', { state: { id: userResponse.id } })
+  }
+
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      createUserWithGoogleAuth(user)
+    }
+  }, [isAuthenticated, user])
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value
@@ -162,10 +178,19 @@ export default function SignIn({
       </Box>
       <Stack direction={'row'} justifyContent="space-around">
         <Icon
+          data-testid="google"
           icon={GoogleIcon}
+          alt="Google Icon"
           height={theme.spacing(7)}
           width={theme.spacing(7)}
-        />
+          onClick={() => {
+            loginWithRedirect({
+              authorizationParams: {
+                connection: 'google-oauth2',
+              },
+            })
+          }}
+        ></Icon>
         <Icon
           height={theme.spacing(7)}
           icon={FacebookIcon}

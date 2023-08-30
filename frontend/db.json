@@ -21,6 +21,17 @@
       "account_type": "Personal Account",
       "password": "12345678",
       "id": 2
+    },
+    {
+      "first_name": "Sri Charan",
+      "last_name": "Yella",
+      "country": "India",
+      "address": "122-Baker street",
+      "email": "sricharan.yella@zemosolabs.com",
+      "dob": "2002-08-03",
+      "account_type": "Personal Account",
+      "password": "sricharan.yella@zemosolabs.com",
+      "id": 3
     }
   ],
   "country": [

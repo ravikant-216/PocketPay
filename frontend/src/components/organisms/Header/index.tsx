@@ -7,7 +7,7 @@ import USER_AVATAR from '../../../../public/assets/icons/user_avatar.svg'
 import BellIcon from '../../../../public/assets/icons/bell.svg'
 import ProfileMenu from '../../molecules/ProfileMenu'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useAuth0 } from '@auth0/auth0-react'
 
 const StyledStack = styled(Stack)(({ theme }) => ({
   width: '100%',
@@ -41,18 +41,18 @@ const StyledStack = styled(Stack)(({ theme }) => ({
 }))
 
 const Header: React.FC<StackProps> = () => {
+  const { logout } = useAuth0()
   const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>()
   const openMenu = Boolean(anchorEl)
   const onAvatarClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
   }
-  const navigate = useNavigate()
   const onClose = () => {
     setAnchorEl(undefined)
   }
 
   const onLogout = () => {
-    navigate('/')
+    logout({ logoutParams: { returnTo: window.location.origin + '/login' } })
   }
 
   return (

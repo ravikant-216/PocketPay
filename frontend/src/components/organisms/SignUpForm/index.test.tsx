@@ -6,6 +6,23 @@ import theme from '../../../theme'
 
 import { act } from 'react-dom/test-utils'
 import { MemoryRouter } from 'react-router'
+import { Auth0ContextInterface, User, useAuth0 } from '@auth0/auth0-react'
+import axios from 'axios'
+
+jest.mock('@auth0/auth0-react')
+const mockedUseAuth0 = jest.mocked(useAuth0, { shallow: true })
+jest.mock('axios')
+const mockedAxios = axios as jest.Mocked<typeof axios>
+beforeAll(() => {
+  mockedAxios.get.mockResolvedValue({ data: [{ id: 0 }] })
+  mockedAxios.post.mockResolvedValue({ data: { id: 0 } })
+  mockedUseAuth0.mockReturnValue({
+    loginWithRedirect: () => ({}),
+    user: undefined,
+    isAuthenticated: true,
+    logout: () => ({}),
+  } as Auth0ContextInterface<User>)
+})
 
 const mockClick = jest.fn()
 test('Should render', () => {
@@ -44,6 +61,17 @@ test('The component should disable the "Next" button when the email input is emp
   expect(screen.getByText('Next')).toBeDisabled()
 })
 
+test('The component should disable the "Next" button when the email input is empty or invalid', () => {
+  render(
+    <ThemeProvider theme={theme}>
+      <MemoryRouter>
+        <SignUpForm />
+      </MemoryRouter>
+    </ThemeProvider>
+  )
+  fireEvent.click(screen.getByAltText('Google Icon'))
+  expect(screen.getByText('Next')).toBeDisabled()
+})
 test('The component should enable the "Next" button when the email input is filled with a valid email address', () => {
   render(
     <ThemeProvider theme={theme}>

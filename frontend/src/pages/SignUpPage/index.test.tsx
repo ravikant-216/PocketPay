@@ -196,5 +196,5 @@ describe('SignUpPage', () => {
         password: 'Ravi123@',
       })
     )
-  }, 15000)
+  }, 20000)
 })

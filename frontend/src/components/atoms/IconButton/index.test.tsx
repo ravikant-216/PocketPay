@@ -24,7 +24,7 @@ describe('IconButton', () => {
     const icon = '../../../../public/assets/icons/google.svg'
     const alt = 'googleIcon'
     const { getByRole } = render(
-      <Icon icon={icon} alt={alt} onclick={onClickMock} />
+      <Icon icon={icon} alt={alt} onClick={onClickMock} />
     )
     const iconWrapper = getByRole('button')
 

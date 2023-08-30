@@ -4,14 +4,23 @@ import Header from '.'
 import { ThemeProvider } from '@mui/material'
 import theme from '../../../theme'
 import { BrowserRouter } from 'react-router-dom'
+import { Auth0ContextInterface, User, useAuth0 } from '@auth0/auth0-react'
+
+jest.mock('@auth0/auth0-react')
+const mockedUseAuth0 = jest.mocked(useAuth0, { shallow: true })
 
 const testId = 'Header'
-const renderWithTheme = (T: React.ReactNode) =>
+const renderWithTheme = (T: React.ReactNode) => {
+  mockedUseAuth0.mockReturnValue({
+    isAuthenticated: true,
+    logout: () => ({}),
+  } as Auth0ContextInterface<User>)
   render(
     <BrowserRouter>
       <ThemeProvider theme={theme}>{T}</ThemeProvider>
     </BrowserRouter>
   )
+}
 
 test('Should render', () => {
   renderWithTheme(<Header />)

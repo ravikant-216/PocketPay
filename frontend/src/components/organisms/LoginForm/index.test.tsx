@@ -1,13 +1,33 @@
 import React from 'react'
-import { render, fireEvent, screen } from '@testing-library/react'
+import { render, fireEvent, screen, act } from '@testing-library/react'
 import SignIn from '.'
 import { ThemeProvider } from '@emotion/react'
 import { WELCOME_BACK } from '../../../strings/constants'
 import theme from '../../../theme'
 import '@testing-library/jest-dom'
+import { Auth0ContextInterface, User, useAuth0 } from '@auth0/auth0-react'
+import { BrowserRouter } from 'react-router-dom'
+import axios from 'axios'
 
-const renderWithTheme = (T: React.ReactNode) =>
-  render(<ThemeProvider theme={theme}>{T}</ThemeProvider>)
+jest.mock('@auth0/auth0-react')
+const mockedUseAuth0 = jest.mocked(useAuth0, { shallow: true })
+jest.mock('axios')
+const mockedAxios = axios as jest.Mocked<typeof axios>
+const renderWithTheme = (T: React.ReactNode) => {
+  mockedAxios.get.mockResolvedValue({ data: [{ id: 0 }] })
+  mockedAxios.post.mockResolvedValue({ data: { id: 0 } })
+  mockedUseAuth0.mockReturnValue({
+    loginWithRedirect: () => ({}),
+    user: undefined,
+    isAuthenticated: true,
+    logout: () => ({}),
+  } as Auth0ContextInterface<User>)
+  return render(
+    <BrowserRouter>
+      <ThemeProvider theme={theme}>{T}</ThemeProvider>
+    </BrowserRouter>
+  )
+}
 
 describe('SignIn', () => {
   it('renders correctly', () => {
@@ -76,6 +96,80 @@ describe('SignIn', () => {
     renderWithTheme(<SignIn />)
     const checkbox = screen.getByRole('checkbox', { name: /remember me/i })
     expect(checkbox).toBeChecked()
+  })
+  test('cliking googule icon', () => {
+    mockedUseAuth0.mockReturnValueOnce({
+      loginWithRedirect: () => ({}),
+      user: {
+        account_type: 'Personal Account',
+        address: '122-Baker street',
+        country: 'India',
+        dob: '2002-08-03',
+        email: 'sricharan.yella@zemosolabs.com',
+        first_name: 'Sri Charan',
+        id: 3,
+        last_name: 'Yella',
+        password: 'sricharan.yella@zemosolabs',
+      } as User,
+      isAuthenticated: true,
+      logout: () => ({}),
+    } as Auth0ContextInterface<User>)
+    renderWithTheme(<SignIn />)
+    const google = screen.getByAltText('Google Icon')
+    expect(google).toBeInTheDocument()
+    act(() => {
+      fireEvent.click(google)
+    })
+  })
+  test('clicking google icon with non existing user', () => {
+    mockedAxios.get.mockResolvedValueOnce({ data: [] })
+    mockedUseAuth0.mockReturnValueOnce({
+      loginWithRedirect: () => ({}),
+      user: {
+        account_type: 'Personal Account',
+        address: '122-Baker street',
+        country: 'India',
+        dob: '2002-08-03',
+        email: 'sricharan.yella@zemosolabs.com',
+        first_name: 'Sri Charan',
+        id: 3,
+        last_name: 'Yella',
+        password: 'sricharan.yella@zemosolabs',
+      } as User,
+      isAuthenticated: true,
+      logout: () => ({}),
+    } as Auth0ContextInterface<User>)
+    renderWithTheme(<SignIn />)
+    const google = screen.getByAltText('Google Icon')
+    expect(google).toBeInTheDocument()
+    act(() => {
+      fireEvent.click(google)
+    })
+  })
+  test('clicking google icon with non existing user', () => {
+    mockedAxios.post.mockRejectedValueOnce('Error Occurred')
+    mockedUseAuth0.mockReturnValueOnce({
+      loginWithRedirect: () => ({}),
+      user: {
+        account_type: 'Personal Account',
+        address: '122-Baker street',
+        country: 'India',
+        dob: '2002-08-03',
+        email: 'sricharan.yella@zemosolabs.com',
+        first_name: 'Sri Charan',
+        id: 3,
+        last_name: 'Yella',
+        password: 'sricharan.yella@zemosolabs',
+      } as User,
+      isAuthenticated: true,
+      logout: () => ({}),
+    } as Auth0ContextInterface<User>)
+    renderWithTheme(<SignIn />)
+    const google = screen.getByAltText('Google Icon')
+    expect(google).toBeInTheDocument()
+    act(() => {
+      fireEvent.click(google)
+    })
   })
   it('toggles password visibility when show password button is clicked', () => {
     const { getByLabelText, getByRole } = renderWithTheme(<SignIn />)

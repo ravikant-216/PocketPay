@@ -383,3 +383,7 @@ export const steps = [
   { time: 'Tomorrow at 12:00 am', label: 'We pay out your EUR' },
   { time: 'Tomorrow at 6:00 am', label: 'George max recieves your EUR' },
 ]
+export const LOGIN_PAGE = '/login'
+export const SIGNUP_PAGE = '/'
+export const HOME_PAGE = '/dashboard'
+export const SEND_MONEY_PAGE = '/sendMoney'

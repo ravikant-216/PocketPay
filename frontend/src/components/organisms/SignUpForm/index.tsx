@@ -21,6 +21,7 @@ import styled from '@emotion/styled'
 import { Box, Divider, Stack } from '@mui/material'
 import theme from '../../../theme'
 import { useNavigate } from 'react-router'
+import { useAuth0 } from '@auth0/auth0-react'
 
 export interface SignUpWrapperProps {
   style?: React.CSSProperties
@@ -60,6 +61,8 @@ const TextWrapper = styled(Stack)({
 const SignUpForm = (props: SignUpWrapperProps) => {
   const [disabled, setDisabled] = useState(true)
   const [email, setEmail] = useState<string>('')
+
+  const { loginWithRedirect } = useAuth0()
 
   const navigate = useNavigate()
 
@@ -110,7 +113,18 @@ const SignUpForm = (props: SignUpWrapperProps) => {
         </Typography>
 
         <IconBox>
-          <Icon icon={GoogleIcon} data-testid="google-icon" />
+          <Icon
+            alt="Google Icon"
+            icon={GoogleIcon}
+            data-testid="google-icon"
+            onClick={() => {
+              loginWithRedirect({
+                authorizationParams: {
+                  connection: 'google-oauth2',
+                },
+              })
+            }}
+          />
           <Icon icon={FacebookIcon} data-testid="facebook-icon" />
           <Icon icon={AppleIcon} data-testid="apple-icon" />
         </IconBox>

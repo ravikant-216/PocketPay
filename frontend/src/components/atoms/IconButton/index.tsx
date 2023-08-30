@@ -3,7 +3,7 @@ import { IconButton } from '@mui/material'
 import theme from '../../../theme'
 
 export interface IconProps {
-  onclick?: () => void
+  onClick?: () => void
   icon: string
   width?: string
   height?: string
@@ -30,7 +30,7 @@ const StyledIconButton = styled(IconButton)<{
 const Icon = (props: IconProps) => {
   return (
     <StyledIconButton
-      onClick={props.onclick}
+      onClick={props.onClick}
       {...props}
       data-testid="iconButton"
     >

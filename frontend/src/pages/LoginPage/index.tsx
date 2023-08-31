@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router'
 import axios from 'axios'
 import { baseURL } from '../../strings/constants'
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { userActions } from '../../utils/store/user'
 
 interface UserDetails {
   first_name: string
@@ -20,6 +22,7 @@ interface UserDetails {
 }
 export function LoginPage() {
   const [authenticated, setAuthenticated] = useState(true)
+  const dispatch = useDispatch()
   const handleLogin = async (email: string, password: string) => {
     const response = await axios.get(`${baseURL}/user`)
     const data: UserDetails[] = response.data
@@ -27,6 +30,7 @@ export function LoginPage() {
       (item) => item.password === password && item.email === email
     )
     if (user) {
+      dispatch(userActions.loginUser(user))
       navigate(`/dashboard`, { state: { id: user.id } })
     } else {
       setAuthenticated(false)

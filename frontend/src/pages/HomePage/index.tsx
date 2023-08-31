@@ -131,7 +131,7 @@ const HomePage = () => {
     }
 
     fetchData()
-  }, [transactionList.length, id])
+  }, [])
 
   const navigate = useNavigate()
 
@@ -210,7 +210,7 @@ const HomePage = () => {
   return (
     <>
       <DashboardTemplate
-        newUser={location.state.hasOwnProperty('newUser')}
+        newUser={transactionList.length === 0}
         Content={<DashboardContent />}
       />
     </>

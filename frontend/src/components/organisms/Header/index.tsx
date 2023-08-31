@@ -8,6 +8,9 @@ import BellIcon from '../../../../public/assets/icons/bell.svg'
 import ProfileMenu from '../../molecules/ProfileMenu'
 import { useState } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
+import { userActions } from '../../../utils/store/user'
+import { useDispatch } from 'react-redux'
+// import { useNavigate } from 'react-router-dom'
 
 const StyledStack = styled(Stack)(({ theme }) => ({
   width: '100%',
@@ -41,7 +44,8 @@ const StyledStack = styled(Stack)(({ theme }) => ({
 }))
 
 const Header: React.FC<StackProps> = () => {
-  const { logout } = useAuth0()
+  const { isAuthenticated, logout } = useAuth0()
+  const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>()
   const openMenu = Boolean(anchorEl)
   const onAvatarClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -51,8 +55,12 @@ const Header: React.FC<StackProps> = () => {
     setAnchorEl(undefined)
   }
 
+  // const navigate = useNavigate()
   const onLogout = () => {
-    logout({ logoutParams: { returnTo: window.location.origin + '/login' } })
+    dispatch(userActions.logoutUser())
+    if (isAuthenticated) {
+      logout({ logoutParams: { returnTo: window.location.origin + '/login' } })
+    }
   }
 
   return (

@@ -11,7 +11,6 @@ import SearchBusiness from '../../components/organisms/SearchOrganization'
 import SendMoneyTemplate from '../../components/templates/SendMoneyTemplate'
 import { DETAILS_LABEL_ARRAY } from '../../strings/constants'
 import theme from '../../theme'
-import { useNavigate } from 'react-router'
 
 interface AccountDetailPageProps {
   buttonOnClick: (arg: formData) => void
@@ -21,7 +20,6 @@ export const AccountDetailPage = ({
   buttonOnClick,
   countryList,
 }: AccountDetailPageProps) => {
-  const navigate = useNavigate()
   const [businessName, setBusinessName] = useState<string>('')
   const [value, setValue] = useState<number>(0)
   const [stepperValue, setStepperValue] = useState<number>(0)
@@ -104,7 +102,6 @@ export const AccountDetailPage = ({
         buttonOnClick={(formData) => {
           setFormData(formData)
           buttonOnClick(formData)
-          navigate('/dashboard', { state: { id: -1, newUser: true } })
         }}
         sx={{
           width: theme.spacing(162.75),

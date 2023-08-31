@@ -36,16 +36,10 @@ const StyledStack = styled(Stack)(({ theme }) => ({
 
   // layout
   display: 'flex',
-  flexFlow: 'column nowrap',
+
   justifyContent: 'flex-start',
   alignItems: 'center',
   gap: theme.spacing(6),
-
-  '& > .content': {
-    '&::-webkit-scrollbar': {
-      display: 'none',
-    },
-  },
 
   '& .back-icon': {
     alignSelf: 'flex-start',
@@ -308,6 +302,7 @@ const SendMoneyPage: React.FC = () => {
 
   const reviewTransferDetails = (
     <ReviewTransferDetails
+      style={{ width: theme.spacing(129) }}
       data={{ transfer: transfer.current, recipient: recipient.current }}
       onConfirmAndContinue={(t, r) => {
         transfer.current = { ...t }
@@ -320,6 +315,7 @@ const SendMoneyPage: React.FC = () => {
 
   const component9 = (
     <ChooseBank
+      style={{ width: theme.spacing(129) }}
       onClickHandler={() => navigateToComponent(10)}
       onCancelHandler={() => {
         setOpenCancelModal(true)
@@ -339,6 +335,7 @@ const SendMoneyPage: React.FC = () => {
 
   const lloydsConfirmation = (
     <LloydsConfirmation
+      style={{ width: theme.spacing(129) }}
       amount={transfer.current.conversionAmount}
       currency={transfer.current.senderCurrencyCode.toString()}
       onPayHandler={() => {
@@ -349,6 +346,7 @@ const SendMoneyPage: React.FC = () => {
 
   const paymentConfirmation = (
     <PaymentConfirmation
+      style={{ width: theme.spacing(129) }}
       payeeName={recipient.current.name}
       reference={'8437658465'}
       amount={transfer.current.conversionAmount.toString()}

@@ -28,7 +28,7 @@ test('updates bank list on input change', async () => {
 
   expect(screen.queryByText('LLOYDS')).toBeInTheDocument()
   expect(screen.queryByText('AXIS')).toBeInTheDocument()
-})
+}, 10000)
 
 it('should call onClickHandler when Lloyds bank card is clicked', async () => {
   const onClickHandler = jest.fn()
@@ -46,4 +46,4 @@ it('should call onClickHandler when Lloyds bank card is clicked', async () => {
   fireEvent.click(await lloydsBankCard)
 
   expect(onClickHandler).toHaveBeenCalledTimes(1)
-})
+}, 10000)

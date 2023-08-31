@@ -28,6 +28,8 @@ import AppleIcon from '../../../../public/assets/icons/apple.svg'
 import { User, useAuth0 } from '@auth0/auth0-react'
 import { useNavigate } from 'react-router-dom'
 import { loginWithGoogleAuth } from '../../../utils/auth/GoogleAuth'
+import { useDispatch } from 'react-redux'
+import { userActions } from '../../../utils/store/user'
 
 const ButtonStyles = styled(CustomButton)`
   color: ${theme.palette.structuralColors.white};
@@ -58,10 +60,12 @@ export default function SignIn({
   const [password, setPassword] = useState('')
   const [emailError, setEmailError] = useState('')
   const [passwordError, setPasswordError] = useState('')
+  const dispatch = useDispatch()
 
   const navigate = useNavigate()
   const createUserWithGoogleAuth = async (user: User) => {
     const userResponse = await loginWithGoogleAuth(user)
+    dispatch(userActions.loginUser(userResponse))
     navigate('/dashboard', { state: { id: userResponse.id } })
   }
 

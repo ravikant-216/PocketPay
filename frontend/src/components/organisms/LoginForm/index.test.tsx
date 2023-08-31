@@ -8,6 +8,8 @@ import '@testing-library/jest-dom'
 import { Auth0ContextInterface, User, useAuth0 } from '@auth0/auth0-react'
 import { BrowserRouter } from 'react-router-dom'
 import axios from 'axios'
+import { store } from '../../../utils/store'
+import { Provider } from 'react-redux'
 
 jest.mock('@auth0/auth0-react')
 const mockedUseAuth0 = jest.mocked(useAuth0, { shallow: true })
@@ -24,7 +26,9 @@ const renderWithTheme = (T: React.ReactNode) => {
   } as Auth0ContextInterface<User>)
   return render(
     <BrowserRouter>
-      <ThemeProvider theme={theme}>{T}</ThemeProvider>
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>{T}</ThemeProvider>
+      </Provider>
     </BrowserRouter>
   )
 }

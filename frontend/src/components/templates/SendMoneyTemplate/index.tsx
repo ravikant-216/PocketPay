@@ -32,9 +32,8 @@ const BackButtonBox = styled(Box)({
 const HeaderGrid = styled(Grid)({
   alignItems: 'center',
   justifyContent: 'space-between',
-  padding: `${theme.spacing(2)} ${theme.spacing(16)} ${theme.spacing(
-    7.5
-  )} ${theme.spacing(16)}`,
+  padding: `0 ${theme.spacing(10)} 0 ${theme.spacing(10)}`,
+  height: '80px',
 })
 
 const StepperGrid = styled(Grid)({})

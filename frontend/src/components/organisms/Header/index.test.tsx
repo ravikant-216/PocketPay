@@ -5,6 +5,8 @@ import { ThemeProvider } from '@mui/material'
 import theme from '../../../theme'
 import { BrowserRouter } from 'react-router-dom'
 import { Auth0ContextInterface, User, useAuth0 } from '@auth0/auth0-react'
+import { Provider } from 'react-redux'
+import { store } from '../../../utils/store'
 
 jest.mock('@auth0/auth0-react')
 const mockedUseAuth0 = jest.mocked(useAuth0, { shallow: true })
@@ -17,7 +19,9 @@ const renderWithTheme = (T: React.ReactNode) => {
   } as Auth0ContextInterface<User>)
   render(
     <BrowserRouter>
-      <ThemeProvider theme={theme}>{T}</ThemeProvider>
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>{T}</ThemeProvider>
+      </Provider>
     </BrowserRouter>
   )
 }

@@ -11,6 +11,9 @@ import getCountryList from '../../components/api/CountryList'
 import axios from 'axios'
 import { baseURL } from '../../strings/constants'
 import SignUpForm from '../../components/organisms/SignUpForm'
+import { userActions } from '../../utils/store/user'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 interface SignUpFormProps {
   onSubmit?: () => void
@@ -21,11 +24,13 @@ export function SignUpPage(props: SignUpFormProps) {
   const [password, setPassword] = useState<string>('')
   const [accountType, setAccountType] = useState<string>('')
   const [show, setShow] = useState<number>(1)
+  const dispatch = useDispatch()
   const handleClick = (email: string) => {
     setEmail(email)
     setShow(2)
   }
 
+  const navigate = useNavigate()
   useEffect(() => {
     async function fetchCountryList() {
       const list: IconLabelPropType[] = await getCountryList()
@@ -67,9 +72,9 @@ export function SignUpPage(props: SignUpFormProps) {
       )}
       {show === 3 && (
         <AccountDetailPage
-          buttonOnClick={(form: formData) => {
+          buttonOnClick={async (form: formData) => {
             if (props.onSubmit) props.onSubmit()
-            axios.post(`${baseURL}/user`, {
+            const { data: user } = await axios.post(`${baseURL}/user`, {
               first_name: form.firstName,
               last_name: form.lastName,
               country: form.country,
@@ -79,6 +84,8 @@ export function SignUpPage(props: SignUpFormProps) {
               account_type: accountType,
               password: password,
             })
+            dispatch(userActions.loginUser(user))
+            navigate('/dashboard', { state: { id: user.id, newUser: true } })
           }}
           countryList={countryList}
         ></AccountDetailPage>

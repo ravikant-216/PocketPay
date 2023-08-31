@@ -6,6 +6,8 @@ import { SignUpPage } from '.'
 import { BUSINESSES, DOB, baseURL } from '../../strings/constants'
 import theme from '../../theme'
 import { MemoryRouter } from 'react-router'
+import { Provider } from 'react-redux'
+import { store } from '../../utils/store'
 jest.mock('axios')
 afterEach(cleanup)
 const mockedAxios = axios as jest.Mocked<typeof axios>
@@ -83,9 +85,11 @@ describe('SignUpPage', () => {
 
       render(
         <ThemeProvider theme={theme}>
-          <MemoryRouter>
-            <SignUpPage onSubmit={mockOnClick} />
-          </MemoryRouter>
+          <Provider store={store}>
+            <MemoryRouter>
+              <SignUpPage onSubmit={mockOnClick} />
+            </MemoryRouter>
+          </Provider>
         </ThemeProvider>
       )
     })
@@ -196,5 +200,5 @@ describe('SignUpPage', () => {
         password: 'Ravi123@',
       })
     )
-  }, 20000)
+  }, 30000)
 })

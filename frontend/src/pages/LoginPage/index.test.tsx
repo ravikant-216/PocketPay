@@ -7,6 +7,8 @@ import { ThemeProvider } from '@emotion/react'
 import { BrowserRouter } from 'react-router-dom'
 import axios from 'axios'
 import { baseURL } from '../../strings/constants'
+import { Provider } from 'react-redux'
+import { store } from '../../utils/store'
 
 jest.mock('axios')
 afterEach(cleanup)
@@ -40,9 +42,11 @@ describe('LoginPage', () => {
       })
       render(
         <ThemeProvider theme={theme}>
-          <BrowserRouter>
-            <LoginPage />
-          </BrowserRouter>
+          <Provider store={store}>
+            <BrowserRouter>
+              <LoginPage />
+            </BrowserRouter>
+          </Provider>
         </ThemeProvider>
       )
     })
@@ -87,9 +91,11 @@ describe('LoginPage', () => {
       })
       render(
         <ThemeProvider theme={theme}>
-          <BrowserRouter>
-            <LoginPage />
-          </BrowserRouter>
+          <Provider store={store}>
+            <BrowserRouter>
+              <LoginPage />
+            </BrowserRouter>
+          </Provider>
         </ThemeProvider>
       )
     })

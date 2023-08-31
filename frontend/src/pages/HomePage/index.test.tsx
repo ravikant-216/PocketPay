@@ -6,6 +6,8 @@ import HomePage from '.'
 import theme from '../../theme'
 import { baseURL } from '../../strings/constants'
 import { MemoryRouter } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import { store } from '../../utils/store'
 
 jest.mock('axios')
 afterEach(cleanup)
@@ -69,14 +71,16 @@ describe('HomePage', () => {
       })
       render(
         <ThemeProvider theme={theme}>
-          <MemoryRouter
-            initialEntries={[
-              'http://localhost:3001/dashboard',
-              { state: { id: 1 } },
-            ]}
-          >
-            <HomePage />
-          </MemoryRouter>
+          <Provider store={store}>
+            <MemoryRouter
+              initialEntries={[
+                'http://localhost:3001/dashboard',
+                { state: { id: 1 } },
+              ]}
+            >
+              <HomePage />
+            </MemoryRouter>
+          </Provider>
         </ThemeProvider>
       )
     })
@@ -91,14 +95,16 @@ describe('HomePage', () => {
       })
       render(
         <ThemeProvider theme={theme}>
-          <MemoryRouter
-            initialEntries={[
-              'http://localhost:3001/dashboard',
-              { state: { id: 1, newUser: true } },
-            ]}
-          >
-            <HomePage />
-          </MemoryRouter>
+          <Provider store={store}>
+            <MemoryRouter
+              initialEntries={[
+                'http://localhost:3001/dashboard',
+                { state: { id: 1, newUser: true } },
+              ]}
+            >
+              <HomePage />
+            </MemoryRouter>
+          </Provider>
         </ThemeProvider>
       )
     })
@@ -165,14 +171,16 @@ describe('HomePage', () => {
       })
       render(
         <ThemeProvider theme={theme}>
-          <MemoryRouter
-            initialEntries={[
-              'http://localhost:3001/dashboard',
-              { state: { id: 1 } },
-            ]}
-          >
-            <HomePage />
-          </MemoryRouter>
+          <Provider store={store}>
+            <MemoryRouter
+              initialEntries={[
+                'http://localhost:3001/dashboard',
+                { state: { id: 1 } },
+              ]}
+            >
+              <HomePage />
+            </MemoryRouter>
+          </Provider>
         </ThemeProvider>
       )
     })

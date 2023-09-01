@@ -1,0 +1,129 @@
+name: Backend Build
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "backend/**"
+      - ".github/workflows/backend-build.yml"
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  user-service:
+    if: (startsWith(github.head_ref, 'BE_') && github.event.pull_request.merged == false) || (github.event_name == 'push')
+    name: user-service
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    defaults:
+      run:
+        working-directory: ./backend/User-Service
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: 11
+          distribution: "zulu"
+
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Build and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.USER_SERVICE_TOKEN }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectName=bootcamp-be-bc107-user-service -Dsonar.projectKey=zemoso-int_bootcamp-be-bc107-user-service
+
+  transaction-service:
+    if: (startsWith(github.head_ref, 'BE_') && github.event.pull_request.merged == false) || (github.event_name == 'push')
+    name: transaction-service
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    defaults:
+      run:
+        working-directory: ./backend/Transaction-Service
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: 11
+          distribution: "zulu"
+
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Build and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.TRANSACTION_SERVICE_TOKEN }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectName=bootcamp-be-bc107-transaction-service -Dsonar.projectKey=zemoso-int_bootcamp-be-bc107-transaction-service
+
+  business-service:
+    if: (startsWith(github.head_ref, 'BE_') && github.event.pull_request.merged == false) || (github.event_name == 'push')
+    name: business_service
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    defaults:
+      run:
+        working-directory: ./backend/Business-Service
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: 11
+          distribution: "zulu"
+
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Build and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.BUSINESS_SERVICE_TOKEN }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectName=bootcamp-be-bc107-busines-service -Dsonar.projectKey=zemoso-int_bootcamp-be-bc107-business-service

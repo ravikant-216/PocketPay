@@ -319,6 +319,7 @@ const CurrencyExchange = (props: CurrencyExchangeProps) => {
                       />
                     </Stack>
                   }
+                  sx={{ color: theme.palette.text.highEmphasis }}
                   disabled
                   value={
                     (input === '0' ? '' : input)

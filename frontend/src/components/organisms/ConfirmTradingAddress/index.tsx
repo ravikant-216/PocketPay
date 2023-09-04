@@ -11,8 +11,8 @@ import {
   ADD,
   ADD_TRADING_ADDRESS,
   CANCEL,
-  CHANGE,
   CONFIRM_BUTTON_LABEL,
+  EDIT,
   SAVE,
   TRADING_ADDRESSES,
   TRADING_ADDRESS_HEADING,
@@ -38,9 +38,11 @@ interface Address {
 }
 
 interface ModalContentProps {
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  handleAddAddress: () => void
   selectedValue: number
-  onClick: (data: string) => void
   addressList: AddressList[]
+  input: string
 }
 const ModalContent = (props: ModalContentProps) => {
   return (
@@ -57,15 +59,15 @@ const ModalContent = (props: ModalContentProps) => {
         <InputField
           variant="outlined"
           multiline
-          label={`trading address`}
-          value={props.addressList[props.selectedValue].address}
+          label={`trading address ${props.addressList.length + 1}`}
+          value={props.input}
+          onChange={props.handleChange}
+          placeholder={`trading address ${props.addressList.length + 1}`}
         />
         <Box display={'flex'} alignItems={'center'} justifyContent={'center'}>
           <CustomButton
             variant="contained"
-            onClick={() =>
-              props.onClick(props.addressList[props.selectedValue].address)
-            }
+            onClick={props.handleAddAddress}
             data-testid="addButton"
           >
             {ADD}
@@ -75,9 +77,7 @@ const ModalContent = (props: ModalContentProps) => {
     </>
   )
 }
-
 const ConfirmTradingAddress = (props: TradingAddressProps) => {
-  const [addAddress, setaddAddress] = useState(false)
   const [input, setInput] = useState('')
   const [addressList, setAddressList] = useState<AddressList[]>([])
   const [selectedValue, setSelectedValue] = useState<number>(0)
@@ -86,7 +86,7 @@ const ConfirmTradingAddress = (props: TradingAddressProps) => {
   const [showModal, setShowModal] = useState(false)
   const [edit, setEdit] = useState(false)
   const addTradingAddress = () => {
-    setaddAddress(true)
+    setShowModal(true)
   }
 
   const fetchTradingAddressList = async () => {
@@ -118,10 +118,10 @@ const ConfirmTradingAddress = (props: TradingAddressProps) => {
   const handleAddAddress = () => {
     if (input != '') {
       addNewTradingAddress()
+      setShowModal(false)
     }
 
     setInput('')
-    setaddAddress(false)
   }
 
   const handleEdit = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -165,32 +165,31 @@ const ConfirmTradingAddress = (props: TradingAddressProps) => {
             xs={6}
             sx={{ display: 'flex', justifyContent: 'flex-end' }}
           >
-            {!addAddress && !edit && (
-              <Box
-                sx={{ cursor: 'pointer' }}
-                onClick={() => setEdit(true)}
-                data-testid="editButton"
-              >
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => setEdit(true)}
+              data-testid="editButton"
+            >
+              {!edit && (
                 <Typography variant="link" color={theme.palette.primary[500]}>
-                  {CHANGE}
+                  {EDIT}
                 </Typography>
-              </Box>
-            )}
+              )}
+            </Box>
           </Grid>
         </Grid>
-        {addAddress || edit ? (
+        {edit ? (
           <>
             <InputField
               variant="outlined"
               multiline
               type="text"
-              label={`TradingAddress ${
-                edit ? selectedValue + 1 : addressList.length + 1
-              }`}
-              onChange={edit ? handleEdit : handleChange}
+              label={`TradingAddress ${selectedValue + 1}`}
+              onChange={handleEdit}
               sx={{ width: '100%' }}
-              value={edit ? editedInput : input}
+              value={editedInput}
               data-testid="inputField"
+              placeholder={`TradingAddress ${selectedValue + 1}`}
             />
             <Box
               display={'flex'}
@@ -208,16 +207,14 @@ const ConfirmTradingAddress = (props: TradingAddressProps) => {
               >
                 <CustomButton
                   variant="outlined"
-                  onClick={() =>
-                    edit ? setEdit(false) : (setaddAddress(false), setInput(''))
-                  }
+                  onClick={() => setEdit(false)}
                   data-testid="cancelButton"
                 >
                   {CANCEL}
                 </CustomButton>
                 <CustomButton
                   variant="contained"
-                  onClick={edit ? handleEditAddress : handleAddAddress}
+                  onClick={handleEditAddress}
                   data-testId="saveButton"
                 >
                   {SAVE}
@@ -282,7 +279,9 @@ const ConfirmTradingAddress = (props: TradingAddressProps) => {
                 </CustomButton>
                 <CustomButton
                   variant="contained"
-                  onClick={() => setShowModal(true)}
+                  onClick={() =>
+                    props.onClick(addressList[selectedValue].address)
+                  }
                   data-testid="confirmButton"
                 >
                   {CONFIRM_BUTTON_LABEL}
@@ -300,9 +299,11 @@ const ConfirmTradingAddress = (props: TradingAddressProps) => {
         data-testid="modal"
       >
         <ModalContent
-          onClick={props.onClick}
+          handleAddAddress={handleAddAddress}
+          handleChange={handleChange}
           selectedValue={selectedValue}
           addressList={addressList}
+          input={input}
         />
       </ModalBox>
     </>

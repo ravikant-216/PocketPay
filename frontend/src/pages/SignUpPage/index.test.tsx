@@ -155,8 +155,7 @@ describe('SignUpPage', () => {
     expect(component).toBeInTheDocument()
     expect(screen.getByText('Confirm trading address')).toBeInTheDocument()
     fireEvent.click(screen.getByTestId('confirmButton'))
-    expect(screen.getByTestId('addTradingAddressButton')).toBeInTheDocument()
-    fireEvent.click(screen.getByText('Add'))
+
     expect(
       screen.getByText('Help us verify your account faster')
     ).toBeInTheDocument()
@@ -176,10 +175,11 @@ describe('SignUpPage', () => {
       target: { value: 'Kant' },
     })
     fireEvent.change(screen.getByLabelText(DOB), {
-      target: { value: '1998-01-30' },
+      target: { value: '11/11/1999' },
     })
     expect(screen.getByText('Continue')).toBeDisabled()
-    fireEvent.mouseDown(screen.getAllByRole('button')[0])
+    const countryDropdown111 = screen.getAllByRole('button')[1]
+    fireEvent.mouseDown(countryDropdown111)
     fireEvent.click(screen.getByText('Andorra'))
 
     fireEvent.change(screen.getByLabelText('Home Address'), {
@@ -195,7 +195,7 @@ describe('SignUpPage', () => {
         country: 'Andorra',
         address: 'Nutan Nagar',
         email: 'test@example.com',
-        dob: '1998-01-30',
+        dob: '11/11/1999',
         account_type: 'Personal Account',
         password: 'Ravi123@',
       })

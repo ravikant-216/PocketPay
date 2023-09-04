@@ -120,7 +120,12 @@ export default function CountryDropdown({
       >
         {countryList.map((iconTitle) => (
           <MenuItem key={iconTitle.iconTitle} value={iconTitle.iconTitle}>
-            {<IconLabel {...iconTitle} />}
+            {
+              <IconLabel
+                {...iconTitle}
+                style={{ columnGap: theme.spacing(6) }}
+              />
+            }
           </MenuItem>
         ))}
       </Select>

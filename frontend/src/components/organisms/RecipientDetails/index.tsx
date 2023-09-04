@@ -13,6 +13,8 @@ import {
 } from '../../../strings/constants'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import MenuItem from '@mui/material/MenuItem'
+import { SelectChangeEvent } from '@mui/material'
 
 interface UserDetails {
   email: string
@@ -20,6 +22,7 @@ interface UserDetails {
   firstName: string
   lastName: string
   ifsc: string
+  accountType: string
 }
 
 export interface RecipientDetailsProps {
@@ -43,6 +46,7 @@ const OuterContainer = styled(Box)({
 const ButtonWrapper = styled(Box)({
   display: 'flex',
   justifyContent: 'flex-end',
+  marginBottom: theme.spacing(-8),
   flexDirection: 'column',
 })
 
@@ -53,6 +57,7 @@ interface Beneficiary {
   ifsc: string
   email: string
   id: number
+  accountType: string
 }
 const ACCOUNT_NUMBER_LENGTH = 12
 const IFSC_CODE_LENGTH = 11
@@ -66,6 +71,7 @@ const RecipientDetails = (props: RecipientDetailsProps) => {
     firstName: '',
     lastName: '',
     ifsc: '',
+    accountType: '',
   }
 
   const [values, setValues] = useState(props.data)
@@ -102,13 +108,18 @@ const RecipientDetails = (props: RecipientDetailsProps) => {
     }
   }
 
+  const handleValueChange = (event: SelectChangeEvent<unknown>) => {
+    console.log(event.target.value)
+    setValues({ ...values, [event.target.name]: event.target.value })
+  }
   const validateFields = () => {
     return (
       new RegExp(Email_REGEX).test(values.email) &&
       values.account.length === ACCOUNT_NUMBER_LENGTH &&
       values.firstName.length >= MIN_NAME_LENGTH &&
       values.lastName.length >= MIN_NAME_LENGTH &&
-      values.ifsc.length === IFSC_CODE_LENGTH
+      values.ifsc.length === IFSC_CODE_LENGTH &&
+      values.accountType.length >= MIN_NAME_LENGTH
     )
   }
 
@@ -195,6 +206,18 @@ const RecipientDetails = (props: RecipientDetailsProps) => {
           error={Boolean(ifscError)}
           helperText={ifscError}
         />
+
+        <InputField
+          value={values.accountType}
+          select
+          label="Account Type"
+          SelectProps={{ onChange: handleValueChange }}
+          name="accountType"
+          disabled={disabled}
+        >
+          <MenuItem value={'Saving'}>Saving</MenuItem>
+          <MenuItem value={'Checking'}>Checking</MenuItem>
+        </InputField>
       </StyledContainer>
       <ButtonWrapper>
         <CustomButton

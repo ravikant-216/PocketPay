@@ -55,6 +55,12 @@ const CustomAccordion = styled(Accordion)({
   '&.MuiPaper-elevation': {
     boxShadow: '0px 1px 5px 0px rgba(0, 0, 0, 0.15)',
   },
+  '&.Mui-expanded': {
+    '& .MuiButtonBase-root.Mui-expanded': {
+      height: theme.spacing(22.25),
+    },
+    marginTop: 0,
+  },
 
   '& .MuiAccordionSummary-root': { paddingRight: theme.spacing(5) },
 })

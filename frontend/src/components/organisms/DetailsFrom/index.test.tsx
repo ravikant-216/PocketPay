@@ -43,10 +43,10 @@ describe('DetailsForm', () => {
       target: { value: 'Kant' },
     })
     fireEvent.change(getByLabelText(DOB), {
-      target: { value: '1998-01-30' },
+      target: { value: '11/11/1999' },
     })
     expect(getByText('Continue')).toBeDisabled()
-    const countryDropdown = getAllByRole('button')[0]
+    const countryDropdown = getAllByRole('button')[1]
     fireEvent.mouseDown(countryDropdown)
     fireEvent.click(screen.getByText('India'))
 
@@ -54,10 +54,11 @@ describe('DetailsForm', () => {
       target: { value: 'Nutan Nagar' },
     })
     fireEvent.click(getByText('Continue'))
+    expect(getByText('Continue')).not.toBeDisabled()
     expect(mockOnClick).toHaveBeenCalledWith({
       firstName: 'Ravi',
       lastName: 'Kant',
-      dob: '1998-01-30',
+      dob: '11/11/1999',
       country: 'India',
       address: 'Nutan Nagar',
     })

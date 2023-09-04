@@ -112,7 +112,6 @@ const HomePage = () => {
         (item) => item.userId === Number(id)
       )
       setTransactionList(transactionWithMatchingUserId)
-
       const senderResponse = await axios.get(`${baseURL}/user`)
       const senderData: User[] = senderResponse.data
       const user = senderData.find((item) => item.id === Number(id))
@@ -131,7 +130,7 @@ const HomePage = () => {
     }
 
     fetchData()
-  }, [])
+  }, [transactionList.length, id])
 
   const navigate = useNavigate()
 
@@ -183,6 +182,7 @@ const HomePage = () => {
         )}
 
         {transactionList.map((item) => {
+          console.log(item)
           return (
             <TransactionDetails
               data-testid="transactionDetails"
@@ -192,7 +192,9 @@ const HomePage = () => {
               sendingCurrency={item.sendingCurrencyCode}
               recievingCurrency={item.recievingCurrencyCode}
               senderName={senderName}
-              receiverName={reciever(item.recipientId)}
+              receiverName={
+                recieverName.length > 0 ? reciever(item.recipientId) : ''
+              }
               transferNumber={item.referenceNumber}
               key={item.referenceNumber}
               style={{

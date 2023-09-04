@@ -94,8 +94,7 @@ describe('AccountDetailPage', () => {
     expect(component).toBeInTheDocument()
     expect(screen.getByText('Confirm trading address')).toBeInTheDocument()
     fireEvent.click(screen.getByTestId('confirmButton'))
-    expect(screen.getByTestId('addTradingAddressButton')).toBeInTheDocument()
-    fireEvent.click(screen.getByText('Add'))
+
     expect(
       screen.getByText('Help us verify your account faster')
     ).toBeInTheDocument()
@@ -115,10 +114,10 @@ describe('AccountDetailPage', () => {
       target: { value: 'Kant' },
     })
     fireEvent.change(screen.getByLabelText(DOB), {
-      target: { value: '1998-01-30' },
+      target: { value: '11/11/1999' },
     })
     expect(screen.getByText('Continue')).toBeDisabled()
-    const countryDropdown = screen.getAllByRole('button')[0]
+    const countryDropdown = screen.getAllByRole('button')[1]
     fireEvent.mouseDown(countryDropdown)
     fireEvent.click(screen.getByText('India'))
 

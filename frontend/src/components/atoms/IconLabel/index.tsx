@@ -6,6 +6,7 @@ import Image, { ImageProps } from '../Image'
 export interface IconLabelPropType extends ImageProps {
   iconTitle?: string
   color?: string
+  variant?: 'caption' | 'body3' | 'body2'
   countryCurrencyCode?: string
   onClick?: () => void
 }
@@ -15,6 +16,7 @@ const IconLabel = ({
   src,
   countryCurrencyCode,
   alt,
+  variant = 'caption',
   color,
   style,
   onClick,
@@ -36,7 +38,7 @@ const IconLabel = ({
         onClick={onClick}
       >
         <Image src={src} alt={alt} />
-        <Text color={color} variant="caption">
+        <Text color={color} variant={variant}>
           {iconTitle}
         </Text>
       </Stack>

@@ -6,12 +6,14 @@ import { useState } from 'react'
 import { IconLabelPropType } from '../../atoms/IconLabel'
 import CustomButton from '../../atoms/Button'
 import {
-  DOB,
   COUNTRY_RESIDENCE,
   FILL_DETAIL,
   ACCOUNT_OPEN,
+  DOB,
 } from '../../../strings/constants'
 import CountryDropdown from '../CountryDropdown'
+import DatePicker from '../../atoms/DatePicker'
+import dayjs from 'dayjs'
 
 export type formData = {
   firstName: string
@@ -66,12 +68,6 @@ export default function DetailsForm({
       placeholder: 'Last Name',
       type: 'text',
     },
-    {
-      name: 'dob',
-      label: DOB,
-      placeholder: DOB,
-      type: 'date',
-    },
   ]
 
   return (
@@ -105,6 +101,14 @@ export default function DetailsForm({
             }
           />
         ))}
+        <DatePicker
+          onChange={(value) => {
+            const formattedDate = dayjs(value as string).format('DD/MM/YYYY')
+            handleInputChange('dob', formattedDate)
+          }}
+          maxDate="01-01-2005"
+          label={DOB}
+        />
         <CountryDropdown
           country={formData.country}
           label={COUNTRY_RESIDENCE}
@@ -133,7 +137,9 @@ export default function DetailsForm({
             !formData.address
           }
           sx={{ width: props.buttonWidth }}
-          onClick={() => buttonOnClick(formData)}
+          onClick={() => {
+            buttonOnClick(formData)
+          }}
         >
           Continue
         </CustomButton>

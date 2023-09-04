@@ -127,7 +127,7 @@ const SendMoneyPage: React.FC = () => {
     name: '',
     email: '',
     accountNumber: '',
-    accountType: 'Checking',
+    accountType: '',
   })
 
   const { v4: uuidv4 } = require('uuid')
@@ -220,6 +220,7 @@ const SendMoneyPage: React.FC = () => {
         email: recipient.current.email,
         account: recipient.current.accountNumber,
         ifsc: recipient.current.ifsc ?? '',
+        accountType: recipient.current.accountType ?? '',
       }}
       style={{
         width: theme.spacing(162.75),

@@ -10,6 +10,7 @@ const data = {
   email: '',
   account: '',
   ifsc: '',
+  accountType: '',
 }
 jest.mock('axios')
 afterEach(cleanup)
@@ -24,6 +25,7 @@ const renderWithTheme = (T: React.ReactNode) => {
         firstName: 'Mario',
         lastName: 'Gabriel',
         ifsc: 'ABFJ12929GH',
+        accountType: 'Checking',
       },
     ],
   })
@@ -58,6 +60,7 @@ describe('Recipient Details', () => {
     const firstNameInput = getByLabelText('First name')
     const lastNameInput = getByLabelText('Last name')
     const ifscInput = getByLabelText('IFSC code')
+    const accountType = getByLabelText('Account Type')
     const continueButton = getByText('Continue')
 
     fireEvent.change(emailInput, {
@@ -75,6 +78,8 @@ describe('Recipient Details', () => {
     fireEvent.change(ifscInput, {
       target: { name: 'ifsc', value: 'ABCD1234567' },
     })
+    fireEvent.mouseDown(accountType)
+    fireEvent.click(getByText('Checking'))
 
     expect(emailInput.getAttribute('value')).toBe('test@example.com')
     expect(accountInput.getAttribute('value')).toBe('123456789012')
@@ -123,8 +128,11 @@ describe('Recipient Details', () => {
 
     const ifscInput = getByLabelText('IFSC code')
     fireEvent.change(ifscInput, { target: { value: 'ABCD0123456' } })
-
-    const continueButton = getByText('Continue')
+    const accountType = getByLabelText('Account Type')
+    const continueButton = screen.getByText('Continue')
+    expect(continueButton).toBeDisabled()
+    fireEvent.mouseDown(accountType)
+    fireEvent.click(getByText('Checking'))
     fireEvent.click(continueButton)
 
     expect(mockOnClick).toHaveBeenCalledWith({
@@ -133,6 +141,7 @@ describe('Recipient Details', () => {
       firstName: 'John',
       lastName: 'Doe',
       ifsc: 'ABCD0123456',
+      accountType: 'Checking',
     })
   })
   it('should empty other fields when email field is empty', () => {
@@ -149,10 +158,6 @@ describe('Recipient Details', () => {
     const ifscInput = getByLabelText('IFSC code')
 
     fireEvent.change(emailInput, {
-      target: { value: 'mario.gabriel@gmail.com' },
-    })
-
-    fireEvent.change(emailInput, {
       target: { value: '' },
     })
 
@@ -161,6 +166,8 @@ describe('Recipient Details', () => {
     expect(firstNameInput.getAttribute('value')).toBe('')
     expect(lastNameInput.getAttribute('value')).toBe('')
     expect(ifscInput.getAttribute('value')).toBe('')
+    const continueButton = screen.getByText('Continue')
+    expect(continueButton).toBeDisabled()
   })
   it('should render messages when given validation fails', () => {
     const { getByLabelText } = render(

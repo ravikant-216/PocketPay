@@ -8,13 +8,14 @@ interface DashboardTemplateProps extends SideNavigationProps {
   Content: React.ReactNode
 }
 
-const StyledStack = styled(Stack)(() => ({
+const StyledStack = styled(Stack)(({ theme }) => ({
   display: 'flex',
   flexFlow: 'row wrap',
   alignItems: 'stretch',
   gap: 1,
 
   '& .content': {
+    backgroundColor: theme.palette.structuralColors.background,
     flex: 1,
   },
 

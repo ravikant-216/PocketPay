@@ -87,6 +87,7 @@ const renderWithThemeAndRouter = (T: React.ReactNode) => {
                 firstName: 'Mario',
                 lastName: 'Gabriel',
                 ifsc: 'ABFJ12929GH',
+                accountType: 'Checking',
               },
             ],
           })
@@ -112,6 +113,7 @@ const input = {
   firstName: 'Johny',
   lastName: 'Michael',
   ifsc: 'ABCD1234567',
+  accountType: 'Checking',
 }
 
 const testId = 'SendMoneyPage'
@@ -177,7 +179,7 @@ describe('Testing whole flow of the page', () => {
     const lastNameInput = screen.getByLabelText('Last name')
     const ifscInput = screen.getByLabelText('IFSC code')
     const continueButton = screen.getByText('Continue')
-
+    const accountType = screen.getByLabelText('Account Type')
     fireEvent.change(emailInput, {
       target: { name: 'email', value: input.email },
     })
@@ -193,6 +195,8 @@ describe('Testing whole flow of the page', () => {
     fireEvent.change(ifscInput, {
       target: { name: 'ifsc', value: input.ifsc },
     })
+    fireEvent.mouseDown(accountType)
+    fireEvent.click(screen.getByText('Checking'))
 
     expect(emailInput.getAttribute('value')).toBe(input.email)
     expect(accountInput.getAttribute('value')).toBe(input.account)

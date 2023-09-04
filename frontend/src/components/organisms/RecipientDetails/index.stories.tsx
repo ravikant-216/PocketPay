@@ -25,5 +25,6 @@ RecipientDetailsStory.args = {
     lastName: 'khan',
     account: '123456789012',
     ifsc: '12345678901',
+    accountType: 'Checking',
   },
 }

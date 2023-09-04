@@ -39,6 +39,7 @@ const OptionCard = (props: OptionCardProps) => {
       <CustomBox onClick={props.onclick} {...props} data-testid="custom-box">
         <IconLabelWrapper captionSpacing={captionSpacing}>
           <IconLabel
+            variant="body2"
             src={props.src}
             alt={props.alt}
             iconTitle={props.iconTitle}

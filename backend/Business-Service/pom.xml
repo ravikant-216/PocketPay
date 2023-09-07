@@ -17,8 +17,19 @@
 	<properties>
 		<java.version>11</java.version>
 		<spring-cloud.version>2021.0.8</spring-cloud.version>
+
 		<sonar.organization>zemoso-int</sonar.organization>
 			<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+
+		<sonar.exclusions>
+			./pom.xml,
+			**/com/bootcamp107/,
+			**/com/bootcamp107/business/service/entity/**,
+			**/com/bootcamp107/business/service/exception/**,
+			**/com/bootcamp107/business/service/mapper/**,
+			**/com/bootcamp107/business/service/dto/**
+		</sonar.exclusions>
+
 	</properties>
 	
 			
@@ -29,14 +40,32 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
-
+		<dependency>
+			 <groupId>org.springframework.boot</groupId>
+		 <artifactId>spring-boot-starter-data-jpa</artifactId>
+	 </dependency>
+		 <dependency>
+		<groupId>org.modelmapper</groupId>
+	 <artifactId>modelmapper</artifactId>
+		 <version>2.3.0</version>
+	 </dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -79,6 +108,26 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.8</version>
+				<executions>
+					<execution>
+						<id>default-prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>jacoco-site</id>
+						<phase>package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

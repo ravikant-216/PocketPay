@@ -6,12 +6,9 @@ spring:
   application:
     name: user-service
   datasource:
-    url:
-      jdbc:mysql://18.220.225.117:30001/bc107-pocket-pay?useSSL=false&serverTimezone=UTC
-    username:
-      root
-    password:
-      Bootcamp@107!
+    url: jdbc:mysql://18.220.225.117:30001/bc107-pocket-pay?useSSL=false&serverTimezone=UTC
+    username: root
+    password: Bootcamp@107!
   jpa:
     hibernate.ddl-auto: update
     generate-ddl: true

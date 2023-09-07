@@ -9,7 +9,7 @@ spring:
         - id: business-service
           uri: lb://BUSINESS-SERVICE
           predicates:
-            - Path=/businesses/**
+            - Path=/api/v1/businesses/**
         - id: transaction-service
           uri: lb://TRANSACTION-SERVICE
           predicates:

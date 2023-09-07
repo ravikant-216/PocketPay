@@ -1,13 +1,20 @@
 server:
-  port: 8003
+ port: 8003
+
 spring:
-  application:
-    name: business-service
+ application:
+  name: business-service
+ datasource:
+  url: jdbc:mysql://18.220.225.117:30001/bc107-pocket-pay
+  username: root
+  password: Bootcamp@107!
+  driver-class-name: com.mysql.cj.jdbc.Driver
+
 eureka:
-  client:
-    fetch-registry: true
-    register-with-eureka: true
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
-  instance:
-    prefer-ip-address: true
+ client:
+  fetch-registry: true
+  register-with-eureka: true
+  service-url:
+   defaultZone: http://localhost:8761/eureka/
+ instance:
+  prefer-ip-address: true

@@ -1,13 +1,14 @@
-package com.bootcamp107.busines.service;
+package com.bootcamp107.business.service;
+
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+
 @SpringBootApplication
 public class BusinessServiceApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(BusinessServiceApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(BusinessServiceApplication.class, args);
+    }
 
 }

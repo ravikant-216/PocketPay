@@ -41,4 +41,11 @@ public class TransactionServiceImpl implements ITransactionService {
         Transaction newTransaction = transactionRepository.save(transactionalMapper.convertToEntity(transaction));
         return transactionalMapper.convertToGetTransaction(newTransaction);
     }
+
+    @Override
+    public List<GetTransaction> getAllTransactions() {
+        return transactionRepository.findAll().stream()
+                .map(transactionalMapper::convertToGetTransaction)
+                .collect(Collectors.toList());
+    }
 }

@@ -115,4 +115,53 @@ class BeneficiaryServiceImplTest {
         verify(beneficiaryRepository).save(beneficiary);
         verify(beneficiaryMapper).convertToGetBeneficiary(beneficiary);
     }
+
+    @Test
+    void testGetAllBeneficiaries() {
+        Beneficiary beneficiary1 = MockObject.createBeneficiary("Ravi", "Kumar", "ravi.kumar@gmail.com", "98765432101", "ZYXWVU09876", UUID.randomUUID());
+        Beneficiary beneficiary2 = MockObject.createBeneficiary("Amit", "Sharma", "amit.sharma@gmail.com", "12345678901", "ABCDEF12345", UUID.randomUUID());
+        Beneficiary beneficiary3 = MockObject.createBeneficiary("Suresh", "Patel", "suresh.patel@gmail.com", "23456789012", "BCDEFG23456", UUID.randomUUID());
+        List<Beneficiary> beneficiaries = Arrays.asList(beneficiary1, beneficiary2, beneficiary3);
+        when(beneficiaryRepository.findAll()).thenReturn(beneficiaries);
+        GetBeneficiary getBeneficiary1 = MockObject.createGetBeneficiary(UUID.randomUUID(), "Ravi", "Kumar", "ravi.kumar@gmail.com", "98765432101", "ZYXWVU09876", UUID.randomUUID());
+        GetBeneficiary getBeneficiary2 = MockObject.createGetBeneficiary(UUID.randomUUID(), "Amit", "Sharma", "amit.sharma@gmail.com", "12345678901", "ABCDEF12345", UUID.randomUUID());
+        GetBeneficiary getBeneficiary3 = MockObject.createGetBeneficiary(UUID.randomUUID(), "Suresh", "Patel", "suresh.patel@gmail.com", "23456789012", "BCDEFG23456", UUID.randomUUID());
+
+        when(beneficiaryMapper.convertToGetBeneficiary(beneficiary1)).thenReturn(getBeneficiary1);
+        when(beneficiaryMapper.convertToGetBeneficiary(beneficiary2)).thenReturn(getBeneficiary2);
+        when(beneficiaryMapper.convertToGetBeneficiary(beneficiary3)).thenReturn(getBeneficiary3);
+
+        List<GetBeneficiary> result = beneficiaryService.getAllBeneficiaries();
+        Assertions.assertThat(result)
+                .hasSize(3)
+                .containsExactlyInAnyOrder(getBeneficiary1, getBeneficiary2, getBeneficiary3);
+
+        verify(beneficiaryRepository).findAll();
+        verify(beneficiaryMapper, times(3)).convertToGetBeneficiary(any(Beneficiary.class));
+    }
+
+    @Test
+    void testGetBeneficiariesByEmail() {
+        String email = "ravi.kumar@gmail.com";
+        Beneficiary beneficiary = MockObject.createBeneficiary("Ravi", "Kumar", email, "98765432101", "ZYXWVU09876", UUID.randomUUID());
+        when(beneficiaryRepository.findByEmail(email)).thenReturn(Optional.of(beneficiary));
+        GetBeneficiary getBeneficiary = MockObject.createGetBeneficiary(UUID.randomUUID(), "Ravi", "Kumar", email, "98765432101", "ZYXWVU09876", UUID.randomUUID());
+        when(beneficiaryMapper.convertToGetBeneficiary(beneficiary)).thenReturn(getBeneficiary);
+
+        GetBeneficiary result = beneficiaryService.getBeneficiariesByEmail(email);
+        Assertions.assertThat(result).isEqualTo(getBeneficiary);
+
+        verify(beneficiaryRepository).findByEmail(email);
+        verify(beneficiaryMapper).convertToGetBeneficiary(beneficiary);
+    }
+
+    @Test
+    void testGetBeneficiariesByEmail_noDataFound() {
+        String email = "ravi.kumar@gmail.com";
+        when(beneficiaryRepository.findByEmail(email)).thenReturn(Optional.empty());
+
+        assertThrows(NoSuchElementException.class, () -> beneficiaryService.getBeneficiariesByEmail(email));
+
+        verify(beneficiaryRepository).findByEmail(email);
+    }
 }

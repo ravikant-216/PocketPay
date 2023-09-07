@@ -9,4 +9,5 @@ public interface ITransactionService {
     public List<GetTransaction> getAllTransactionsByUserId(UUID id);
 
     public GetTransaction saveTransaction(CreateTransaction transaction);
+    public List<GetTransaction> getAllTransactions();
 }

@@ -4,9 +4,12 @@ spring:
   application:
     name: transaction-service
   datasource:
-    url: jdbc:mysql://localhost:3306/bc107-pocket-pay
-    username: root
-    password: system
+    url:
+      jdbc:mysql://18.220.225.117:30001/bc107-pocket-pay?useSSL=false&serverTimezone=UTC
+    username:
+        root
+    password:
+        Bootcamp@107!
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect

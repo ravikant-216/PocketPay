@@ -16,6 +16,11 @@ public class TransactionController {
     @Autowired
     private ITransactionService transactionService;
 
+    @GetMapping
+    public ResponseEntity<List<GetTransaction>> getAllTransactions(){
+        return new ResponseEntity<>(transactionService.getAllTransactions(),HttpStatus.OK);
+    }
+
     @GetMapping("{userId}")
     public ResponseEntity<List<GetTransaction>> getAllTransactionsByUserId(@PathVariable UUID userId) {
         return new ResponseEntity<>(transactionService.getAllTransactionsByUserId(userId), HttpStatus.OK);

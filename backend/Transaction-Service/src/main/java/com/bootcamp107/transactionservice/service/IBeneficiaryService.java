@@ -7,6 +7,8 @@ import java.util.UUID;
 public interface IBeneficiaryService {
 
     public List<GetBeneficiary> getAllBeneficiariesByUserId(UUID userId);
-
     public GetBeneficiary saveBeneficiary(CreateBeneficiary beneficiary);
+    public List<GetBeneficiary> getAllBeneficiaries();
+    public GetBeneficiary getBeneficiariesByEmail(String email);
+
 }

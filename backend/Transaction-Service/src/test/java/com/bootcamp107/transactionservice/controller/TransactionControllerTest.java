@@ -74,4 +74,21 @@ class TransactionControllerTest {
         assertEquals(Transaction.Status.PENDING, response.getBody().getStatus());
         verify(transactionService).saveTransaction(createTransaction);
     }
+
+    @Test
+    void testGetAllTransactions() {
+        GetTransaction getTransaction1 = MockObject.createGetTransaction("ABC123", Transaction.Status.PENDING, 100.0, 200.0, "USD", "INR");
+        GetTransaction getTransaction2 = MockObject.createGetTransaction("DEF456", Transaction.Status.CANCELLED, 300.0, 600.0, "EUR", "INR");
+        GetTransaction getTransaction3 = MockObject.createGetTransaction("GHI789", Transaction.Status.CANCELLED, 500.0, 1000.0, "GBP", "INR");
+        List<GetTransaction> transactions = Arrays.asList(getTransaction1, getTransaction2, getTransaction3);
+        when(transactionService.getAllTransactions()).thenReturn(transactions);
+
+        ResponseEntity<List<GetTransaction>> response = transactionController.getAllTransactions();
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        Assertions.assertThat(response.getBody())
+                .hasSize(3)
+                .containsExactlyInAnyOrder(getTransaction1, getTransaction2, getTransaction3);
+
+        verify(transactionService).getAllTransactions();
+    }
 }

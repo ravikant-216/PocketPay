@@ -75,4 +75,34 @@ class BeneficiaryControllerTest {
 
         verify(beneficiaryService).saveBeneficiary(createBeneficiary);
     }
+
+    @Test
+    void testGetAllBeneficiary() {
+        GetBeneficiary getBeneficiary1 = MockObject.createGetBeneficiary(UUID.randomUUID(), "Ravi", "Kumar", "ravi.kumar@gmail.com", "98765432101", "ZYXWVU09876", UUID.randomUUID());
+        GetBeneficiary getBeneficiary2 = MockObject.createGetBeneficiary(UUID.randomUUID(), "Amit", "Sharma", "amit.sharma@gmail.com", "12345678901", "ABCDEF12345", UUID.randomUUID());
+        GetBeneficiary getBeneficiary3 = MockObject.createGetBeneficiary(UUID.randomUUID(), "Suresh", "Patel", "suresh.patel@gmail.com", "23456789012", "BCDEFG23456", UUID.randomUUID());
+        List<GetBeneficiary> beneficiaries = Arrays.asList(getBeneficiary1, getBeneficiary2, getBeneficiary3);
+        when(beneficiaryService.getAllBeneficiaries()).thenReturn(beneficiaries);
+
+        ResponseEntity<List<GetBeneficiary>> response = beneficiaryController.getAllBeneficiary();
+        Assertions.assertThat(response.getBody())
+                .hasSize(3)
+                .containsExactlyInAnyOrder(getBeneficiary1, getBeneficiary2, getBeneficiary3);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
+        verify(beneficiaryService).getAllBeneficiaries();
+    }
+
+    @Test
+    void testGetBeneficiaryByEmail() {
+        String email = "ravi.kumar@gmail.com";
+        GetBeneficiary getBeneficiary = MockObject.createGetBeneficiary(UUID.randomUUID(), "Ravi", "Kumar", email, "98765432101", "ZYXWVU09876", UUID.randomUUID());
+        when(beneficiaryService.getBeneficiariesByEmail(email)).thenReturn(getBeneficiary);
+
+        ResponseEntity<GetBeneficiary> response = beneficiaryController.getBeneficiaryByEmail(email);
+        Assertions.assertThat(response.getBody()).isEqualTo(getBeneficiary);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
+        verify(beneficiaryService).getBeneficiariesByEmail(email);
+    }
 }

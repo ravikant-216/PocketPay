@@ -101,4 +101,29 @@ class TransactionServiceImplTest {
         verify(transactionRepository).save(transaction);
         verify(transactionalMapper).convertToGetTransaction(transaction);
     }
+
+    @Test
+    void testGetAllTransactions() {
+        GetTransaction getTransaction1 = MockObject.createGetTransaction("ABC123", Transaction.Status.PENDING, 100.0, 200.0, "USD", "INR");
+        GetTransaction getTransaction2 = MockObject.createGetTransaction("DEF456", Transaction.Status.CANCELLED, 300.0, 600.0, "EUR", "INR");
+        GetTransaction getTransaction3 = MockObject.createGetTransaction("GHI789", Transaction.Status.CANCELLED, 500.0, 1000.0, "GBP", "INR");
+        Beneficiary beneficiary = MockObject.createBeneficiary("Ravi", "Kumar", "ravi.kumar@gmail.com", "98765432101", "ZYXWVU09876", UUID.randomUUID());
+        Transaction transaction1 = MockObject.createTransaction(beneficiary,"ABC123", Transaction.Status.PENDING, 100.0, 200.0, "USD", "INR");
+        Transaction transaction2 = MockObject.createTransaction(beneficiary,"DEF456", Transaction.Status.CANCELLED, 300.0, 600.0, "EUR", "INR");
+        Transaction transaction3 = MockObject.createTransaction(beneficiary,"GHI789", Transaction.Status.CANCELLED, 500.0, 1000.0, "GBP", "INR");
+        List<Transaction> transactions = Arrays.asList(transaction1,transaction2,transaction3);
+        when(transactionRepository.findAll()).thenReturn(transactions);
+        when(transactionalMapper.convertToGetTransaction(transaction1)).thenReturn(getTransaction1);
+        when(transactionalMapper.convertToGetTransaction(transaction2)).thenReturn(getTransaction2);
+        when(transactionalMapper.convertToGetTransaction(transaction3)).thenReturn(getTransaction3);
+
+        List<GetTransaction> result = transactionService.getAllTransactions();
+
+        Assertions.assertThat(result)
+                .hasSize(3)
+                .containsExactlyInAnyOrder(getTransaction1, getTransaction2,getTransaction3);
+
+        verify(transactionRepository).findAll();
+        verify(transactionalMapper,times(3)).convertToGetTransaction(any(Transaction.class));
+    }
 }

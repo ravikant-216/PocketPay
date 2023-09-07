@@ -25,4 +25,14 @@ public class BeneficiaryController {
     public ResponseEntity<GetBeneficiary> saveBeneficiary(@RequestBody CreateBeneficiary beneficiary) {
         return new ResponseEntity<>(beneficiaryService.saveBeneficiary(beneficiary), HttpStatus.CREATED);
     }
+
+    @GetMapping
+    public ResponseEntity<List<GetBeneficiary>> getAllBeneficiary(){
+        return new ResponseEntity<>(beneficiaryService.getAllBeneficiaries(),HttpStatus.OK);
+    }
+
+    @GetMapping("/email")
+    public ResponseEntity<GetBeneficiary> getBeneficiaryByEmail(@RequestParam(name = "email") String email) {
+        return new ResponseEntity<>(beneficiaryService.getBeneficiariesByEmail(email), HttpStatus.OK);
+    }
 }

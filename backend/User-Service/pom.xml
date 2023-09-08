@@ -24,6 +24,8 @@
             **/com/bootcamp107/userservice/dto/**,
             **/com/bootcamp107/userservice/config/**,
             **/com/bootcamp107/userservice/entity/**,
+            **/com/bootcamp107/userservice/utils/**,
+            **/com/bootcamp107/userservice/exception/UserConflictException.java,
             **/com/bootcamp107/userservice/exception/UserConflictException.java,
             **/com/bootcamp107/userservice/exception/UserNotFoundException.java
         </sonar.coverage.exclusions>
@@ -31,7 +33,9 @@
             ./pom.xml,
             **/com/bootcamp107/userservice/dto/**,
             **/com/bootcamp107/userservice/entity/**,
+            **/com/bootcamp107/userservice/utils/**,
             **/com/bootcamp107/userservice/exception/UserConflictException.java,
+            **/com/bootcamp107/userservice/exception/AccessDeniedException.java,
             **/com/bootcamp107/userservice/exception/UserNotFoundException.java
         </sonar.exclusions>
     </properties>
@@ -41,6 +45,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -93,6 +101,21 @@
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>0.11.5</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>0.11.5</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>0.11.5</version>
+        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>
@@ -128,6 +151,8 @@
                     <excludes>
                         <exclude>**/com/bootcamp107/userservice/dto/**</exclude>
                         <exclude>**/com/bootcamp107/userservice/entity/**</exclude>
+                        <exclude>**/com/bootcamp107/userservice/utils/**</exclude>
+                        <exclude>**/com/bootcamp107/userservice/exception/UserConflictException.java</exclude>
                         <exclude>**/com/bootcamp107/userservice/exception/UserConflictException.class</exclude>
                         <exclude>**/com/bootcamp107/userservice/exception/UserNotFoundException.class</exclude>
                     </excludes>

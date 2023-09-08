@@ -30,25 +30,25 @@ class CountryServiceTest {
         MockitoAnnotations.initMocks(this);
     }
 
-    private Country createCountryMock(int id, String currencyCode, String countryCode, int currencyRate, String countryImageUrl) {
-        return new Country(id, currencyCode, countryCode, currencyRate, countryImageUrl);
+    private Country createCountryMock(int id, String name, String currencyCode, String countryCode, int currencyRate, String countryImageUrl) {
+        return new Country(id, name, currencyCode, countryCode, currencyRate, countryImageUrl);
     }
 
-    private GetCountry getCountry(int id, String currencyCode, String countryCode, int currencyRate, String countryImageUrl) {
-        return new GetCountry(id, countryImageUrl, currencyCode, countryCode, currencyRate);
+    private GetCountry getCountry(int id, String name, String currencyCode, String countryCode, int currencyRate, String countryImageUrl) {
+        return new GetCountry(id, name, countryImageUrl, currencyCode, countryCode, currencyRate);
     }
 
     @Test
     void getAll() {
 
-        Country country1 = createCountryMock(1, "USD", "+135", 12, "dummyUrl1");
-        Country country2 = createCountryMock(2, "EUR", "+4", 15, "dummyUrl2");
-        Country country3 = createCountryMock(2, "India", "+91", 1, "dummyUrl2");
+        Country country1 = createCountryMock(1, "country 1", "USD", "+135", 12, "dummyUrl1");
+        Country country2 = createCountryMock(2, "country 2", "EUR", "+4", 15, "dummyUrl2");
+        Country country3 = createCountryMock(2, "country 3", "India", "+91", 1, "dummyUrl2");
         List<Country> mockCountryList = Arrays.asList(country1, country2,country3);
         when(countryRepository.findAll()).thenReturn(mockCountryList);
-        GetCountry getCountry1 = getCountry(1, "USD", "+135", 12, "dummyUrl1");
-        GetCountry getCountry2 = getCountry(2, "EUR", "+4", 15, "dummyUrl2");
-        GetCountry getCountry3 = getCountry(2, "India", "+91", 1, "dummyUrl2");
+        GetCountry getCountry1 = getCountry(1, "country 1","USD", "+135", 12, "dummyUrl1");
+        GetCountry getCountry2 = getCountry(2, "country 1","EUR", "+4", 15, "dummyUrl2");
+        GetCountry getCountry3 = getCountry(2, "country 1","India", "+91", 1, "dummyUrl2");
         when(countryMapper.convertEntityToDto(country1)).thenReturn(getCountry1);
         when(countryMapper.convertEntityToDto(country2)).thenReturn(getCountry2);
         when(countryMapper.convertEntityToDto(country3)).thenReturn(getCountry3);

@@ -6,11 +6,11 @@ CREATE TABLE IF NOT EXISTS `bc107-pocket-pay`.`business_category` (
 
 CREATE TABLE IF NOT EXISTS `bc107-pocket-pay`.`country` (
 	`id` int auto_increment,
-    `country_image_url` varchar(100),
     `name` VARCHAR(16) UNIQUE NOT NULL,
     `currency_code` varchar(16) NOT NULL,
     `country_code` varchar(16) NOT NULL,
     `currency_rate` DOUBLE NOT NULL,
+    `country_image_url` varchar(100),
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
 

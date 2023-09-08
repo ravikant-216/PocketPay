@@ -1,6 +1,5 @@
 package com.bootcamp107.userservice.controller;
 
-import com.bootcamp107.userservice.dto.request.UserRequest;
 import com.bootcamp107.userservice.dto.response.UserResponse;
 import com.bootcamp107.userservice.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -10,20 +9,15 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+import static com.bootcamp107.userservice.utils.AppConstants.USER_SERVICE_ENDPOINT;
+
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping(USER_SERVICE_ENDPOINT)
 @Slf4j
 public class UserController {
 
     @Autowired
     private UserService userService;
-
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public void createUser(@RequestBody UserRequest userRequest) {
-        log.info("POST /api/v1/users createUser() - user: " + userRequest);
-        userService.createUser(userRequest);
-    }
 
     @GetMapping("/{userId}")
     @ResponseStatus(HttpStatus.FOUND)

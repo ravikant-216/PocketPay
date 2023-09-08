@@ -31,8 +31,8 @@ class CountryControllerTest {
     private List<GetCountry> createDummyCountryList() {
 
         List<GetCountry> dummyCountryList = new ArrayList<>();
-        dummyCountryList.add(new GetCountry(1, "dummyUrl", "+376", "Eur", 90.35));
-        dummyCountryList.add(new GetCountry(2, "dummyUrl", "+376", "Eur", 90.35));
+        dummyCountryList.add(new GetCountry(1, "country 1", "dummyUrl", "+376", "Eur", 90.35));
+        dummyCountryList.add(new GetCountry(2, "country 2",  "dummyUrl", "+376", "Eur",  90.35));
         return dummyCountryList;
     }
 

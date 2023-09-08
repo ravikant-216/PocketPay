@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class GetCountry {
 
     private int id;
+    private String name;
     private String countryImageUrl;
     private String currencyCode;
     private String countryCode;

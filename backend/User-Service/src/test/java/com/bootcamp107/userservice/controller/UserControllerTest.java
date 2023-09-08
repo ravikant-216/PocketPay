@@ -36,16 +36,6 @@ class UserControllerTest {
     }
 
     @Test
-    void testCreateUser() throws Exception {
-        UserRequest userRequest = new UserRequest();
-
-        mockMvc.perform(post("/api/v1/users")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(userRequest)))
-                .andExpect(status().isCreated());
-    }
-
-    @Test
     void testGetUserById() throws Exception {
         UUID userId = UUID.randomUUID();
         UserResponse userResponse = new UserResponse();
@@ -68,9 +58,5 @@ class UserControllerTest {
                         .param("email", email))
                 .andExpect(status().isFound())
                 .andExpect(jsonPath("$.email").value(userResponse.getEmail()));
-    }
-
-    private String asJsonString(Object object) throws Exception {
-        return new ObjectMapper().writeValueAsString(object);
     }
 }

@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
 @Slf4j
@@ -22,6 +21,12 @@ public class UserServiceExceptionHandler {
     public ResponseEntity<ApiResponse> handleNotFoundException(UserNotFoundException exception) {
         log.error(exception.getMessage());
         return new ResponseEntity<>(new ApiResponse(HttpStatus.NOT_FOUND.value(), exception.getMessage()), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ApiResponse> handleAccessDeniedException(AccessDeniedException exception) {
+        log.error(exception.getMessage());
+        return new ResponseEntity<>(new ApiResponse(HttpStatus.FORBIDDEN.value(), exception.getMessage()), HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(Exception.class)

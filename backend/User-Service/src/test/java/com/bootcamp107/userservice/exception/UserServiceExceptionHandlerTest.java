@@ -40,4 +40,14 @@ class UserServiceExceptionHandlerTest {
         assertEquals("runtime exception", apiResponse.getBody().getMessage());
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), apiResponse.getBody().getStatus());
     }
+
+    @Test
+    void givenAccessDeniedException_thenReturnForbiddenStatus() {
+        // given
+        AccessDeniedException exception = new AccessDeniedException("access denied");
+        ResponseEntity<ApiResponse> apiResponse = handler.handleAccessDeniedException(exception);
+        assertEquals(HttpStatus.FORBIDDEN, apiResponse.getStatusCode());
+        assertEquals("access denied", apiResponse.getBody().getMessage());
+        assertEquals(HttpStatus.FORBIDDEN.value(), apiResponse.getBody().getStatus());
+    }
 }

@@ -1,5 +1,7 @@
 package com.bootcamp107.userservice.service;
 
+import com.bootcamp107.userservice.dto.TokenDTO;
+import com.bootcamp107.userservice.dto.request.LoginRequest;
 import com.bootcamp107.userservice.dto.request.UserRequest;
 import com.bootcamp107.userservice.dto.response.UserResponse;
 import com.bootcamp107.userservice.entity.User;
@@ -12,7 +14,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -25,6 +32,12 @@ class UserServiceTest {
     private UserRepository userRepository;
     @Mock
     private ModelMapper modelMapper;
+    @Mock
+    private JwtService jwtService;
+    @Mock
+    private PasswordEncoder passwordEncoder;
+    @Mock
+    private AuthenticationManager authenticationManager;
     @InjectMocks
     private UserService userService;
 
@@ -34,21 +47,23 @@ class UserServiceTest {
     }
 
     @Test
-    void givenUserRequest_whenUserNotExists_thenCreateNewUser() {
+    void givenUserRequest_whenUserNotExists_thenCreateNewUserAndGenerateToken() {
         // given
         String password = "password";
         UserRequest userRequest = new UserRequest();
         userRequest.setPassword(password);
         userRequest.setEmail("user@example.com");
 
-        User user = new User();
+        User user = getUserDetails();
 
         // when
         when(userRepository.findByEmail(userRequest.getEmail())).thenReturn(Optional.empty());
         when(modelMapper.map(userRequest, User.class)).thenReturn(user);
+        when(jwtService.generateToken(user)).thenReturn("token1233");
+        when(passwordEncoder.encode(any())).thenReturn("1234");
         when(userRepository.save(user)).thenReturn(user);
 
-        userService.createUser(userRequest);
+        userService.signUp(userRequest);
 
         // verify
         verify(modelMapper).map(userRequest, User.class);
@@ -65,7 +80,7 @@ class UserServiceTest {
         when(userRepository.findByEmail(userRequest.getEmail())).thenReturn(Optional.of(user));
 
         // verify
-        assertThrows(UserConflictException.class, () -> userService.createUser(userRequest));
+        assertThrows(UserConflictException.class, () -> userService.signUp(userRequest));
         verify(modelMapper, never()).map(userRequest, User.class);
         verify(userRepository, never()).save(user);
     }
@@ -130,11 +145,58 @@ class UserServiceTest {
         verify(userRepository).findByEmail(email);
     }
 
+    @Test
+    void testLoginUser() {
+        // Mock the login request
+        LoginRequest loginRequest = new LoginRequest("test@example.com", "password");
+
+        // Mock the user entity that would be returned from the repository
+        User user = new User();
+        user.setId(UUID.randomUUID());
+        user.setEmail("test@example.com");
+        user.setPassword(passwordEncoder.encode("password")); // Assuming you're using a password encoder
+
+        // Mock the authentication result
+        Authentication authentication = new UsernamePasswordAuthenticationToken(user, null);
+        when(authenticationManager.authenticate(any(Authentication.class))).thenReturn(authentication);
+
+        // Mock the JWT token generation
+        when(jwtService.generateToken(user)).thenReturn("mocked-jwt-token");
+
+        // Mock the UserRepository behavior
+        when(userRepository.findByEmail("test@example.com")).thenReturn(Optional.of(user));
+
+        // Call the loginUser method
+        TokenDTO result = userService.loginUser(loginRequest);
+
+        // Verify that the authentication manager was called with the correct credentials
+        verify(authenticationManager).authenticate(any(Authentication.class));
+
+        // Verify that the JWT service was called to generate a token
+        verify(jwtService).generateToken(user);
+
+        // Verify that the expected token was returned
+        assertEquals("mocked-jwt-token", result.getToken());
+    }
+
     private UserRequest getUserRequest() {
         String password = "password";
         UserRequest userRequest = new UserRequest();
         userRequest.setPassword(password);
         userRequest.setEmail("user@example.com");
         return userRequest;
+    }
+
+    private User getUserDetails() {
+        User user = User.builder()
+                .id(UUID.randomUUID())
+                .email("test_user")
+                .address("address")
+                .accountType("checking")
+                .password(passwordEncoder.encode("password"))
+                .firstName("firstName")
+                .lastName("lastName")
+                .build();
+        return user;
     }
 }

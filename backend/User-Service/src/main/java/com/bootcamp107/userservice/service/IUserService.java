@@ -8,7 +8,7 @@ import com.bootcamp107.userservice.dto.response.UserResponse;
 import java.util.UUID;
 
 public interface IUserService {
-    void signUp(UserRequest newUserDto);
+    UserResponse signUp(UserRequest newUserDto);
     UserResponse getUserById(UUID userId);
     UserResponse getUserByEmail(String email);
     TokenDTO loginUser(LoginRequest loginRequest);

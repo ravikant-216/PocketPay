@@ -43,7 +43,7 @@ class UserControllerTest {
         when(userService.getUserById(userId)).thenReturn(userResponse);
 
         mockMvc.perform(get("/api/v1/users/{userId}", userId))
-                .andExpect(status().isFound())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.email").value(userResponse.getEmail()));
     }
 
@@ -56,7 +56,7 @@ class UserControllerTest {
 
         mockMvc.perform(get("/api/v1/users")
                         .param("email", email))
-                .andExpect(status().isFound())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.email").value(userResponse.getEmail()));
     }
 }

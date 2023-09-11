@@ -3,6 +3,7 @@ package com.bootcamp107.userservice.controller;
 import com.bootcamp107.userservice.dto.TokenDTO;
 import com.bootcamp107.userservice.dto.request.LoginRequest;
 import com.bootcamp107.userservice.dto.request.UserRequest;
+import com.bootcamp107.userservice.dto.response.UserResponse;
 import com.bootcamp107.userservice.service.IUserService;
 import com.bootcamp107.userservice.service.JwtService;
 import lombok.extern.slf4j.Slf4j;
@@ -25,9 +26,9 @@ public class AuthController {
 
     @PostMapping("/signup")
     @ResponseStatus(HttpStatus.CREATED)
-    public void signUpUser(@RequestBody UserRequest userRequest) {
+    public UserResponse signUpUser(@RequestBody UserRequest userRequest) {
         log.info("SignUp New User .. : " + userRequest);
-        userService.signUp(userRequest);
+        return userService.signUp(userRequest);
     }
 
     @PostMapping("/login")

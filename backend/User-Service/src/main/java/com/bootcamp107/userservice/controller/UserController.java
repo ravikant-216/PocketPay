@@ -20,14 +20,14 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/{userId}")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public UserResponse getUserById(@PathVariable(name = "userId") UUID userId) {
         log.info("GET /api/v1/users getUserById() - userId: '" + userId + "'");
         return userService.getUserById(userId);
     }
 
     @GetMapping
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public UserResponse getUserByEmail(@RequestParam(name = "email") String email) {
         log.info("GET /api/v1/users getUserByEmail() - email: '" + email + "'");
         return userService.getUserByEmail(email);

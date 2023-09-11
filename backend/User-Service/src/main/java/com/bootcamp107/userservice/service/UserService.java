@@ -35,13 +35,14 @@ public class UserService implements IUserService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public void signUp(UserRequest newUserDto) {
-        Optional<User> user = userRepository.findByEmail(newUserDto.getEmail());
-        if(user.isPresent()) {
+    public UserResponse signUp(UserRequest newUserDto) {
+        Optional<User> userOpt = userRepository.findByEmail(newUserDto.getEmail());
+        if(userOpt.isPresent()) {
             throw new UserConflictException("User already exists with email: '" + newUserDto.getEmail() + "'");
         }
         newUserDto.setPassword(passwordEncoder.encode(newUserDto.getPassword()));
-        userRepository.save(modelMapper.map(newUserDto, User.class));
+        User user = userRepository.save(modelMapper.map(newUserDto, User.class));
+        return modelMapper.map(user, UserResponse.class);
     }
 
     @Override

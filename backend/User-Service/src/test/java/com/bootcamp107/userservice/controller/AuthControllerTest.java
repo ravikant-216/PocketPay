@@ -3,6 +3,7 @@ package com.bootcamp107.userservice.controller;
 import com.bootcamp107.userservice.dto.TokenDTO;
 import com.bootcamp107.userservice.dto.request.LoginRequest;
 import com.bootcamp107.userservice.dto.request.UserRequest;
+import com.bootcamp107.userservice.dto.response.UserResponse;
 import com.bootcamp107.userservice.service.IUserService;
 import com.bootcamp107.userservice.service.JwtService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Date;
+import java.util.UUID;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -45,13 +47,14 @@ class AuthControllerTest {
     void testSignUpUser() throws Exception {
         UserRequest userRequest = new UserRequest("email", "password", "firstName", "lastname", new Date(),"accountType", "address");
         TokenDTO tokenDTO = new TokenDTO("token");
+        UserResponse userResponse = new UserResponse(UUID.randomUUID(), "email", "firstName", "lastname", new Date(),"accountType", "address");
 
-        doNothing().when(userService).signUp(userRequest);
+        when(userService.signUp(userRequest)).thenReturn(userResponse);
 
         mockMvc.perform(post("/api/v1/auth/signup")
                         .contentType("application/json")
                         .content(asJsonString(userRequest)))
-                .andExpect(status().isCreated());
+                        .andExpect(status().isCreated());
 
         verify(userService, times(1)).signUp(userRequest);
     }

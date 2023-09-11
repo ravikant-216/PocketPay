@@ -105,7 +105,7 @@ describe('AccountDetailPage', () => {
     fireEvent.click(screen.getByText('Healthcare services'))
     fireEvent.mouseDown(screen.getByPlaceholderText('Size of your business'))
     fireEvent.click(screen.getByText('150-200'))
-    fireEvent.click(screen.getByText('Continue'))
+    fireEvent.click(screen.getByTestId('continue'))
     expect(screen.getByText('Fill in your details')).toBeInTheDocument()
     fireEvent.change(screen.getByLabelText('First Name'), {
       target: { value: 'Ravi' },
@@ -116,7 +116,7 @@ describe('AccountDetailPage', () => {
     fireEvent.change(screen.getByLabelText(DOB), {
       target: { value: '11/11/1999' },
     })
-    expect(screen.getByText('Continue')).toBeDisabled()
+    expect(screen.getByTestId('continueButton')).toBeDisabled()
     const countryDropdown = screen.getAllByRole('button')[1]
     fireEvent.mouseDown(countryDropdown)
     fireEvent.click(screen.getByText('India'))
@@ -124,7 +124,14 @@ describe('AccountDetailPage', () => {
     fireEvent.change(screen.getByLabelText('Home Address'), {
       target: { value: 'Nutan Nagar' },
     })
-    fireEvent.click(screen.getByText('Continue'))
+    fireEvent.change(screen.getByLabelText('City'), {
+      target: { value: 'Ranchi' },
+    })
+    fireEvent.change(screen.getByLabelText('Postal code'), {
+      target: { value: 835478 },
+    })
+
+    fireEvent.click(screen.getByTestId('continueButton'))
     expect(mockFunction).toBeCalled()
   })
 })

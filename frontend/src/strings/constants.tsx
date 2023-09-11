@@ -53,14 +53,14 @@ export const NAVITEM_USD_LABEL = '192.00 USD'
 export const NAVITEM_JAR_LABEL = 'Home'
 export const Share = 'Copy'
 export const Email = 'Email'
-export const ALREADY_HAVE_AN_ACCOUNT = 'Already have an account ?'
-export const BY_REGISTERING = 'By registering, you accept our'
+export const ALREADY_HAVE_AN_ACCOUNT = 'Already have an account ? '
+export const BY_REGISTERING = 'By registering, you accept our '
 export const CREATE_ACCOUNT = 'Create your PocketPay account'
 export const ENTER_EMAIL = 'Enter your email address'
 export const Email_REGEX = '^[\\w.-]+@[a-zA-Z\\d.-]+\\.[a-zA-Z]{2,}$'
 export const LOGIN = 'Log in'
 export const POLICY = 'Privacy Policy'
-export const TERM = 'Terms of use '
+export const TERM = ' Terms of use '
 export const WELCOME_BACK = 'Welcome Back'
 export const SIGN_IN = 'Sign In'
 export const TROUBLE_LOGIN = 'Trouble logging in?'
@@ -171,7 +171,7 @@ export const BUSINESS_DETAILS_LABEL = 'Business Details'
 export const CANCEL_BUTTON_LABEL = 'Cancel'
 export const SAVE_BUTTON_LABEL = 'Save'
 export const CONFIRM_BUTTON_LABEL = 'Confirm'
-export const EDIT_LABEL = 'edit'
+export const EDIT_LABEL = 'Edit'
 
 interface Country {
   name: string
@@ -186,7 +186,7 @@ export const COUNTRIES: Country[] = [
     flagIconSrc: US,
   },
   {
-    name: 'GBP',
+    name: 'United Kingdom',
     code: '21',
     flagIconSrc: GBP,
   },
@@ -307,9 +307,9 @@ export const SOLO_TRADER =
   'Sole trader, freelancer or not registered with Companies house?'
 export const SELECT_BUSINESS = 'Select your business'
 export const REVIEW_TRANSFER_DETAILS_TITLE = 'Review details of your transfer'
-export const TRANSFER_DETAILS_LABEL = 'Transfer details:'
-export const RECIEPIENT_DETAILS_LABEL = 'Sender details:'
-export const SCHEDULE_DETAILS_LABEL = 'Schedule details:'
+export const TRANSFER_DETAILS_LABEL = 'Transfer details'
+export const RECIEPIENT_DETAILS_LABEL = 'Recipient details'
+export const SCHEDULE_DETAILS_LABEL = 'Schedule details '
 export const EDIT = 'Edit'
 export const CHANGE = 'Change'
 export const CONFIRM_CONTINUE_LABEL = 'Confirm and continue'
@@ -387,3 +387,5 @@ export const LOGIN_PAGE = '/login'
 export const SIGNUP_PAGE = '/'
 export const HOME_PAGE = '/dashboard'
 export const SEND_MONEY_PAGE = '/sendMoney'
+export const NAVITEM_NEW_LABEL = 'New'
+export const SIGNUPFORM_LOGIN_WITH = 'Or, log in with'

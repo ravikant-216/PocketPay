@@ -9,6 +9,7 @@ import { Recipient, Transfer } from '../ReviewTransferDetails'
 const testId = 'ReviewTransfer'
 const onChooseBankTransfer = jest.fn()
 const onCompleteCardTransfer = jest.fn()
+const onCancelTransfer = jest.fn()
 const renderWithTheme = (T: React.ReactNode) =>
   render(<ThemeProvider theme={theme}>{T}</ThemeProvider>)
 const transfer: Transfer = {
@@ -36,6 +37,7 @@ test('Should render', () => {
       }}
       onChooseBankTransfer={onChooseBankTransfer}
       onCompleteCardTransfer={onCompleteCardTransfer}
+      onCancelTransfer={onCancelTransfer}
     />
   )
   expect(screen.getByTestId(testId)).toBeInTheDocument()
@@ -49,6 +51,7 @@ test('Should call onChooseBankTransfer on selecting bank transfer option and cli
       }}
       onChooseBankTransfer={onChooseBankTransfer}
       onCompleteCardTransfer={onCompleteCardTransfer}
+      onCancelTransfer={onCancelTransfer}
     />
   )
   act(() => {

@@ -83,4 +83,15 @@ describe('BusinessDetailsForm', () => {
     expect(screen.getByLabelText('Account Number')).toHaveValue('123456789')
     expect(screen.getByLabelText('Account type')).toHaveValue('Savings')
   })
+  it('updates the form values when email is wrong', () => {
+    renderWithTheme(<BusinessDetailsForm />)
+
+    fireEvent.change(screen.getByLabelText('Name'), {
+      target: { value: 'ravi kant' },
+    })
+    fireEvent.change(screen.getByLabelText('Email'), {
+      target: { value: 'ravi.kant@gmail.c' },
+    })
+    expect(screen.getByText('Invalid email address')).toBeInTheDocument
+  })
 })

@@ -1,4 +1,4 @@
-import { Button, ButtonProps, styled } from '@mui/material'
+import { Button, ButtonProps, Typography, styled } from '@mui/material'
 
 const CustomButtonStyled = styled(Button)(({ theme }) => ({
   display: 'flex',
@@ -44,8 +44,12 @@ const CustomButtonStyled = styled(Button)(({ theme }) => ({
   },
 }))
 
-const CustomButton = ({ ...props }: ButtonProps) => {
-  return <CustomButtonStyled {...props} />
+const CustomButton = ({ children, ...props }: ButtonProps) => {
+  return (
+    <CustomButtonStyled {...props}>
+      <Typography variant="body2">{children}</Typography>
+    </CustomButtonStyled>
+  )
 }
 
 export default CustomButton

@@ -10,14 +10,7 @@ import SendMoneyPage from '.'
 import { MemoryRouter } from 'react-router-dom'
 import { ThemeProvider } from '@mui/material'
 import theme from '../../theme'
-import {
-  CANCEL_TRANSFER,
-  CONFIRM_CONTINUE_LABEL,
-  CONTINUE,
-  CONTINUE_TO_PAY_BUTTON,
-  RECIPIENT_DETAILS_CONTINUE,
-  baseURL,
-} from '../../strings/constants'
+import { CANCEL_TRANSFER, DOB, baseURL } from '../../strings/constants'
 import axios from 'axios'
 
 jest.mock('axios')
@@ -160,11 +153,9 @@ describe('Testing whole flow of the page', () => {
 
     const senderInput = screen.getByTestId('senderInput')
     const input = senderInput.querySelector('.senderInput')
-    const continueButton = screen.getByText('Continue')
+    const continueButton = screen.getByTestId('button')
     fireEvent.change(input as HTMLInputElement, { target: { value: 75 } })
     fireEvent.click(continueButton)
-
-    fireEvent.click(screen.getByText(/OK/))
   })
 
   test('Choosing business or charity option for transfer', () => {
@@ -173,12 +164,13 @@ describe('Testing whole flow of the page', () => {
   })
 
   test('Entering recipient details', () => {
+    const component = screen.getByTestId('recipientDetails')
     const emailInput = screen.getByLabelText('Email')
     const accountInput = screen.getByLabelText('Account number')
     const firstNameInput = screen.getByLabelText('First name')
     const lastNameInput = screen.getByLabelText('Last name')
     const ifscInput = screen.getByLabelText('IFSC code')
-    const continueButton = screen.getByText('Continue')
+    const continueButton = screen.getByTestId('continueButton')
     const accountType = screen.getByLabelText('Account Type')
     fireEvent.change(emailInput, {
       target: { name: 'email', value: input.email },
@@ -196,7 +188,7 @@ describe('Testing whole flow of the page', () => {
       target: { name: 'ifsc', value: input.ifsc },
     })
     fireEvent.mouseDown(accountType)
-    fireEvent.click(screen.getByText('Checking'))
+    fireEvent.click(component.querySelectorAll('.MuiButtonBase-root')[0])
 
     expect(emailInput.getAttribute('value')).toBe(input.email)
     expect(accountInput.getAttribute('value')).toBe(input.account)
@@ -211,7 +203,7 @@ describe('Testing whole flow of the page', () => {
   test('Entering pocket pay purpose', () => {
     const component = screen.getByTestId('pocketpayPurpose')
     const dropdownButton = component.querySelectorAll('.MuiInputBase-root')[0]
-    const button = screen.getByText(RECIPIENT_DETAILS_CONTINUE)
+    const button = screen.getByTestId('continueButton')
     expect(button).toBeDisabled()
     fireEvent.click(dropdownButton)
     fireEvent.click(
@@ -228,14 +220,15 @@ describe('Testing whole flow of the page', () => {
     const lastNameInput = screen.getByPlaceholderText('Last Name')
     fireEvent.change(lastNameInput, { target: { value: 'Doe' } })
 
-    const dobInput = screen.getByPlaceholderText('Date of birth')
-    fireEvent.change(dobInput, { target: { value: '1990-01-01' } })
+    fireEvent.change(screen.getByLabelText(DOB), {
+      target: { value: '11/11/1999' },
+    })
 
-    const countryDropdown = screen.getAllByRole('button')[0]
+    const countryDropdown = screen.getAllByRole('button')[1]
     fireEvent.mouseDown(countryDropdown)
     fireEvent.click(screen.getByText('India'))
 
-    const button = screen.getByText('Continue')
+    const button = screen.getByTestId('continueButton')
     fireEvent.click(button)
   })
 
@@ -246,21 +239,22 @@ describe('Testing whole flow of the page', () => {
     const lastNameInput = screen.getByPlaceholderText('Last Name')
     fireEvent.change(lastNameInput, { target: { value: 'Doe' } })
 
-    const dobInput = screen.getByPlaceholderText('Date of birth')
-    fireEvent.change(dobInput, { target: { value: '1990-01-01' } })
+    fireEvent.change(screen.getByLabelText(DOB), {
+      target: { value: '11/11/1999' },
+    })
 
-    const button = screen.getByText('Continue')
+    const button = screen.getByTestId('continueButton')
     fireEvent.click(button)
   })
 
   test('Confirming the details', () => {
     expect(screen.queryByText(input.email)).toBeInTheDocument()
-    fireEvent.click(screen.getByText(CONFIRM_CONTINUE_LABEL))
+    fireEvent.click(screen.getByTestId('continueButton'))
   })
 
   test('Choosing the bank option', () => {
     fireEvent.click(screen.getByText('Transfer from your bank account'))
-    fireEvent.click(screen.getByText(CONTINUE_TO_PAY_BUTTON))
+    fireEvent.click(screen.getByTestId('continueButton'))
   })
 
   test('Choosing the bank', async () => {
@@ -274,7 +268,7 @@ describe('Testing whole flow of the page', () => {
 
   test('Confirmation from Lloyds', () => {
     expect(screen.getByTestId('LloydsConfirmation')).toBeInTheDocument()
-    fireEvent.click(screen.getByText(CONTINUE))
+    fireEvent.click(screen.getByTestId('continueButton'))
   })
 
   test('Clicking on continue', () => {

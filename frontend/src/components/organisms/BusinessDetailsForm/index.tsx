@@ -7,6 +7,7 @@ import theme from '../../../theme'
 import {
   BUSINESS_DETAILS,
   CANCEL,
+  Email_REGEX,
   REVIEW_ACCOUNT,
   SAVE,
 } from '../../../strings/constants'
@@ -36,6 +37,7 @@ export default function BusinessDetailsForm({
   ...props
 }: BusinessDetailsProps) {
   const [name, setName] = useState(initialName ?? '')
+  const [emailError, setEmailError] = useState('')
   const [email, setEmail] = useState(initialEmail ?? '')
   const [accountNumber, setAccountNumber] = useState(initialAccountNumber ?? '')
   const [accountType, setAccountType] = useState(initialAccountType ?? '')
@@ -47,20 +49,6 @@ export default function BusinessDetailsForm({
   }
 
   const fields = [
-    {
-      label: 'Name',
-      placeholder: 'Enter Name',
-      value: name,
-      onChange: (event: React.ChangeEvent<HTMLInputElement>) =>
-        setName(event.target.value),
-    },
-    {
-      label: 'Email',
-      placeholder: 'Enter Email',
-      value: email,
-      onChange: (event: React.ChangeEvent<HTMLInputElement>) =>
-        setEmail(event.target.value),
-    },
     {
       label: 'Account Number',
       placeholder: 'Account Number',
@@ -76,7 +64,8 @@ export default function BusinessDetailsForm({
         setAccountType(event.target.value),
     },
   ]
-
+  const isAnyFieldEmpty =
+    !name || !email || !accountNumber || !accountType || Boolean(emailError)
   return (
     <Box
       {...props}
@@ -101,12 +90,40 @@ export default function BusinessDetailsForm({
           <Typography variant="caption" color="text.lowEmphasis">
             {BUSINESS_DETAILS}
           </Typography>
+          <InputField
+            label="Name"
+            placeholder="Enter Name"
+            sx={{ width: '100%', marginBottom: theme.spacing(3) }}
+            value={name}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+              setName(event.target.value)
+            }
+          />
+          <InputField
+            label="Email"
+            placeholder="Enter Email"
+            sx={{ width: '100%', marginBottom: theme.spacing(3) }}
+            value={email}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              const value = event.target.value
+              setEmail(value)
+              const regex = new RegExp(Email_REGEX)
+
+              if (!regex.test(value)) {
+                setEmailError('Invalid email address')
+              } else {
+                setEmailError('')
+              }
+            }}
+            error={Boolean(emailError)}
+            helperText={emailError}
+          />
           {fields.map((field) => (
             <InputField
               key={field.label}
               label={field.label}
               placeholder={field.placeholder}
-              sx={{ width: '100%' }}
+              sx={{ width: '100%', marginBottom: theme.spacing(3) }}
               value={field.value}
               onChange={field.onChange}
             />
@@ -131,6 +148,7 @@ export default function BusinessDetailsForm({
           variant="contained"
           sx={{ minWidth: theme.spacing(33.75), marginTop: theme.spacing(5) }}
           onClick={handleSaveClick}
+          disabled={isAnyFieldEmpty}
         >
           {SAVE}
         </CustomButton>

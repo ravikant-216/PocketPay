@@ -127,7 +127,7 @@ const SendMoneyPage: React.FC = () => {
     name: '',
     email: '',
     accountNumber: '',
-    accountType: '',
+    accountType: 'Saving',
   })
 
   const { v4: uuidv4 } = require('uuid')
@@ -331,6 +331,7 @@ const SendMoneyPage: React.FC = () => {
       }}
       onChooseBankTransfer={navigateToChooseBank}
       onCompleteCardTransfer={completeTransaction}
+      onCancelTransfer={() => navigate('/dashboard', { state: { id: id } })}
     />
   )
 

@@ -33,7 +33,7 @@ describe('DetailsForm', () => {
 
   it('calls buttonOnClick with form data on button click', () => {
     const mockOnClick = jest.fn()
-    const { getByText, getAllByRole, getByLabelText } = renderWithTheme(
+    const { getAllByRole, getByLabelText } = renderWithTheme(
       <DetailsForm buttonOnClick={mockOnClick} countryList={names} />
     )
     fireEvent.change(getByLabelText('First Name'), {
@@ -45,7 +45,7 @@ describe('DetailsForm', () => {
     fireEvent.change(getByLabelText(DOB), {
       target: { value: '11/11/1999' },
     })
-    expect(getByText('Continue')).toBeDisabled()
+    expect(screen.getByTestId('continueButton')).toBeDisabled()
     const countryDropdown = getAllByRole('button')[1]
     fireEvent.mouseDown(countryDropdown)
     fireEvent.click(screen.getByText('India'))
@@ -53,15 +53,24 @@ describe('DetailsForm', () => {
     fireEvent.change(getByLabelText('Home Address'), {
       target: { value: 'Nutan Nagar' },
     })
-    fireEvent.click(getByText('Continue'))
-    expect(getByText('Continue')).not.toBeDisabled()
+    fireEvent.change(getByLabelText('City'), {
+      target: { value: 'Ranchi' },
+    })
+    fireEvent.change(getByLabelText('Postal code'), {
+      target: { value: 824351 },
+    })
+
+    fireEvent.click(screen.getByTestId('continueButton'))
+    expect(screen.getByTestId('continueButton')).not.toBeDisabled()
     expect(mockOnClick).toHaveBeenCalledWith({
       firstName: 'Ravi',
       lastName: 'Kant',
       dob: '11/11/1999',
       country: 'India',
       address: 'Nutan Nagar',
+      city: 'Ranchi',
+      postal_code: '824351',
     })
-    expect(getByText('Continue')).not.toBeDisabled()
+    expect(screen.getByTestId('continueButton')).not.toBeDisabled()
   })
 })

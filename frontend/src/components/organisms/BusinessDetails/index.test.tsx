@@ -4,6 +4,7 @@ import { act, fireEvent, render, screen } from '@testing-library/react'
 import BusinessDetails from '.'
 import { ThemeProvider } from '@mui/material'
 import theme from '../../../theme'
+import { EDIT_LABEL } from '../../../strings/constants'
 
 const testId = 'BusinessDetails'
 const onConfirmMock = jest.fn()
@@ -44,7 +45,7 @@ describe('Editing business details', () => {
       0
     )
     act(() => {
-      fireEvent.click(screen.getByText('edit'))
+      fireEvent.click(screen.getByText(EDIT_LABEL))
     })
     expect(component.querySelectorAll('textarea[placeholder=""]')).toHaveLength(
       3
@@ -63,7 +64,7 @@ describe('Editing business details', () => {
       0
     )
     act(() => {
-      fireEvent.click(screen.getByText('edit'))
+      fireEvent.click(screen.getByText(EDIT_LABEL))
     })
     const inputFields = component.querySelectorAll('textarea[placeholder=""]')
     expect(inputFields).toHaveLength(3)
@@ -89,7 +90,7 @@ describe('Editing business details', () => {
       0
     )
     act(() => {
-      fireEvent.click(screen.getByText('edit'))
+      fireEvent.click(screen.getByText(EDIT_LABEL))
     })
     const inputFields = component.querySelectorAll('textarea[placeholder=""]')
     expect(inputFields).toHaveLength(3)

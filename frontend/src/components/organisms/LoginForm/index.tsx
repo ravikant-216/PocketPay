@@ -161,6 +161,7 @@ export default function SignIn({
             !email || !password || Boolean(emailError) || Boolean(passwordError)
           }
           onClick={handleSubmit}
+          data-testid="loginButton"
         >
           {SIGN_IN}
         </ButtonStyles>

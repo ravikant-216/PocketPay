@@ -59,6 +59,7 @@ const PocketPayPurpose = (props: PocketPayPurposeProps) => {
             variant="contained"
             onClick={() => props.onClick(value)}
             disabled={!value}
+            data-testId="continueButton"
           >
             {RECIPIENT_DETAILS_CONTINUE}
           </CustomButton>

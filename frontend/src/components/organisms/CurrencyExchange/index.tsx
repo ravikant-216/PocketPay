@@ -242,14 +242,7 @@ const CurrencyExchange = (props: CurrencyExchangeProps) => {
         <StyledBox>
           <CustomButton
             variant="contained"
-            onClick={() => {
-              props.onClick({
-                senderAmount: input,
-                recipientAmount: String(reciverCurrencyValue),
-                senderCountry: senderCurrencyCard.countryCurrencyCode,
-                recipientCountry: receiverCurrencyCard.countryCurrencyCode,
-              })
-            }}
+            onClick={() => setOpen(false)}
             data-testid="modalButton"
           >
             {AGREE}
@@ -319,7 +312,13 @@ const CurrencyExchange = (props: CurrencyExchangeProps) => {
                       />
                     </Stack>
                   }
-                  sx={{ color: theme.palette.text.highEmphasis }}
+                  sx={{
+                    color: theme.palette.text.highEmphasis,
+                    '& .MuiInputBase-input.Mui-disabled': {
+                      color: `${theme.palette.text.highEmphasis} !important`,
+                      '-webkit-text-fill-color': `${theme.palette.text.highEmphasis} !important`,
+                    },
+                  }}
                   disabled
                   value={
                     (input === '0' ? '' : input)
@@ -350,7 +349,12 @@ const CurrencyExchange = (props: CurrencyExchangeProps) => {
                     <Typography variant="body3" color="primary.500">
                       {GURANTEED_RATE_VALUE}
                     </Typography>
-                    <Image src={depreciate} alt="" />
+                    <Image
+                      src={depreciate}
+                      alt=""
+                      onClick={handleModalOpen}
+                      data-testid="guranteedRate"
+                    />
                   </IconBox>
                 </ContentBox>
                 <ContentBox>
@@ -372,7 +376,19 @@ const CurrencyExchange = (props: CurrencyExchangeProps) => {
         <ButtonWrapper className="float-button">
           <CustomButton
             variant="contained"
-            onClick={dropdown ? handleSelectCurrency : handleModalOpen}
+            onClick={
+              dropdown
+                ? handleSelectCurrency
+                : () => {
+                    props.onClick({
+                      senderAmount: input,
+                      recipientAmount: String(reciverCurrencyValue),
+                      senderCountry: senderCurrencyCard.countryCurrencyCode,
+                      recipientCountry:
+                        receiverCurrencyCard.countryCurrencyCode,
+                    })
+                  }
+            }
             data-testid={dropdown ? 'select-currency-button' : 'button'}
             disabled={dropdown ? false : input === '0' || input === ''}
           >

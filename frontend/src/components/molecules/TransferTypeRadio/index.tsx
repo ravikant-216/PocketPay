@@ -8,6 +8,7 @@ interface TransferTypeRadioProps extends Omit<RadioButtonProps, 'label'> {
   alt: string
   title: string
   description: string
+  disabled?: boolean
 }
 
 const StyledRadioButton = styled(RadioButton)(({ theme }) => ({
@@ -51,6 +52,7 @@ const TransferTypeRadio: React.FC<TransferTypeRadioProps> = (props) => {
       label={label}
       labelPlacement="start"
       value={props.value}
+      disabled={props.disabled}
     />
   )
 }

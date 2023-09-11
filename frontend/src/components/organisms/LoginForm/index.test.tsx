@@ -67,10 +67,10 @@ describe('SignIn', () => {
   })
 
   it('disables sign in button when inputs are invalid', () => {
-    const { getByLabelText, getByText } = renderWithTheme(<SignIn />)
+    const { getByLabelText } = renderWithTheme(<SignIn />)
     const emailInput = getByLabelText('Email Address')
     const passwordInput = getByLabelText('Password')
-    const signInButton = getByText('Sign In')
+    const signInButton = screen.getByTestId('loginButton')
 
     expect(signInButton).toBeDisabled()
 

@@ -37,7 +37,7 @@ describe('AccountSetupPage', () => {
         countryList={names}
       />
     )
-    fireEvent.click(screen.getByText('Personal Account'))
+    fireEvent.click(screen.getByText('Business Account'))
 
     const countryDropdown = getAllByRole('button')[0]
     const countryDropdownButton = getAllByRole('button')[1]
@@ -57,7 +57,7 @@ describe('AccountSetupPage', () => {
         countryList={names}
       />
     )
-    fireEvent.click(screen.getByText('Personal Account'))
+    fireEvent.click(screen.getByText('Business Account'))
 
     const countryDropdown1 = getAllByRole('button')[0]
     const countryDropdownButton = getAllByRole('button')[1]
@@ -122,6 +122,6 @@ describe('AccountSetupPage', () => {
     expect(accountType).toHaveBeenCalledTimes(1)
     fireEvent.click(screen.getByAltText('back'))
     fireEvent.click(screen.getByText('Personal Account'))
-    expect(accountType).toHaveBeenCalledTimes(2)
+    expect(accountType).toHaveBeenCalledTimes(1)
   })
 })

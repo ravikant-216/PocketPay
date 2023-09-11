@@ -1,19 +1,21 @@
-import Typography from '../../atoms/Typography'
-import InputField from '../../atoms/InputField'
-import { Stack, Box, StackProps } from '@mui/material'
-import theme from '../../../theme'
-import IconLabel, { IconLabelPropType } from '../../atoms/IconLabel'
+import { Box, Stack, StackProps } from '@mui/material'
+import { useEffect, useState } from 'react'
 import plusIcon from '../../../../public/assets/icons/plusIcon.svg'
-import { useState, useEffect } from 'react'
+import theme from '../../../theme'
 import CustomButton from '../../atoms/Button'
+import IconLabel, { IconLabelPropType } from '../../atoms/IconLabel'
+import InputField from '../../atoms/InputField'
+import Typography from '../../atoms/Typography'
 
+import dayjs from 'dayjs'
 import {
-  DIRECTOR_MESSAGE,
-  OWNERS_MESSAGE,
-  DOB,
-  COUNTRY_RESIDENCE,
   CONFIRM_BUSINESS,
+  COUNTRY_RESIDENCE,
+  DIRECTOR_MESSAGE,
+  DOB,
+  OWNERS_MESSAGE,
 } from '../../../strings/constants'
+import DatePicker from '../../atoms/DatePicker'
 import CountryDropdown from '../CountryDropdown'
 
 export interface DirectorInputFieldProps extends StackProps {
@@ -81,12 +83,6 @@ export default function DirectorInputField({
       placeholder: 'Last Name',
       field: 'lastName',
     },
-    {
-      type: 'date',
-      label: DOB,
-      placeholder: DOB,
-      field: 'dob',
-    },
   ]
 
   const renderForm = (index: number) => (
@@ -130,6 +126,16 @@ export default function DirectorInputField({
           }
         />
       ))}
+      <DatePicker
+        onChange={(value) => {
+          const formattedDate = dayjs(value as string).format('DD/MM/YYYY')
+          handleInputChange(index - 1, 'dob', formattedDate)
+        }}
+        maxDate={`${new Date().getMonth() + 1}-${new Date().getDate()}-${(
+          new Date().getFullYear() - 18
+        ).toString()}`}
+        label={DOB}
+      />
       <CountryDropdown
         countryList={countryList}
         label={COUNTRY_RESIDENCE}
@@ -182,6 +188,7 @@ export default function DirectorInputField({
           sx={{ width: props.buttonWidth }}
           onClick={() => buttonOnClick(formData)}
           disabled={isButtonDisabled}
+          data-testId="continueButton"
         >
           Continue
         </CustomButton>

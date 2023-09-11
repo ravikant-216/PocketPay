@@ -1,4 +1,4 @@
-import { Divider, Stack, StackProps, styled } from '@mui/material'
+import { Box, Divider, Stack, StackProps, styled } from '@mui/material'
 import Image from '../../atoms/Image'
 import IconLabel, { IconLabelPropType } from '../../atoms/IconLabel'
 import PocketPayLogo from '../../../../public/assets/icons/pocketpay.svg'
@@ -22,11 +22,13 @@ import {
   NAVITEM_INDIA_LABEL,
   NAVITEM_INVITE_GIFT_LABEL,
   NAVITEM_JAR_LABEL,
+  NAVITEM_NEW_LABEL,
   NAVITEM_OPEN_BALANCE_LABEL,
   NAVITEM_RECIPIENTS_LABEL,
   NAVITEM_TEAM_LABEL,
   NAVITEM_USD_LABEL,
 } from '../../../strings/constants'
+import theme from '../../../theme'
 
 const StyledStack = styled(Stack)(({ theme }) => ({
   width: theme.spacing(57.5),
@@ -48,7 +50,7 @@ const StyledStack = styled(Stack)(({ theme }) => ({
   '& .nav-items-group': {
     display: 'flex',
     flexFlow: 'column nowrap',
-    gap: theme.spacing(4),
+    gap: theme.spacing(6),
     paddingLeft: theme.spacing(5),
     paddingRight: theme.spacing(4.5),
   },
@@ -151,9 +153,32 @@ const SideNavigation: React.FC<SideNavigationProps> = ({
   ]
 
   function renderItems(items: IconLabelPropType[]) {
-    return items.map((item) => (
-      <IconLabel color="text.mediumEmphasis" key={item.alt} {...item} />
-    ))
+    return items.map((item) => {
+      if (item.alt === 'Teams icon') {
+        return (
+          <Stack direction="row" justifyContent="flex-start" key={item.alt}>
+            <IconLabel color="text.mediumEmphasis" {...item} />
+            <Box
+              flex={1}
+              style={{
+                display: 'flex',
+                marginRight: theme.spacing(8),
+                padding: `${theme.spacing(1)} ${theme.spacing(4)}`,
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: theme.spacing(4),
+                background: theme.palette.structuralColors.buttonHover,
+              }}
+            >
+              <Typography color="primary.500" variant="caption">
+                {NAVITEM_NEW_LABEL}
+              </Typography>
+            </Box>
+          </Stack>
+        )
+      }
+      return <IconLabel color="text.mediumEmphasis" key={item.alt} {...item} />
+    })
   }
 
   return (

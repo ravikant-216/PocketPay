@@ -86,10 +86,6 @@ export const AccountSetupPage = (props: AccountSetupPageProps) => {
             if (props.accountType) props.accountType(type)
             setValue(value + 1)
           }}
-          onClickPersonalAccountHandler={(type: string) => {
-            if (props.accountType) props.accountType(type)
-            setValue(value + 1)
-          }}
         />
       )
   }

@@ -1,8 +1,7 @@
-import '@testing-library/jest-dom'
-import { fireEvent, render, screen, act } from '@testing-library/react'
-import ReviewTransferDetails, { Recipient, Transfer } from '.'
 import { ThemeProvider } from '@mui/material'
-import theme from '../../../theme'
+import '@testing-library/jest-dom'
+import { act, fireEvent, render, screen } from '@testing-library/react'
+import ReviewTransferDetails, { Recipient, Transfer } from '.'
 import {
   CANCEL,
   CHANGE,
@@ -10,6 +9,7 @@ import {
   REVIEW_ACCOUNT,
   SAVE,
 } from '../../../strings/constants'
+import theme from '../../../theme'
 
 const testId = 'ReviewTransferDetails'
 const onConfirmAndContinueMock = jest.fn()
@@ -87,11 +87,20 @@ describe('Testing the flow of editing SenderDetails', () => {
     expect(screen.getByText(REVIEW_ACCOUNT)).toBeInTheDocument()
     act(() => {
       fireEvent.change(screen.getByLabelText('Name'), {
-        target: { value: 'John doe' },
+        target: { value: 'ravi kant' },
+      })
+      fireEvent.change(screen.getByLabelText('Email'), {
+        target: { value: 'ravi.kant@gmail.com' },
+      })
+      fireEvent.change(screen.getByLabelText('Account Number'), {
+        target: { value: '123456789' },
+      })
+      fireEvent.change(screen.getByLabelText('Account type'), {
+        target: { value: 'Savings' },
       })
       fireEvent.click(screen.getByText(SAVE))
     })
-    expect(screen.getByText('John doe')).toBeInTheDocument()
+    expect(screen.getByText('ravi.kant@gmail.com')).toBeInTheDocument()
   })
 })
 

@@ -4,6 +4,7 @@ import { ThemeProvider } from '@emotion/react'
 import theme from '../../../theme'
 import '@testing-library/jest-dom'
 import DirectorInputField from '.'
+import { DOB } from '../../../strings/constants'
 
 const renderWithTheme = (T: React.ReactNode) =>
   render(<ThemeProvider theme={theme}>{T}</ThemeProvider>)
@@ -106,20 +107,22 @@ describe('DirectorInputField', () => {
     const lastNameInput = getByPlaceholderText('Last Name') as HTMLInputElement
     fireEvent.change(lastNameInput, { target: { value: 'Doe' } })
 
-    const dobInput = getByPlaceholderText('Date of birth') as HTMLInputElement
-    fireEvent.change(dobInput, { target: { value: '1990-01-01' } })
+    fireEvent.change(screen.getByLabelText(DOB), {
+      target: { value: '11/11/1999' },
+    })
 
-    const countryDropdown = getAllByRole('button')[0]
+    const countryDropdown = getAllByRole('button')[1]
     fireEvent.mouseDown(countryDropdown)
     fireEvent.click(screen.getByText('India'))
 
     const button = getByText('Continue')
+    expect(button).toBeEnabled
     fireEvent.click(button)
 
     expect(mockOnClick).toHaveBeenCalledWith([
       {
         country: 'India',
-        dob: '1990-01-01',
+        dob: '11/11/1999',
         firstName: 'John',
         lastName: 'Doe',
       },

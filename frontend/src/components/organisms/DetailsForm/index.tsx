@@ -21,6 +21,8 @@ export type formData = {
   dob: string
   country: string
   address: string
+  city: string
+  postal_code: string
 }
 export interface DetailsFormProps extends StackProps {
   buttonOnClick: (formData: formData) => void
@@ -38,6 +40,8 @@ export default function DetailsForm({
     dob: '',
     country: '',
     address: '',
+    city: '',
+    postal_code: '',
   },
   ...props
 }: DetailsFormProps) {
@@ -48,7 +52,14 @@ export default function DetailsForm({
       return { ...prevFormData, [field]: value }
     })
   }
-  type FieldName = 'firstName' | 'lastName' | 'dob' | 'country' | 'address'
+  type FieldName =
+    | 'firstName'
+    | 'lastName'
+    | 'dob'
+    | 'country'
+    | 'address'
+    | 'city'
+    | 'postal_code'
 
   const fields: {
     name: FieldName
@@ -69,7 +80,31 @@ export default function DetailsForm({
       type: 'text',
     },
   ]
-
+  const fields_address: {
+    name: FieldName
+    label: string
+    placeholder: string
+    type: string
+  }[] = [
+    {
+      name: 'address',
+      label: 'Home Address',
+      placeholder: 'Home Address',
+      type: 'text',
+    },
+    {
+      name: 'city',
+      label: 'City',
+      placeholder: 'City',
+      type: 'text',
+    },
+    {
+      name: 'postal_code',
+      label: 'Postal code',
+      placeholder: 'Postal code',
+      type: 'number',
+    },
+  ]
   return (
     <Stack direction={'row'} {...props}>
       <Box
@@ -106,7 +141,9 @@ export default function DetailsForm({
             const formattedDate = dayjs(value as string).format('DD/MM/YYYY')
             handleInputChange('dob', formattedDate)
           }}
-          maxDate="01-01-2005"
+          maxDate={`${new Date().getMonth() + 1}-${new Date().getDate()}-${(
+            new Date().getFullYear() - 18
+          ).toString()}`}
           label={DOB}
         />
         <CountryDropdown
@@ -116,15 +153,20 @@ export default function DetailsForm({
           onChange={(value) => handleInputChange('country', value)}
           countryList={countryList}
         ></CountryDropdown>
-        <InputField
-          type="text"
-          value={formData.address}
-          variant="outlined"
-          sx={{ width: 'auto' }}
-          label="Home Address"
-          placeholder="Home Address"
-          onChange={(event) => handleInputChange('address', event.target.value)}
-        ></InputField>
+        {fields_address.map((field) => (
+          <InputField
+            key={field.name}
+            type={field.type}
+            value={formData[field.name]}
+            variant="outlined"
+            label={field.label}
+            placeholder={field.placeholder}
+            sx={{ width: 'auto' }}
+            onChange={(event) =>
+              handleInputChange(field.name, event.target.value)
+            }
+          />
+        ))}
       </Box>
       <Box display={'flex'} alignItems={'flex-end'} justifyContent={'flex-end'}>
         <CustomButton
@@ -134,12 +176,15 @@ export default function DetailsForm({
             !formData.lastName ||
             !formData.dob ||
             !formData.country ||
-            !formData.address
+            !formData.address ||
+            !formData.city ||
+            !formData.postal_code
           }
           sx={{ width: props.buttonWidth }}
           onClick={() => {
             buttonOnClick(formData)
           }}
+          data-testid="continueButton"
         >
           Continue
         </CustomButton>

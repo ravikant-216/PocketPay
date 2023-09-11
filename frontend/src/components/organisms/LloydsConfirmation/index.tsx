@@ -124,7 +124,11 @@ const LloydsConfirmation = (props: LlooydsConfirmationProps) => {
           </IconBox>
 
           <ButtonWrapper>
-            <CustomButton variant="contained" onClick={props.onPayHandler}>
+            <CustomButton
+              variant="contained"
+              onClick={props.onPayHandler}
+              data-testid="continueButton"
+            >
               {CONTINUE}
             </CustomButton>
             <CustomButton

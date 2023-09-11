@@ -6,7 +6,7 @@ import Stepper from '../../components/molecules/Stepper'
 import AccountVerification from '../../components/organisms/AccountVerification'
 import BusinessDetails from '../../components/organisms/BusinessDetails'
 import ConfirmTradingAddress from '../../components/organisms/ConfirmTradingAddress'
-import DetailsForm, { formData } from '../../components/organisms/DetailsFrom'
+import DetailsForm, { formData } from '../../components/organisms/DetailsForm'
 import SearchBusiness from '../../components/organisms/SearchOrganization'
 import SendMoneyTemplate from '../../components/templates/SendMoneyTemplate'
 import { DETAILS_LABEL_ARRAY } from '../../strings/constants'
@@ -29,6 +29,8 @@ export const AccountDetailPage = ({
     dob: '',
     country: '',
     address: '',
+    city: '',
+    postal_code: '',
   })
   const backButton = (
     <Image

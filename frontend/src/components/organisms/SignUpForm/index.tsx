@@ -8,6 +8,7 @@ import {
   LOGIN,
   NEXT,
   POLICY,
+  SIGNUPFORM_LOGIN_WITH,
   TERM,
 } from '../../../strings/constants'
 import CustomButton from '../../atoms/Button'
@@ -40,7 +41,7 @@ const SignUpFromWrapper = styled(Box)({
 const IconBox = styled(Box)({
   display: 'flex',
   alignItems: 'center',
-  gap: theme.spacing(12.5),
+  gap: theme.spacing(23.25),
 })
 
 const InnerWrapper = styled(Stack)({
@@ -100,6 +101,7 @@ const SignUpForm = (props: SignUpWrapperProps) => {
             onClick={() => {
               if (props.onSubmit) props.onSubmit(email)
             }}
+            data-testid="signUpButton"
           >
             {NEXT}
           </CustomButton>
@@ -109,7 +111,7 @@ const SignUpForm = (props: SignUpWrapperProps) => {
           variant="caption"
           sx={{ color: theme.palette.text.mediumEmphasis }}
         >
-          or log in with
+          {SIGNUPFORM_LOGIN_WITH}
         </Typography>
 
         <IconBox>
@@ -134,13 +136,14 @@ const SignUpForm = (props: SignUpWrapperProps) => {
             variant="caption"
             sx={{ color: theme.palette.text.mediumEmphasis }}
           >
-            {BY_REGISTERING}{' '}
+            {BY_REGISTERING}
             <Typography
               variant="link"
               sx={{ color: theme.palette.primary[500], cursor: 'pointer' }}
             >
               {TERM}
             </Typography>
+            &nbsp;and&nbsp;
             <Typography
               variant="link"
               sx={{ color: theme.palette.primary[500], cursor: 'pointer' }}
@@ -148,10 +151,8 @@ const SignUpForm = (props: SignUpWrapperProps) => {
               {POLICY}
             </Typography>
           </Typography>
-
-          <Divider variant="middle" />
         </TextWrapper>
-
+        <Divider variant="middle" sx={{ width: '100%' }} />
         <Typography
           variant="caption"
           sx={{ color: theme.palette.text.mediumEmphasis }}

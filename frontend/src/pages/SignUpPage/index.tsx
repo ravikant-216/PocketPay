@@ -4,7 +4,7 @@ import { AuthTemplate } from '../../components/templates/AuthTemplate'
 
 import theme from '../../theme'
 import { AccountSetupPage } from '../AccountSetupPage'
-import { formData } from '../../components/organisms/DetailsFrom'
+import { formData } from '../../components/organisms/DetailsForm'
 import { AccountDetailPage } from '../AccountDetailPage'
 import { IconLabelPropType } from '../../components/atoms/IconLabel'
 import getCountryList from '../../components/api/CountryList'
@@ -78,7 +78,7 @@ export function SignUpPage(props: SignUpFormProps) {
               first_name: form.firstName,
               last_name: form.lastName,
               country: form.country,
-              address: form.address,
+              address: form.address + ' ' + form.city + ' ' + form.postal_code,
               email: email,
               dob: form.dob,
               account_type: accountType,

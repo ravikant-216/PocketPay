@@ -226,6 +226,7 @@ const RecipientDetails = (props: RecipientDetailsProps) => {
           onClick={() => {
             props.onClick(values)
           }}
+          data-testid="continueButton"
         >
           {RECIPIENT_DETAILS_CONTINUE}
         </CustomButton>

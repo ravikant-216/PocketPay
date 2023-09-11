@@ -310,6 +310,7 @@ const ReviewTransferDetails: React.FC<ReviewTransferDetailsProps> = ({
             onClick={() =>
               onConfirmAndContinue(transferDetails, recipientDetails)
             }
+            data-testid="continueButton"
           >
             {CONFIRM_CONTINUE_LABEL}
           </Button>

@@ -46,7 +46,7 @@ const OptionCard = (props: OptionCardProps) => {
           />
         </IconLabelWrapper>
         {props.caption && (
-          <TextWrapper position={'relative'} bottom={10}>
+          <TextWrapper position={'relative'} bottom={-3}>
             <Typography
               variant="caption"
               sx={{ color: theme.palette.text.lowEmphasis }}

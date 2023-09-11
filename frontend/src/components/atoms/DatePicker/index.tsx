@@ -41,7 +41,13 @@ const DatePicker: React.FC<DatePickerProps> = ({
       <MuiDatePicker
         slots={{
           openPickerIcon: () => (
-            <Image src={CalendarIcon} alt="Date Picker Icon" />
+            <Image
+              src={CalendarIcon}
+              alt="Date Picker Icon"
+              style={{
+                marginRight: theme.spacing(1),
+              }}
+            />
           ),
           switchViewIcon: () => <></>,
           leftArrowIcon: () => (

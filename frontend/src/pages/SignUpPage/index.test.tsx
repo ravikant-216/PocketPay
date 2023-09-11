@@ -103,7 +103,7 @@ describe('SignUpPage', () => {
       target: { value: 'test@example.com' },
     })
     fireEvent.click(screen.getAllByRole('button')[0])
-    fireEvent.click(screen.getAllByTestId('Typography')[0])
+    fireEvent.click(screen.getAllByTestId('custom-box')[1])
 
     const countryDropdown1 = screen.getAllByRole('button')[0]
     const countryDropdownButton = screen.getAllByRole('button')[1]
@@ -177,13 +177,19 @@ describe('SignUpPage', () => {
     fireEvent.change(screen.getByLabelText(DOB), {
       target: { value: '11/11/1999' },
     })
-    expect(screen.getByText('Continue')).toBeDisabled()
+    expect(screen.getByTestId('continueButton')).toBeDisabled()
     const countryDropdown111 = screen.getAllByRole('button')[1]
     fireEvent.mouseDown(countryDropdown111)
     fireEvent.click(screen.getByText('Andorra'))
 
     fireEvent.change(screen.getByLabelText('Home Address'), {
       target: { value: 'Nutan Nagar' },
+    })
+    fireEvent.change(screen.getByLabelText('City'), {
+      target: { value: 'Ranchi' },
+    })
+    fireEvent.change(screen.getByLabelText('Postal code'), {
+      target: { value: 835478 },
     })
     fireEvent.click(screen.getByText('Continue'))
 
@@ -193,10 +199,10 @@ describe('SignUpPage', () => {
         first_name: 'Ravi',
         last_name: 'Kant',
         country: 'Andorra',
-        address: 'Nutan Nagar',
+        address: 'Nutan Nagar Ranchi 835478',
         email: 'test@example.com',
         dob: '11/11/1999',
-        account_type: 'Personal Account',
+        account_type: 'Business Account',
         password: 'Ravi123@',
       })
     )

@@ -51,14 +51,15 @@ test('The component should disable the "Next" button when the email input is emp
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     fireEvent.change(emailInput!, { target: { value: '' } })
   })
-  expect(screen.getByText('Next')).toBeDisabled()
+
+  expect(screen.getByTestId('signUpButton')).toBeDisabled()
 
   act(() => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     fireEvent.change(emailInput!, { target: { value: 'invalid-email' } })
   })
 
-  expect(screen.getByText('Next')).toBeDisabled()
+  expect(screen.getByTestId('signUpButton')).toBeDisabled()
 })
 
 test('The component should disable the "Next" button when the email input is empty or invalid', () => {
@@ -70,7 +71,7 @@ test('The component should disable the "Next" button when the email input is emp
     </ThemeProvider>
   )
   fireEvent.click(screen.getByAltText('Google Icon'))
-  expect(screen.getByText('Next')).toBeDisabled()
+  expect(screen.getByTestId('signUpButton')).toBeDisabled()
 })
 test('The component should enable the "Next" button when the email input is filled with a valid email address', () => {
   render(
@@ -85,10 +86,10 @@ test('The component should enable the "Next" button when the email input is fill
   act(() => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     fireEvent.change(emailInput!, { target: { value: 'valid@email.com' } })
-    fireEvent.click(screen.getByText('Next'))
+    fireEvent.click(screen.getByTestId('signUpButton'))
     expect(mockClick).toHaveBeenCalledTimes(1)
   })
 
-  expect(screen.getByText('Next')).not.toBeDisabled()
+  expect(screen.getByTestId('signUpButton')).not.toBeDisabled()
   fireEvent.click(screen.getByTestId('login'))
 })

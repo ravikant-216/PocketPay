@@ -61,7 +61,7 @@ describe('Recipient Details', () => {
     const lastNameInput = getByLabelText('Last name')
     const ifscInput = getByLabelText('IFSC code')
     const accountType = getByLabelText('Account Type')
-    const continueButton = getByText('Continue')
+    const continueButton = screen.getByTestId('continueButton')
 
     fireEvent.change(emailInput, {
       target: { name: 'email', value: 'test@example.com' },
@@ -90,13 +90,13 @@ describe('Recipient Details', () => {
   })
 
   it('should disable the button if any field is empty', () => {
-    const { getByLabelText, getByText } = render(
+    const { getByLabelText } = render(
       <ThemeProvider theme={theme}>
         <RecipientDetails onClick={mockOnClick} data={data} />
       </ThemeProvider>
     )
     const emailInput = getByLabelText('Email')
-    const continueButton = getByText('Continue')
+    const continueButton = screen.getByTestId('continueButton')
 
     fireEvent.change(emailInput, {
       target: { name: 'email', value: 'test@example.com' },
@@ -129,7 +129,7 @@ describe('Recipient Details', () => {
     const ifscInput = getByLabelText('IFSC code')
     fireEvent.change(ifscInput, { target: { value: 'ABCD0123456' } })
     const accountType = getByLabelText('Account Type')
-    const continueButton = screen.getByText('Continue')
+    const continueButton = screen.getByTestId('continueButton')
     expect(continueButton).toBeDisabled()
     fireEvent.mouseDown(accountType)
     fireEvent.click(getByText('Checking'))
@@ -166,7 +166,7 @@ describe('Recipient Details', () => {
     expect(firstNameInput.getAttribute('value')).toBe('')
     expect(lastNameInput.getAttribute('value')).toBe('')
     expect(ifscInput.getAttribute('value')).toBe('')
-    const continueButton = screen.getByText('Continue')
+    const continueButton = screen.getByTestId('continueButton')
     expect(continueButton).toBeDisabled()
   })
   it('should render messages when given validation fails', () => {

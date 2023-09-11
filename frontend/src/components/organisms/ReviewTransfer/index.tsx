@@ -21,6 +21,8 @@ interface ReviewTransferProps extends StackProps {
   }
   onChooseBankTransfer: () => void
   onCompleteCardTransfer: () => void
+
+  onCancelTransfer: () => void
 }
 
 const StyledStack = styled(Stack)(({ theme }) => ({
@@ -54,6 +56,7 @@ const StyledStack = styled(Stack)(({ theme }) => ({
 const ReviewTransfer: React.FC<ReviewTransferProps> = ({
   onChooseBankTransfer,
   onCompleteCardTransfer,
+  onCancelTransfer,
   ReviewTransferDetailsProps,
   ...rest
 }) => {
@@ -91,10 +94,14 @@ const ReviewTransfer: React.FC<ReviewTransferProps> = ({
         />
         {userCurrentScreen !== ScreenType.PAYMENT_CONFIRMATION && (
           <Stack className="floating-buttons">
-            <Button variant="contained" onClick={onClickContinue}>
+            <Button
+              variant="contained"
+              onClick={onClickContinue}
+              data-testId="continueButton"
+            >
               <Typography variant="body2">{CONTINUE_TO_PAY_BUTTON}</Typography>
             </Button>
-            <Button variant="outlined">
+            <Button variant="outlined" onClick={onCancelTransfer}>
               <Typography variant="body2">{CANCEL_THIS_TRANSFER}</Typography>
             </Button>
           </Stack>

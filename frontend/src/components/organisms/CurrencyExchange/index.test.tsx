@@ -242,8 +242,6 @@ describe('CurrencyExchange', () => {
     fireEvent.change(input as HTMLInputElement, { target: { value: 1 } })
 
     fireEvent.click(continueButton)
-    const modalButton = screen.getByTestId('modalButton')
-    fireEvent.click(modalButton)
 
     expect(mockOnClick).toHaveBeenCalledTimes(1)
   })
@@ -264,14 +262,16 @@ describe('CurrencyExchange', () => {
     })
     const senderInput = screen.getByTestId('senderInput')
     const input = senderInput.querySelector('.senderInput')
-    const continueButton = screen.getByText('Continue')
+    const continueButton = screen.getByTestId('button')
     expect(continueButton).toBeDisabled()
     fireEvent.change(input as HTMLInputElement, { target: { value: 75 } })
-    fireEvent.click(continueButton)
-
+    fireEvent.click(screen.getByTestId('guranteedRate'))
     const overlay = screen.getByTestId('modalOverlay')
     fireEvent.click(overlay)
     expect(screen.queryByTestId('modalContent')).not.toBeInTheDocument()
+    fireEvent.click(screen.getByTestId('guranteedRate'))
+    fireEvent.click(screen.getByText('OK'))
+    expect(screen.queryByText('OK')).not.toBeInTheDocument()
   })
 
   it('should initialize senderCurrencyCard with selected country value when senderCountry is provided with values', async () => {

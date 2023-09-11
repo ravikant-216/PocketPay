@@ -56,6 +56,7 @@ const transferOptions = [
       'Send from your Visa or Mastercard. Should arrive by January 28th.',
     title: 'Credit card',
     value: 'credit',
+    disabled: true,
   },
   {
     src: BankIcon,
@@ -72,6 +73,7 @@ const transferOptions = [
     description:
       'Send GBP from your bank account outside the UK. Should arrive by January 28th.',
     value: 'swift',
+    disabled: true,
   },
 ]
 
@@ -198,10 +200,13 @@ const Payment: React.FC<PaymentProps> = ({
     {
       label: 'SAVED CARDS',
       content: (
-        <RadioGroup defaultValue={selectedCard} onChange={onCardSelect}>
-          <BankCardDetailsRadio {...cardPaymentOptions[0]} />
-          <BankCardDetailsRadio {...cardPaymentOptions[1]} />
-        </RadioGroup>
+        <>
+          <Divider sx={{ width: '100%s' }} />
+          <RadioGroup defaultValue={selectedCard} onChange={onCardSelect}>
+            <BankCardDetailsRadio {...cardPaymentOptions[0]} />
+            <BankCardDetailsRadio {...cardPaymentOptions[1]} />
+          </RadioGroup>
+        </>
       ),
     },
     {
@@ -216,7 +221,6 @@ const Payment: React.FC<PaymentProps> = ({
       <TabsComponent tabs={tabs} />
     </Stack>
   )
-
   const PaymentConfirmation = (
     <Stack className="payment-confirmation">
       <Stack className="header">

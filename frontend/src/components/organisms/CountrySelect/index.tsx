@@ -1,7 +1,9 @@
 import * as React from 'react'
 import { useState } from 'react'
 import { BoxProps, IconButton, InputAdornment, Box } from '@mui/material'
-import { VisibilityOff, Visibility } from '@mui/icons-material'
+import Image from '../../atoms/Image'
+import eyeOff from '../../../../public/assets/icons/eyeOff.svg'
+import eye from '../../../../public/assets/icons/eye.svg'
 import theme from '../../../theme'
 import TextField from '../../atoms/InputField'
 import {
@@ -91,7 +93,11 @@ const CountrySelect = ({
                   onClick={handleClickShowPassword}
                   edge="end"
                 >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                  {showPassword ? (
+                    <Image alt="eye" src={eye} />
+                  ) : (
+                    <Image alt="eyeOff" src={eyeOff} />
+                  )}
                 </IconButton>
               </InputAdornment>
             }

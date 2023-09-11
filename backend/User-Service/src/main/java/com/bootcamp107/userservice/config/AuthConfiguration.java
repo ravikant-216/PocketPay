@@ -25,6 +25,7 @@ public class AuthConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
         httpSecurity
+                .csrf().disable()
                 .authorizeHttpRequests()
                 .antMatchers(USER_SERVICE_ENDPOINT+ "/**", AUTH_SERVICE_ENDPOINT + "/**")
                 .permitAll();

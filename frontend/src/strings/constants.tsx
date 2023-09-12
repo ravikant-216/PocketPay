@@ -1,8 +1,8 @@
-import india from '../../public/assets/icons/india.svg'
-import US from '../../public/assets/icons/US.svg'
 import GBP from '../../public/assets/icons/GBP.svg'
-import austria from '../../public/assets/icons/austria.svg'
+import US from '../../public/assets/icons/US.svg'
 import andorra from '../../public/assets/icons/andorra.svg'
+import austria from '../../public/assets/icons/austria.svg'
+import india from '../../public/assets/icons/india.svg'
 export const CountryArray = [
   {
     key: 'India',
@@ -193,12 +193,12 @@ export const COUNTRIES: Country[] = [
   {
     name: 'Andorra',
     code: '52',
-    flagIconSrc: andorra,
+    flagIconSrc: austria,
   },
   {
     name: 'Austria',
     code: '31',
-    flagIconSrc: austria,
+    flagIconSrc: andorra,
   },
   {
     name: 'India',

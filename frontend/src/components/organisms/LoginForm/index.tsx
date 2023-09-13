@@ -66,7 +66,7 @@ export default function SignIn({
   const createUserWithGoogleAuth = async (user: User) => {
     const userResponse = await loginWithGoogleAuth(user)
     dispatch(userActions.loginUser(userResponse))
-    navigate('/dashboard', { state: { id: userResponse.id } })
+    navigate('/dashboard', { state: { id: userResponse.user.id } })
   }
 
   useEffect(() => {

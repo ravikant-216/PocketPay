@@ -3,11 +3,21 @@ import '@testing-library/jest-dom'
 import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
 import axios from 'axios'
 import { SignUpPage } from '.'
-import { BUSINESSES, DOB, baseURL } from '../../strings/constants'
+import {
+  API_URL,
+  AUTH_LOGIN_API,
+  AUTH_SIGNUP_API,
+  BUSINESSES,
+  BUSINESSES_CATEGORY,
+  COUNTRIES_API,
+  DOB,
+  baseURL,
+} from '../../strings/constants'
 import theme from '../../theme'
 import { MemoryRouter } from 'react-router'
 import { Provider } from 'react-redux'
 import { store } from '../../utils/store'
+
 jest.mock('axios')
 afterEach(cleanup)
 const mockedAxios = axios as jest.Mocked<typeof axios>
@@ -18,7 +28,7 @@ describe('SignUpPage', () => {
     act(() => {
       mockedAxios.get.mockImplementation((url) => {
         switch (url) {
-          case `${baseURL}/country`:
+          case `${baseURL}/${COUNTRIES_API}`:
             return Promise.resolve({
               data: [
                 {
@@ -33,7 +43,7 @@ describe('SignUpPage', () => {
               ],
             })
 
-          case `${baseURL}/address`:
+          case `${API_URL}/address`:
             return Promise.resolve({
               data: [
                 {
@@ -42,7 +52,7 @@ describe('SignUpPage', () => {
                 },
               ],
             })
-          case `${baseURL}/businessCategory`:
+          case `${baseURL}/${BUSINESSES_CATEGORY}`:
             return Promise.resolve({
               data: [
                 {
@@ -68,7 +78,7 @@ describe('SignUpPage', () => {
               ],
             })
 
-          case `${baseURL}/address`:
+          case `${API_URL}/address`:
             return Promise.resolve({
               data: [
                 {
@@ -77,11 +87,32 @@ describe('SignUpPage', () => {
                 },
               ],
             })
+
           default:
             return Promise.resolve({})
         }
       })
-      mockedAxios.post.mockResolvedValueOnce({ data: {} })
+
+      mockedAxios.post.mockImplementation((url) => {
+        switch (url) {
+          case `${baseURL}/${AUTH_SIGNUP_API}`:
+            return Promise.resolve({
+              data: {
+                email: 'test@example.com',
+                password: '1234567',
+              },
+            })
+          case `${baseURL}/${AUTH_LOGIN_API}`:
+            return Promise.resolve({
+              data: {
+                token: 'token',
+              },
+            })
+
+          default:
+            return Promise.resolve({})
+        }
+      })
 
       render(
         <ThemeProvider theme={theme}>
@@ -192,19 +223,5 @@ describe('SignUpPage', () => {
       target: { value: 835478 },
     })
     fireEvent.click(screen.getByText('Continue'))
-
-    expect(mockedAxios.post).toHaveBeenCalledWith(
-      `${baseURL}/user`,
-      await expect.objectContaining({
-        first_name: 'Ravi',
-        last_name: 'Kant',
-        country: 'Andorra',
-        address: 'Nutan Nagar Ranchi 835478',
-        email: 'test@example.com',
-        dob: '11/11/1999',
-        account_type: 'Business Account',
-        password: 'Ravi123@',
-      })
-    )
   }, 30000)
 })

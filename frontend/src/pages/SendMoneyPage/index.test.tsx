@@ -10,8 +10,16 @@ import SendMoneyPage from '.'
 import { MemoryRouter } from 'react-router-dom'
 import { ThemeProvider } from '@mui/material'
 import theme from '../../theme'
-import { CANCEL_TRANSFER, DOB, baseURL } from '../../strings/constants'
+import {
+  BENEFICIARY_API,
+  CANCEL_TRANSFER,
+  COUNTRIES_API,
+  DOB,
+  baseURL,
+} from '../../strings/constants'
 import axios from 'axios'
+import { Provider } from 'react-redux'
+import { store } from '../../utils/store'
 
 jest.mock('axios')
 const mockedAxios = axios as jest.Mocked<typeof axios>
@@ -68,9 +76,9 @@ const renderWithThemeAndRouter = (T: React.ReactNode) => {
 
     mockedAxios.get.mockImplementation((url) => {
       switch (url) {
-        case `${baseURL}/country`:
+        case `${baseURL}/${COUNTRIES_API}`:
           return Promise.resolve({ data: currencyDetails })
-        case `${baseURL}/beneficiary?email=${input.email}`:
+        case `${baseURL}/${BENEFICIARY_API}email?email=${input.email}`:
           return Promise.resolve({
             data: [
               {
@@ -94,7 +102,9 @@ const renderWithThemeAndRouter = (T: React.ReactNode) => {
       <MemoryRouter
         initialEntries={[`${baseURL}/sendMoneyPage`, { state: { id: 1 } }]}
       >
-        <ThemeProvider theme={theme}>{T}</ThemeProvider>
+        <ThemeProvider theme={theme}>
+          <Provider store={store}>{T}</Provider>
+        </ThemeProvider>
       </MemoryRouter>
     )
   })
@@ -102,7 +112,7 @@ const renderWithThemeAndRouter = (T: React.ReactNode) => {
 
 const input = {
   email: 'test@example.com',
-  account: '123456789012',
+  accountNumber: '123456789012',
   firstName: 'Johny',
   lastName: 'Michael',
   ifsc: 'ABCD1234567',
@@ -176,7 +186,7 @@ describe('Testing whole flow of the page', () => {
       target: { name: 'email', value: input.email },
     })
     fireEvent.change(accountInput, {
-      target: { name: 'account', value: input.account },
+      target: { name: 'accountNumber', value: input.accountNumber },
     })
     fireEvent.change(firstNameInput, {
       target: { name: 'firstName', value: input.firstName },
@@ -191,7 +201,7 @@ describe('Testing whole flow of the page', () => {
     fireEvent.click(component.querySelectorAll('.MuiButtonBase-root')[0])
 
     expect(emailInput.getAttribute('value')).toBe(input.email)
-    expect(accountInput.getAttribute('value')).toBe(input.account)
+    expect(accountInput.getAttribute('value')).toBe(input.accountNumber)
     expect(firstNameInput.getAttribute('value')).toBe(input.firstName)
     expect(lastNameInput.getAttribute('value')).toBe(input.lastName)
     expect(ifscInput.getAttribute('value')).toBe(input.ifsc)

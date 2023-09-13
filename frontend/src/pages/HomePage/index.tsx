@@ -13,11 +13,15 @@ import {
   DASHBOARD_HEADING_FIRST,
   DASHBOARD_HEADING_SECOND,
   baseURL,
+  TRANSACTION_API,
+  USER_API,
+  BENEFICIARY_API,
 } from '../../strings/constants'
 import theme from '../../theme'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useLocation, useNavigate } from 'react-router'
+import { useSelector } from 'react-redux'
 
 const NoTransactionContainer = styled(Box)({
   display: 'flex',
@@ -55,21 +59,21 @@ interface TransactionDetails {
   referenceNumber: string
   time: Date
   index: number
-  userId: number
-  recipientId: number
+  userId: string
+  beneficiaryId: string
 }
 
 interface Beneficiary {
-  id: 1
+  id: string
   firstName: string
   lastName: string
-  userId: number
+  userId: string
 }
 
 interface User {
-  first_name: string
-  last_name: string
-  id: number
+  firstName: string
+  lastName: string
+  id: string
 }
 const HomeGrid = styled(Grid)({
   paddingTop: theme.spacing(9.25),
@@ -103,26 +107,34 @@ const HomePage = () => {
 
   const [senderName, setSenderName] = useState('')
   const [recieverName, setReceiverName] = useState<Beneficiary[]>([])
+  const { token } = useSelector((state: any) => state.user)
+  const authToken = `Bearer ` + token
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(`${baseURL}/transaction`)
+      const response = await axios.get(`${baseURL}/${TRANSACTION_API}`, {
+        headers: { Authorization: authToken },
+      })
       const data: TransactionDetails[] = response.data
 
       const transactionWithMatchingUserId: TransactionDetails[] = data.filter(
-        (item) => item.userId === Number(id)
+        (item) => item.userId === id
       )
       setTransactionList(transactionWithMatchingUserId)
-      const senderResponse = await axios.get(`${baseURL}/user`)
-      const senderData: User[] = senderResponse.data
-      const user = senderData.find((item) => item.id === Number(id))
-      if (user) {
-        setSenderName(user.first_name + ' ' + user.last_name)
+      const senderResponse = await axios.get(`${baseURL}/${USER_API}/${id}`)
+      const senderData: User = senderResponse.data
+      if (senderData) {
+        setSenderName(senderData.firstName + ' ' + senderData.lastName)
       }
 
-      const recieverResponse = await axios.get(`${baseURL}/beneficiary`)
+      const recieverResponse = await axios.get(
+        `${baseURL}/${BENEFICIARY_API}`,
+        {
+          headers: { Authorization: authToken },
+        }
+      )
       const recieverData: Beneficiary[] = recieverResponse.data
       const reciever: Beneficiary[] = recieverData.filter(
-        (item) => item.userId === Number(id)
+        (item) => item.userId === id
       )
       if (reciever) {
         setReceiverName(reciever)
@@ -134,8 +146,10 @@ const HomePage = () => {
 
   const navigate = useNavigate()
 
-  const reciever = (id: number) => {
+  const reciever = (id: string) => {
     const name = recieverName.find((reciever) => reciever.id === id)
+
+    console.log(name)
 
     return name?.firstName + ' ' + name?.lastName
   }
@@ -193,7 +207,7 @@ const HomePage = () => {
               recievingCurrency={item.recievingCurrencyCode}
               senderName={senderName}
               receiverName={
-                recieverName.length > 0 ? reciever(item.recipientId) : ''
+                recieverName.length > 0 ? reciever(item.beneficiaryId) : ''
               }
               transferNumber={item.referenceNumber}
               key={item.referenceNumber}

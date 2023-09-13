@@ -3,7 +3,13 @@ import { AccountDetailPage } from '.'
 import theme from '../../theme'
 import '@testing-library/jest-dom'
 import { ThemeProvider } from '@emotion/react'
-import { BUSINESSES, DOB, baseURL } from '../../strings/constants'
+import {
+  API_URL,
+  BUSINESSES,
+  BUSINESSES_CATEGORY,
+  DOB,
+  baseURL,
+} from '../../strings/constants'
 import axios from 'axios'
 import { act } from 'react-dom/test-utils'
 import { BrowserRouter } from 'react-router-dom'
@@ -26,7 +32,7 @@ describe('AccountDetailPage', () => {
     act(() => {
       axiosMock.get.mockImplementation((url) => {
         switch (url) {
-          case `${baseURL}/businessCategory`:
+          case `${baseURL}/${BUSINESSES_CATEGORY}`:
             return Promise.resolve({
               data: [
                 {
@@ -52,7 +58,7 @@ describe('AccountDetailPage', () => {
               ],
             })
 
-          case `${baseURL}/address`:
+          case `${API_URL}/address`:
             return Promise.resolve({
               data: [
                 {

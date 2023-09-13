@@ -1,10 +1,10 @@
 import { IconLabelPropType } from '../atoms/IconLabel'
 import { countryList } from '../../utils/type'
 import axios from 'axios'
-import { baseURL } from '../../strings/constants'
+import { COUNTRIES_API, baseURL } from '../../strings/constants'
 
 async function getCountryList(): Promise<IconLabelPropType[]> {
-  const response = await axios.get(`${baseURL}/country`)
+  const response = await axios.get(`${baseURL}/${COUNTRIES_API}`)
   const countries = response.data
   const countryArray: IconLabelPropType[] = countries.map(
     (country: countryList) => ({

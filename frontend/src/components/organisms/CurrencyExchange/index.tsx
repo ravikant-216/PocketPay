@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react'
 import CountryDropdown from '../CountryDropdown'
 import {
   AGREE,
+  COUNTRIES_API,
   CURRENCY_EXCHANGE_CONTINUE,
   CURRENCY_EXCHANGE_TRANSFER,
   GURANTEED_RATE,
@@ -159,7 +160,7 @@ const CurrencyExchange = (props: CurrencyExchangeProps) => {
   }
   useEffect(() => {
     const fetchCountryList = async () => {
-      const response = await axios.get(`${baseURL}/country`)
+      const response = await axios.get(`${baseURL}/${COUNTRIES_API}`)
       const countryListData: CardProps[] = response.data
 
       setCountryArray(() =>

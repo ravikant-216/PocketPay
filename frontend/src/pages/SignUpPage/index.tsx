@@ -9,7 +9,11 @@ import { AccountDetailPage } from '../AccountDetailPage'
 import { IconLabelPropType } from '../../components/atoms/IconLabel'
 import getCountryList from '../../components/api/CountryList'
 import axios from 'axios'
-import { baseURL } from '../../strings/constants'
+import {
+  AUTH_LOGIN_API,
+  AUTH_SIGNUP_API,
+  baseURL,
+} from '../../strings/constants'
 import SignUpForm from '../../components/organisms/SignUpForm'
 import { userActions } from '../../utils/store/user'
 import { useDispatch } from 'react-redux'
@@ -74,17 +78,24 @@ export function SignUpPage(props: SignUpFormProps) {
         <AccountDetailPage
           buttonOnClick={async (form: formData) => {
             if (props.onSubmit) props.onSubmit()
-            const { data: user } = await axios.post(`${baseURL}/user`, {
-              first_name: form.firstName,
-              last_name: form.lastName,
-              country: form.country,
-              address: form.address + ' ' + form.city + ' ' + form.postal_code,
+            const { data: user } = await axios.post(
+              `${baseURL}/${AUTH_SIGNUP_API}`,
+              {
+                firstName: form.firstName,
+                lastName: form.lastName,
+                address: form.address,
+                email: email,
+                dateOfBirth: new Date(form.dob),
+                accountType: accountType,
+                password: password,
+              }
+            )
+            const { data } = await axios.post(`${baseURL}/${AUTH_LOGIN_API}`, {
               email: email,
-              dob: form.dob,
-              account_type: accountType,
               password: password,
             })
-            dispatch(userActions.loginUser(user))
+            console.log(data)
+            dispatch(userActions.loginUser({ user: user, token: data.token }))
             navigate('/dashboard', { state: { id: user.id, newUser: true } })
           }}
           countryList={countryList}

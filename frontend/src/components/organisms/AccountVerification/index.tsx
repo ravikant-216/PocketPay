@@ -3,6 +3,7 @@ import {
   ACCOUNT_VERIFICATION_CATEGORY,
   ACCOUNT_VERIFICATION_HEADING,
   ACCOUNT_VERIFICATION_SUBHEADING,
+  BUSINESSES_CATEGORY,
   CONTINUE_BUTTON,
   baseURL,
 } from '../../../strings/constants'
@@ -60,7 +61,7 @@ const AccountVerification = (props: AccountVerificationProps) => {
   )
 
   const fetchCategory = async () => {
-    const response = await axios.get(`${baseURL}/businessCategory`)
+    const response = await axios.get(`${baseURL}/${BUSINESSES_CATEGORY}`)
     const data: Category[] = response.data
 
     setCategoryList(() =>

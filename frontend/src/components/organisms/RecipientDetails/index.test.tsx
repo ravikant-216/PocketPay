@@ -4,33 +4,38 @@ import theme from '../../../theme'
 import RecipientDetails from '.'
 import '@testing-library/jest-dom/extend-expect'
 import axios from 'axios'
+import { Provider } from 'react-redux'
+import { store } from '../../../utils/store'
 const data = {
   firstName: '',
   lastName: '',
   email: '',
-  account: '',
+  accountNumber: '',
   ifsc: '',
   accountType: '',
 }
 jest.mock('axios')
 afterEach(cleanup)
 const axiosMock = axios as jest.Mocked<typeof axios>
+axiosMock.get.mockResolvedValue({
+  data: [
+    {
+      id: 1,
+      email: 'mario.gabriel@gmail.com',
+      account: '123456885865',
+      firstName: 'Mario',
+      lastName: 'Gabriel',
+      ifsc: 'ABFJ12929GH',
+      accountType: 'Checking',
+    },
+  ],
+})
 const renderWithTheme = (T: React.ReactNode) => {
-  axiosMock.get.mockResolvedValue({
-    data: [
-      {
-        id: 1,
-        email: 'mario.gabriel@gmail.com',
-        account: '123456885865',
-        firstName: 'Mario',
-        lastName: 'Gabriel',
-        ifsc: 'ABFJ12929GH',
-        accountType: 'Checking',
-      },
-    ],
-  })
-
-  render(<ThemeProvider theme={theme}>{T}</ThemeProvider>)
+  render(
+    <ThemeProvider theme={theme}>
+      <Provider store={store}>{T}</Provider>
+    </ThemeProvider>
+  )
 }
 
 describe('Recipient Details', () => {
@@ -52,7 +57,9 @@ describe('Recipient Details', () => {
   it('should enable the button if all fields are filled', () => {
     const { getByLabelText, getByText } = render(
       <ThemeProvider theme={theme}>
-        <RecipientDetails onClick={mockOnClick} data={data} />
+        <Provider store={store}>
+          <RecipientDetails onClick={mockOnClick} data={data} />
+        </Provider>
       </ThemeProvider>
     )
     const emailInput = getByLabelText('Email')
@@ -67,7 +74,7 @@ describe('Recipient Details', () => {
       target: { name: 'email', value: 'test@example.com' },
     })
     fireEvent.change(accountInput, {
-      target: { name: 'account', value: '123456789012' },
+      target: { name: 'accountNumber', value: '123456789012' },
     })
     fireEvent.change(firstNameInput, {
       target: { name: 'firstName', value: 'Johny' },
@@ -92,7 +99,9 @@ describe('Recipient Details', () => {
   it('should disable the button if any field is empty', () => {
     const { getByLabelText } = render(
       <ThemeProvider theme={theme}>
-        <RecipientDetails onClick={mockOnClick} data={data} />
+        <Provider store={store}>
+          <RecipientDetails onClick={mockOnClick} data={data} />
+        </Provider>
       </ThemeProvider>
     )
     const emailInput = getByLabelText('Email')
@@ -110,7 +119,9 @@ describe('Recipient Details', () => {
     const mockOnClick = jest.fn()
     const { getByText, getByLabelText } = render(
       <ThemeProvider theme={theme}>
-        <RecipientDetails onClick={mockOnClick} data={data} />
+        <Provider store={store}>
+          <RecipientDetails onClick={mockOnClick} data={data} />
+        </Provider>
       </ThemeProvider>
     )
 
@@ -137,7 +148,7 @@ describe('Recipient Details', () => {
 
     expect(mockOnClick).toHaveBeenCalledWith({
       email: 'test@example.com',
-      account: '123456789012',
+      accountNumber: '123456789012',
       firstName: 'John',
       lastName: 'Doe',
       ifsc: 'ABCD0123456',
@@ -147,7 +158,9 @@ describe('Recipient Details', () => {
   it('should empty other fields when email field is empty', () => {
     const { getByLabelText } = render(
       <ThemeProvider theme={theme}>
-        <RecipientDetails onClick={mockOnClick} data={data} />
+        <Provider store={store}>
+          <RecipientDetails onClick={mockOnClick} data={data} />
+        </Provider>
       </ThemeProvider>
     )
 
@@ -172,7 +185,9 @@ describe('Recipient Details', () => {
   it('should render messages when given validation fails', () => {
     const { getByLabelText } = render(
       <ThemeProvider theme={theme}>
-        <RecipientDetails onClick={mockOnClick} data={data} />
+        <Provider store={store}>
+          <RecipientDetails onClick={mockOnClick} data={data} />
+        </Provider>
       </ThemeProvider>
     )
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Stack, styled } from '@mui/material'
 import Image from '../../components/atoms/Image'
 import LeftArrowIcon from '../../../public/assets/icons/left-arrow.svg'
@@ -28,7 +29,13 @@ import CurrencyExchange, {
 } from '../../components/organisms/CurrencyExchange'
 import RecipientDetails from '../../components/organisms/RecipientDetails'
 import SendMoneyTemplate from '../../components/templates/SendMoneyTemplate'
-import { baseURL } from '../../strings/constants'
+import {
+  BENEFICIARY_API,
+  COUNTRIES_API,
+  TRANSACTION_API,
+  baseURL,
+} from '../../strings/constants'
+import { useSelector } from 'react-redux'
 
 const StyledStack = styled(Stack)(({ theme }) => ({
   width: '100%',
@@ -137,42 +144,66 @@ const SendMoneyPage: React.FC = () => {
   }
 
   const customUUID = generateCustomUUID()
+  const { token } = useSelector((state: any) => state.user)
+  console.log(token)
   const createTransaction = async () => {
     let recipientId = 0
-    const { data } = await axios.get(
-      `${baseURL}/beneficiary?email=${recipient.current.email}`
-    )
-    if (data.length === 0) {
+    try {
+      const { data } = await axios.get(
+        `${baseURL}/${BENEFICIARY_API}email?email=${recipient.current.email}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      recipientId = data.id
+    } catch (err) {
       try {
-        const response = await axios.post(`${baseURL}/beneficiary`, {
-          firstName: recipient.current.firstName,
-          lastName: recipient.current.lastName,
-          email: recipient.current.email,
-          account: recipient.current.accountNumber,
-          accountType: recipient.current.accountType,
-          ifsc: recipient.current.ifsc,
-          userId: Number(id),
-        })
+        const response = await axios.post(
+          `${baseURL}/${BENEFICIARY_API}`,
+          {
+            firstName: recipient.current.firstName,
+            lastName: recipient.current.lastName,
+            email: recipient.current.email,
+            accountNumber: recipient.current.accountNumber,
+            ifsc: recipient.current.ifsc,
+            userId: id,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
 
         recipientId = response.data.id
       } catch (err) {
         console.error(err)
       }
-    } else {
-      recipientId = data[0].id
     }
+
     try {
-      await axios.post(`${baseURL}/transaction`, {
-        referenceNumber: customUUID,
-        status: 'PENDING',
-        time: new Date(),
-        sendingAmount: transfer.current.senderAmount,
-        recievingAmount: transfer.current.recipientAmount,
-        sendingCurrencyCode: transfer.current.senderCurrencyCode,
-        recievingCurrencyCode: transfer.current.recipientCurrencyCode,
-        userId: Number(id),
-        recipientId: recipientId,
-      })
+      console.log(recipientId)
+      await axios.post(
+        `${baseURL}/${TRANSACTION_API}`,
+        {
+          referenceNumber: customUUID,
+          status: 'PENDING',
+          time: new Date(),
+          sendingAmount: transfer.current.senderAmount,
+          recievingAmount: transfer.current.recipientAmount,
+          sendingCurrencyCode: transfer.current.senderCurrencyCode,
+          recievingCurrencyCode: transfer.current.recipientCurrencyCode,
+          userId: String(id),
+          beneficiaryId: recipientId,
+        },
+        {
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        }
+      )
     } catch (err) {
       console.error(err)
     }
@@ -218,7 +249,7 @@ const SendMoneyPage: React.FC = () => {
         firstName: recipient.current.firstName ?? '',
         lastName: recipient.current.lastName ?? '',
         email: recipient.current.email,
-        account: recipient.current.accountNumber,
+        accountNumber: recipient.current.accountNumber,
         ifsc: recipient.current.ifsc ?? '',
         accountType: recipient.current.accountType ?? '',
       }}
@@ -227,7 +258,7 @@ const SendMoneyPage: React.FC = () => {
         marginRight: theme.spacing(-33.75),
       }}
       onClick={(data) => {
-        recipient.current.accountNumber = data.account
+        recipient.current.accountNumber = data.accountNumber
         recipient.current.email = data.email
         recipient.current.name = data.firstName + ' ' + data.lastName
         recipient.current.lastName = data.lastName
@@ -257,7 +288,7 @@ const SendMoneyPage: React.FC = () => {
 
   const [countryList, setCountryList] = useState<CurrencyCardProps[]>([])
   const FetchCountryList = async () => {
-    const response = await axios.get(`${baseURL}/country`)
+    const response = await axios.get(`${baseURL}/${COUNTRIES_API}`)
     const data: CardProps[] = response.data
 
     setCountryList(

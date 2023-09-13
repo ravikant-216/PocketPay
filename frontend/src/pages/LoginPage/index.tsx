@@ -4,7 +4,7 @@ import SignIn from '../../components/organisms/LoginForm'
 import theme from '../../theme'
 import { useNavigate } from 'react-router'
 import axios from 'axios'
-import { baseURL } from '../../strings/constants'
+import { AUTH_LOGIN_API, USER_API, baseURL } from '../../strings/constants'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { userActions } from '../../utils/store/user'
@@ -18,21 +18,24 @@ interface UserDetails {
   dob: string
   account_type: string
   password: string
-  id: number
+  id: string
 }
 export function LoginPage() {
   const [authenticated, setAuthenticated] = useState(true)
   const dispatch = useDispatch()
   const handleLogin = async (email: string, password: string) => {
-    const response = await axios.get(`${baseURL}/user`)
-    const data: UserDetails[] = response.data
-    const user = data.find(
-      (item) => item.password === password && item.email === email
-    )
-    if (user) {
-      dispatch(userActions.loginUser(user))
-      navigate(`/dashboard`, { state: { id: user.id } })
-    } else {
+    try {
+      const { data: tokenData } = await axios.post(
+        `${baseURL}/${AUTH_LOGIN_API}`,
+        { email, password }
+      )
+      console.log(tokenData.token)
+      const response = await axios.get(`${baseURL}/${USER_API}?email=${email}`)
+      const data: UserDetails = response.data
+      dispatch(userActions.loginUser({ user: data, token: tokenData.token }))
+      navigate(`/dashboard`, { state: { id: data.id } })
+    } catch (err) {
+      console.log(err)
       setAuthenticated(false)
     }
   }

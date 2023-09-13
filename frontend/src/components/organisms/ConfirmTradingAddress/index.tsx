@@ -10,6 +10,7 @@ import InputField from '../../atoms/InputField'
 import {
   ADD,
   ADD_TRADING_ADDRESS,
+  API_URL,
   CANCEL,
   CONFIRM_BUTTON_LABEL,
   EDIT,
@@ -17,7 +18,6 @@ import {
   TRADING_ADDRESSES,
   TRADING_ADDRESS_HEADING,
   TRADING_ADDRESS_SUBHEADING,
-  baseURL,
 } from '../../../strings/constants'
 import ModalBox from '../../molecules/ModalBox'
 
@@ -90,7 +90,7 @@ const ConfirmTradingAddress = (props: TradingAddressProps) => {
   }
 
   const fetchTradingAddressList = async () => {
-    const response = await axios.get(`${baseURL}/address`)
+    const response = await axios.get(`${API_URL}/address`)
     const responseData: Address[] = response.data
     const addressess: AddressList[] = responseData.map((item) => {
       return { address: item.name }

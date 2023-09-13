@@ -6,6 +6,7 @@ import styled from '@emotion/styled'
 import CustomButton from '../../atoms/Button'
 import theme from '../../../theme'
 import {
+  BENEFICIARY_API,
   Email_REGEX,
   RECIPIENT_DETAILS,
   RECIPIENT_DETAILS_CONTINUE,
@@ -15,10 +16,11 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import MenuItem from '@mui/material/MenuItem'
 import { SelectChangeEvent } from '@mui/material'
+import { useSelector } from 'react-redux'
 
 interface UserDetails {
   email: string
-  account: string
+  accountNumber: string
   firstName: string
   lastName: string
   ifsc: string
@@ -51,7 +53,7 @@ const ButtonWrapper = styled(Box)({
 })
 
 interface Beneficiary {
-  account: string
+  accountNumber: string
   firstName: string
   lastName: string
   ifsc: string
@@ -67,7 +69,7 @@ const RecipientDetails = (props: RecipientDetailsProps) => {
   const [disabled, setDisabled] = useState(false)
   const initalValues = {
     email: '',
-    account: '',
+    accountNumber: '',
     firstName: '',
     lastName: '',
     ifsc: '',
@@ -81,7 +83,7 @@ const RecipientDetails = (props: RecipientDetailsProps) => {
   const [emailError, setEmailError] = useState('')
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
-    if (name === 'account') {
+    if (name === 'accountNumber') {
       const isAccountValid = value.length === ACCOUNT_NUMBER_LENGTH
       setAccountError(isAccountValid ? '' : 'Invalid account number')
     }
@@ -96,7 +98,7 @@ const RecipientDetails = (props: RecipientDetailsProps) => {
       setEmailError(isEmailValid ? '' : 'Invalid email address')
       const data = userDetails.find((item) => item.email === value)
       if (data) {
-        setValues(data)
+        setValues({ ...data, accountType: 'Saving' })
         setDisabled(true)
       } else {
         setDisabled(false)
@@ -115,19 +117,28 @@ const RecipientDetails = (props: RecipientDetailsProps) => {
   const validateFields = () => {
     return (
       new RegExp(Email_REGEX).test(values.email) &&
-      values.account.length === ACCOUNT_NUMBER_LENGTH &&
-      values.firstName.length >= MIN_NAME_LENGTH &&
-      values.lastName.length >= MIN_NAME_LENGTH &&
-      values.ifsc.length === IFSC_CODE_LENGTH &&
-      values.accountType.length >= MIN_NAME_LENGTH
+      values.accountNumber?.length === ACCOUNT_NUMBER_LENGTH &&
+      values.firstName?.length >= MIN_NAME_LENGTH &&
+      values.lastName?.length >= MIN_NAME_LENGTH &&
+      values.ifsc?.length === IFSC_CODE_LENGTH &&
+      values.accountType?.length >= MIN_NAME_LENGTH
     )
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { token } = useSelector((state: any) => state.user)
   const fetchBeneficiaryList = async () => {
-    const response = await axios.get(`${baseURL}/beneficiary`)
-    console.log(response.data)
-    const data: Beneficiary[] = response.data
-    setUserDetails(data)
+    try {
+      const response = await axios.get(`${baseURL}/${BENEFICIARY_API}`, {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      })
+      const data: Beneficiary[] = response.data
+      setUserDetails(data)
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   useEffect(() => {
@@ -164,9 +175,9 @@ const RecipientDetails = (props: RecipientDetailsProps) => {
           placeholder="Account number"
           label="Account number"
           sx={{ width: '100%' }}
-          name="account"
+          name="accountNumber"
           onChange={handleChange}
-          value={values.account}
+          value={values.accountNumber}
           error={Boolean(accountError)}
           helperText={accountError}
         />
@@ -211,7 +222,7 @@ const RecipientDetails = (props: RecipientDetailsProps) => {
           value={values.accountType}
           select
           label="Account Type"
-          SelectProps={{ onChange: handleValueChange }}
+          SelectProps={{ onChange: handleValueChange, defaultValue: 'Saving' }}
           name="accountType"
           disabled={disabled}
         >

@@ -375,7 +375,8 @@ export const DETAILS_LABEL_ARRAY = [
   'Business activity',
   'Your details',
 ]
-export const baseURL = 'https://bc107ms.spcluster.tk'
+export const baseURL = 'https://bc107be.spcluster.tk/api/v1'
+export const API_URL = 'https://bc107ms.spcluster.tk'
 export const steps = [
   { time: 'Today at 6:43 pm', label: 'You set up your transfer' },
   { time: 'Today at 6:44 pm', label: 'We recieved your GBP' },
@@ -389,3 +390,10 @@ export const HOME_PAGE = '/dashboard'
 export const SEND_MONEY_PAGE = '/sendMoney'
 export const NAVITEM_NEW_LABEL = 'New'
 export const SIGNUPFORM_LOGIN_WITH = 'Or, log in with'
+export const BUSINESSES_CATEGORY = 'businesses/business_categories'
+export const COUNTRIES_API = 'businesses/countries'
+export const USER_API = 'users'
+export const AUTH_SIGNUP_API = 'auth/signup'
+export const AUTH_LOGIN_API = 'auth/login'
+export const TRANSACTION_API = 'transactions/'
+export const BENEFICIARY_API = 'transactions/beneficiaries/'

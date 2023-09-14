@@ -157,7 +157,7 @@ describe('HomePage', () => {
     })
 
     jest.advanceTimersByTime(4000)
-    const image = screen.getByTestId('illustration')
+    const image = await screen.findByTestId('illustration')
     expect(image).toBeInTheDocument()
   }, 13000)
 

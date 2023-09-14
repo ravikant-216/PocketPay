@@ -110,53 +110,50 @@ const HomePage = () => {
   const { token } = useSelector((state: any) => state.user)
   const [loading, setLoading] = useState(true)
   const authToken = `Bearer ` + token
+
   useEffect(() => {
     const fetchData = async () => {
-      // Simulate a delay of 2 seconds before fetching data
-      setTimeout(async () => {
-        const response = await axios.get(`${baseURL}/${TRANSACTION_API}`, {
+      await new Promise((resolve) => setTimeout(resolve, 2000))
+
+      const response = await axios.get(`${baseURL}/${TRANSACTION_API}`, {
+        headers: { Authorization: authToken },
+      })
+      const data: TransactionDetails[] = response.data
+
+      const transactionWithMatchingUserId: TransactionDetails[] = data.filter(
+        (item) => item.userId === id
+      )
+
+      setTransactionList(transactionWithMatchingUserId)
+
+      const senderResponse = await axios.get(`${baseURL}/${USER_API}/${id}`)
+      const senderData: User = senderResponse.data
+      if (senderData) {
+        setSenderName(senderData.firstName + ' ' + senderData.lastName)
+      }
+
+      const recieverResponse = await axios.get(
+        `${baseURL}/${BENEFICIARY_API}`,
+        {
           headers: { Authorization: authToken },
-        })
-        const data: TransactionDetails[] = response.data
-
-        const transactionWithMatchingUserId: TransactionDetails[] = data.filter(
-          (item) => item.userId === id
-        )
-
-        setTransactionList(transactionWithMatchingUserId)
-
-        const senderResponse = await axios.get(`${baseURL}/${USER_API}/${id}`)
-        const senderData: User = senderResponse.data
-        if (senderData) {
-          setSenderName(senderData.firstName + ' ' + senderData.lastName)
         }
-
-        const recieverResponse = await axios.get(
-          `${baseURL}/${BENEFICIARY_API}`,
-          {
-            headers: { Authorization: authToken },
-          }
-        )
-        const recieverData: Beneficiary[] = recieverResponse.data
-        const reciever: Beneficiary[] = recieverData.filter(
-          (item) => item.userId === id
-        )
-        if (reciever) {
-          setReceiverName(reciever)
-        }
-        setLoading(false)
-      }, 2000)
+      )
+      const recieverData: Beneficiary[] = recieverResponse.data
+      const reciever: Beneficiary[] = recieverData.filter(
+        (item) => item.userId === id
+      )
+      if (reciever) {
+        setReceiverName(reciever)
+      }
     }
 
-    fetchData()
+    fetchData().then(() => setLoading(false))
   }, [transactionList.length, id, authToken])
 
   const navigate = useNavigate()
 
   const reciever = (id: string) => {
     const name = recieverName.find((reciever) => reciever.id === id)
-
-    console.log(name)
 
     return name?.firstName + ' ' + name?.lastName
   }
@@ -244,7 +241,7 @@ const HomePage = () => {
                 height: '100vh',
               }}
             >
-              <CircularProgress data-testid="loading-spinner" />
+              <CircularProgress />
             </div>
           ) : (
             <DashboardContent />

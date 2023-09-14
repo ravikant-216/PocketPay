@@ -1,4 +1,4 @@
-import { Box, Grid, Paper } from '@mui/material'
+import { Box, CircularProgress, Grid, Paper } from '@mui/material'
 import DashboardTemplate from '../../components/templates/DashboardTemplate'
 import Image from '../../components/atoms/Image'
 import noTransaction from '../../../public/assets/icons/noTransaction.svg'
@@ -108,41 +108,48 @@ const HomePage = () => {
   const [senderName, setSenderName] = useState('')
   const [recieverName, setReceiverName] = useState<Beneficiary[]>([])
   const { token } = useSelector((state: any) => state.user)
+  const [loading, setLoading] = useState(true)
   const authToken = `Bearer ` + token
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(`${baseURL}/${TRANSACTION_API}`, {
-        headers: { Authorization: authToken },
-      })
-      const data: TransactionDetails[] = response.data
-
-      const transactionWithMatchingUserId: TransactionDetails[] = data.filter(
-        (item) => item.userId === id
-      )
-      setTransactionList(transactionWithMatchingUserId)
-      const senderResponse = await axios.get(`${baseURL}/${USER_API}/${id}`)
-      const senderData: User = senderResponse.data
-      if (senderData) {
-        setSenderName(senderData.firstName + ' ' + senderData.lastName)
-      }
-
-      const recieverResponse = await axios.get(
-        `${baseURL}/${BENEFICIARY_API}`,
-        {
+      // Simulate a delay of 2 seconds before fetching data
+      setTimeout(async () => {
+        const response = await axios.get(`${baseURL}/${TRANSACTION_API}`, {
           headers: { Authorization: authToken },
+        })
+        const data: TransactionDetails[] = response.data
+
+        const transactionWithMatchingUserId: TransactionDetails[] = data.filter(
+          (item) => item.userId === id
+        )
+
+        setTransactionList(transactionWithMatchingUserId)
+
+        const senderResponse = await axios.get(`${baseURL}/${USER_API}/${id}`)
+        const senderData: User = senderResponse.data
+        if (senderData) {
+          setSenderName(senderData.firstName + ' ' + senderData.lastName)
         }
-      )
-      const recieverData: Beneficiary[] = recieverResponse.data
-      const reciever: Beneficiary[] = recieverData.filter(
-        (item) => item.userId === id
-      )
-      if (reciever) {
-        setReceiverName(reciever)
-      }
+
+        const recieverResponse = await axios.get(
+          `${baseURL}/${BENEFICIARY_API}`,
+          {
+            headers: { Authorization: authToken },
+          }
+        )
+        const recieverData: Beneficiary[] = recieverResponse.data
+        const reciever: Beneficiary[] = recieverData.filter(
+          (item) => item.userId === id
+        )
+        if (reciever) {
+          setReceiverName(reciever)
+        }
+        setLoading(false)
+      }, 2000)
     }
 
     fetchData()
-  }, [transactionList.length, id])
+  }, [transactionList.length, id, authToken])
 
   const navigate = useNavigate()
 
@@ -227,7 +234,22 @@ const HomePage = () => {
     <>
       <DashboardTemplate
         newUser={transactionList.length === 0}
-        Content={<DashboardContent />}
+        Content={
+          loading ? (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100vh',
+              }}
+            >
+              <CircularProgress data-testid="loading-spinner" />
+            </div>
+          ) : (
+            <DashboardContent />
+          )
+        }
       />
     </>
   )

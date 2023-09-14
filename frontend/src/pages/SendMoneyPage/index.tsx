@@ -145,7 +145,7 @@ const SendMoneyPage: React.FC = () => {
 
   const customUUID = generateCustomUUID()
   const { token } = useSelector((state: any) => state.user)
-  console.log(token)
+
   const createTransaction = async () => {
     let recipientId = 0
     try {
@@ -184,7 +184,6 @@ const SendMoneyPage: React.FC = () => {
     }
 
     try {
-      console.log(recipientId)
       await axios.post(
         `${baseURL}/${TRANSACTION_API}`,
         {

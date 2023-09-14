@@ -17,7 +17,7 @@ import { store } from '../../utils/store'
 jest.mock('axios')
 afterEach(cleanup)
 const axiosMock = axios as jest.Mocked<typeof axios>
-
+jest.useFakeTimers()
 describe('HomePage', () => {
   it('should render the transactions when the transaction list is not empty', async () => {
     act(() => {
@@ -90,13 +90,55 @@ describe('HomePage', () => {
       )
     })
 
+    jest.advanceTimersByTime(2500)
     expect(await screen.findByTestId('transactionDetails')).toBeInTheDocument()
+
     fireEvent.click(screen.getByTestId('sendMoneyButton'))
   })
-  it('should render the non transaction state when transaction list is empty', () => {
+
+  it('should render the non-transaction state when the transaction list is empty', async () => {
     act(() => {
-      axiosMock.get.mockResolvedValue({
-        data: [],
+      axiosMock.get.mockImplementation((url) => {
+        switch (url) {
+          case `${baseURL}/${BENEFICIARY_API}`:
+            return Promise.resolve({
+              data: [
+                {
+                  id: 1,
+                  email: 'mario.gabriel@gmail.com',
+                  accountNumber: '123456885865',
+                  ifsc: 'ABFJ12929GH',
+                  userId: 1,
+                  firstName: 'Mario',
+                  lastName: 'Gabriel',
+                },
+              ],
+            })
+
+          case `${baseURL}/${TRANSACTION_API}`:
+            return Promise.resolve({
+              data: [],
+            })
+          case `${baseURL}/${USER_API}/1`:
+            return Promise.resolve({
+              data: [
+                {
+                  first_name: 'Ross',
+                  last_name: 'Gener',
+                  country: 'Andorra',
+                  address: '122-Baker street',
+                  email: 'ross.gener@gmail.com',
+                  dob: '2023-08-03',
+                  account_type: 'Personal Account',
+                  password: '12345678',
+                  id: 1,
+                },
+              ],
+            })
+
+          default:
+            return Promise.resolve([{}])
+        }
       })
       render(
         <ThemeProvider theme={theme}>
@@ -113,11 +155,13 @@ describe('HomePage', () => {
         </ThemeProvider>
       )
     })
+
+    jest.advanceTimersByTime(4000)
     const image = screen.getByTestId('illustration')
     expect(image).toBeInTheDocument()
   }, 13000)
 
-  it('should show the reciever name when recievr name is given', async () => {
+  it('should show the receiver name when receiver name is given', async () => {
     act(() => {
       axiosMock.get.mockImplementation((url) => {
         switch (url) {
@@ -158,7 +202,7 @@ describe('HomePage', () => {
               data: [
                 {
                   firstName: 'Ross',
-                  lastName: 'Gener',
+                  last_name: 'Gener',
                   country: 'Andorra',
                   address: '122-Baker street',
                   email: 'ross.gener@gmail.com',
@@ -190,7 +234,10 @@ describe('HomePage', () => {
       )
     })
 
+    jest.advanceTimersByTime(4000)
+
     expect(await screen.findByTestId('transactionDetails')).toBeInTheDocument()
+
     fireEvent.click(screen.getByTestId('sendMoneyButton'))
   }, 13000)
 })

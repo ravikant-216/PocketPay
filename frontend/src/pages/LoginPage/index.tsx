@@ -29,7 +29,7 @@ export function LoginPage() {
         `${baseURL}/${AUTH_LOGIN_API}`,
         { email, password }
       )
-      console.log(tokenData.token)
+
       const response = await axios.get(`${baseURL}/${USER_API}?email=${email}`)
       const data: UserDetails = response.data
       dispatch(userActions.loginUser({ user: data, token: tokenData.token }))

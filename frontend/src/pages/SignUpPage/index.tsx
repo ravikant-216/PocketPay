@@ -94,7 +94,7 @@ export function SignUpPage(props: SignUpFormProps) {
               email: email,
               password: password,
             })
-            console.log(data)
+
             dispatch(userActions.loginUser({ user: user, token: data.token }))
             navigate('/dashboard', { state: { id: user.id, newUser: true } })
           }}

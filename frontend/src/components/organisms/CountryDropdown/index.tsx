@@ -119,7 +119,11 @@ export default function CountryDropdown({
         renderValue={(selected) => selected}
       >
         {countryList.map((iconTitle) => (
-          <MenuItem key={iconTitle.iconTitle} value={iconTitle.iconTitle}>
+          <MenuItem
+            key={iconTitle.iconTitle}
+            value={iconTitle.iconTitle}
+            sx={{ paddingY: 4 }}
+          >
             {
               <IconLabel
                 {...iconTitle}

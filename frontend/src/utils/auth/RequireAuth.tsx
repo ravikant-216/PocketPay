@@ -8,7 +8,7 @@ const RequireAuth = ({ children }: RequireAuthProps) => {
   const user = useSelector((state: any) => {
     return state.user.user
   })
-  console.log(user)
+
   if (user === null) return <Navigate to="/login" />
   return children
 }
